@@ -1,0 +1,13 @@
+1) If the terminal was closed, or the server keeps running:
+
+pkill -f "vllm serve"        # asks it to stop
+sleep 5; nvidia-smi          # check
+pkill -9 -f "vllm"           # only if something is still holding the GPU
+
+
+2) To start it again later:
+
+source ~/vllm-env/bin/activate
+vllm serve Qwen/Qwen3-Coder-30B-A3B-Instruct-FP8 --served-model-name qwen3-coder-30b \
+  --max-model-len 65536 --gpu-memory-utilization 0.9 \
+  --enable-auto-tool-choice --tool-call-parser qwen3_coder

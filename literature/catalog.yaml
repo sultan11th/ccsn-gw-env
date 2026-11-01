@@ -1,0 +1,476 @@
+# Bibliographic truth for the local library.
+# One entry per paper. The agent takes bibliographic details ONLY from here.
+#
+# Fields
+#   key       file stem in literature/md/<key>.md (lowercase, unique)
+#   arxiv     arXiv identifier (string)
+#   authors   short author string (first author et al.)
+#   year      year of the journal version (or of the preprint)
+#   venue     journal reference, or "preprint" / "submitted to ..."
+#   doi       journal DOI, null if none / not checked
+#   own       true if Sultan Abylkairov is a co-author
+#   active    false = listed but not fetched or indexed
+#   verified  true = arXiv ID, authors and venue checked against arXiv/ADS;
+#             partial = arXiv record checked, venue details still to confirm
+#   topic     one-line note on why the paper is in the library (not a title)
+#
+# Full titles and author lists are written into each Markdown file's front
+# matter by src/fetch_arxiv.py from the arXiv API.
+# Check catalog vs arXiv at any time:  python3 src/fetch_arxiv.py --check
+
+papers:
+  # ---------------------------------------------------------------- own papers (12)
+  - key: abylkairov2021_pcilc
+    arxiv: "2012.04032"
+    authors: Abylkairov, Darwish, Hill, Sherwin
+    year: 2021
+    venue: Phys. Rev. D 103, 103510
+    doi: 10.1103/PhysRevD.103.103510
+    own: true
+    active: true
+    verified: true
+    topic: CMB foreground mitigation with a partially constrained ILC (not CCSN)
+  - key: bag2022_rotation
+    arxiv: "2110.00486"
+    authors: Bag, Shafieloo, Smith, et al. (incl. Abylkairov)
+    year: 2022
+    venue: MNRAS
+    doi: 10.1093/mnras/stac1459
+    own: true
+    active: true
+    verified: partial
+    topic: galaxy rotation curves from spaxel cross-correlation (not CCSN); volume/pages to confirm
+  - key: mitra2023_ironcore
+    arxiv: "2209.14542"
+    authors: Mitra, Shukirgaliyev, Abylkairov, Abdikamalov
+    year: 2023
+    venue: MNRAS 520, 2473
+    doi: 10.1093/mnras/stad169
+    own: true
+    active: true
+    verified: true
+    topic: ML classification of iron-core mass from bounce + early ring-down signals
+  - key: takhanov2023_autoenc
+    arxiv: "2306.14194"
+    authors: Takhanov, Abylkairov, Tezekbayev
+    year: 2023
+    venue: preprint
+    doi: null
+    own: true
+    active: true
+    verified: partial
+    topic: autoencoders with a Jacobian rank constraint (not CCSN); no journal ref on arXiv
+  - key: mitra2024_eos
+    arxiv: "2310.15649"
+    authors: Mitra, Orel, Abylkairov, Shukirgaliyev, Abdikamalov
+    year: 2024
+    venue: MNRAS 529, 3582
+    doi: null
+    own: true
+    active: true
+    verified: true
+    topic: CNN EOS classification of rotating bounce signals incl. electron-capture uncertainty
+  - key: abylkairov2024_mlcompare
+    arxiv: "2409.14508"
+    authors: Abylkairov, Edwards, Orel, Mitra, Shukirgaliyev, Abdikamalov
+    year: 2024
+    venue: "Mach. Learn. Sci. Technol. 5, 045077"
+    doi: 10.1088/2632-2153/ada33a
+    own: true
+    active: true
+    verified: true
+    topic: comparison of ML models and preprocessing for EOS classification
+  - key: abylkairov2025_distance
+    arxiv: "2510.15102"
+    authors: Abylkairov, Edwards, Ostrikov, et al.
+    year: 2025
+    venue: Phys. Rev. D 112, 123056
+    doi: null
+    own: true
+    active: true
+    verified: true
+    topic: distance out to which A+, ET and CE can classify the EOS (SVM, Richers catalog)
+  - key: sakan2025_entropy
+    arxiv: "2511.08010"
+    authors: Sakan, Ussipov, Abdikamalov, et al. (incl. Abylkairov)
+    year: 2025
+    venue: submitted to Entropy
+    doi: null
+    own: true
+    active: true
+    verified: true
+    topic: entropy features (Shannon, Renyi, Tsallis) of CCSN GW signals for classification
+  - key: akhmetali2026_realistic
+    arxiv: "2603.27680"
+    authors: Akhmetali, Abylkairov, Zaidyn, et al.
+    year: 2026
+    venue: Phys. Rev. D
+    doi: 10.1103/h2b3-gdjx
+    own: true
+    active: true
+    verified: partial
+    topic: EOS inference with real detector noise, several progenitors, bounce-time uncertainty; volume/article to confirm
+  - key: akhmetali2026_pehorizon
+    arxiv: "2605.04896"
+    authors: Akhmetali, Abylkairov, Orel, et al.
+    year: 2026
+    venue: Phys. Rev. D 114, 043035
+    doi: 10.1103/zxnn-chs6
+    own: true
+    active: true
+    verified: true
+    topic: parameter-estimation horizon (f_peak, amplitude, rotation) for current and 3G detectors
+  - key: akhmetali2026_networkpe
+    arxiv: "2608.01634"
+    authors: Akhmetali, Abylkairov, Nunes, Font, Zanolin, Abdikamalov
+    year: 2026
+    venue: preprint
+    doi: null
+    own: true
+    active: true
+    verified: true
+    topic: parameter-estimation horizon with a network of detectors
+  - key: akhmetali2026_networkeos
+    arxiv: "2610.16130"
+    authors: Akhmetali, Abylkairov, Font, Zanolin, Abdikamalov
+    year: 2026
+    venue: submitted to Phys. Rev. D
+    doi: null
+    own: true
+    active: true
+    verified: true
+    topic: EOS classification with a detector network (1D CNN, sky coverage, 3G reach)
+
+  # ---------------------------------------------------------------- external papers
+  - key: richers2017
+    arxiv: "1701.02752"
+    authors: Richers, Ott, Abdikamalov, O'Connor, Sullivan
+    year: 2017
+    venue: Phys. Rev. D 95, 063019
+    doi: 10.1103/PhysRevD.95.063019
+    own: false
+    active: true
+    verified: true
+    topic: the 1824-model rotating core-collapse waveform catalog (98 rotation profiles x 18 EOS)
+  - key: dimmelmeier2008
+    arxiv: "0806.4953"
+    authors: Dimmelmeier, Ott, Marek, Janka
+    year: 2008
+    venue: Phys. Rev. D 78, 064056
+    doi: 10.1103/PhysRevD.78.064056
+    own: false
+    active: true
+    verified: true
+    topic: generic type-I bounce signal of rotating core collapse
+  - key: ott2012
+    arxiv: "1204.0512"
+    authors: Ott et al.
+    year: 2012
+    venue: Phys. Rev. D 86, 024026
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: correlated GW and neutrino signals of rapidly rotating collapse
+  - key: abdikamalov2014
+    arxiv: "1311.3678"
+    authors: Abdikamalov, Gossan, DeMaio, Ott
+    year: 2014
+    venue: Phys. Rev. D 90, 044001
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: measuring the core angular momentum with the bounce signal
+  - key: fuller2015
+    arxiv: "1501.06951"
+    authors: Fuller, Klion, Abdikamalov, Ott
+    year: 2015
+    venue: MNRAS 450, 414
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: proto-neutron-star ring-down seismology after rotating bounce
+  - key: gossan2016
+    arxiv: "1511.02836"
+    authors: Gossan et al.
+    year: 2016
+    venue: Phys. Rev. D 93, 042002
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: detectability and model selection for CCSN GWs in the advanced-detector era
+  - key: morozova2018
+    arxiv: "1801.01914"
+    authors: Morozova, Radice, Burrows, Vartanyan
+    year: 2018
+    venue: ApJ 861, 10
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: GW signal of neutrino-driven CCSNe and PNS modes
+  - key: radice2019
+    arxiv: "1812.07703"
+    authors: Radice et al.
+    year: 2019
+    venue: ApJL 876, L9
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: characterising the GW signal of neutrino-driven explosions
+  - key: torresforne2019
+    arxiv: "1902.10048"
+    authors: Torres-Forne et al.
+    year: 2019
+    venue: Phys. Rev. Lett. 123, 051102
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: universal relations for PNS asteroseismology (g, f, p modes)
+  - key: srivastava2019
+    arxiv: "1906.00084"
+    authors: Srivastava et al.
+    year: 2019
+    venue: Phys. Rev. D 100, 043026
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: CCSN detection prospects for third-generation detectors
+  - key: lvk_o1o2_ccsn
+    arxiv: "1908.03584"
+    authors: LIGO Scientific and Virgo Collaborations
+    year: 2020
+    venue: Phys. Rev. D 101, 084002
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: optically targeted search for CCSN GWs in O1-O2
+  - key: chan2020
+    arxiv: "1912.13517"
+    authors: Chan, Heng, Messenger
+    year: 2020
+    venue: Phys. Rev. D 102, 043022
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: CNN detection and classification of CCSN GW signals
+  - key: iess2020
+    arxiv: "2001.00279"
+    authors: Iess, Cuoco, Morawski, Powell
+    year: 2020
+    venue: "Mach. Learn. Sci. Technol. 1, 025014"
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: CNN classification of CCSN signals in detector noise
+  - key: edwards2021
+    arxiv: "2009.07367"
+    authors: Edwards
+    year: 2021
+    venue: Phys. Rev. D 103, 024025
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: first deep-learning EOS classification on the Richers catalog
+  - key: afle2021
+    arxiv: "2010.00719"
+    authors: Afle, Brown
+    year: 2021
+    venue: Phys. Rev. D 103, 023005
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: inferring physical properties of rotating stellar collapse from the bounce signal
+  - key: abdikamalov_review2022
+    arxiv: "2010.04356"
+    authors: Abdikamalov, Pagliaroli, Radice
+    year: 2022
+    venue: Handbook of Gravitational Wave Astronomy (Springer)
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: review chapter "Gravitational waves from core-collapse supernovae"
+  - key: bizouard2021
+    arxiv: "2012.00846"
+    authors: Bizouard et al.
+    year: 2021
+    venue: Phys. Rev. D 103, 063006
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: inferring PNS properties from CCSN GW data
+  - key: szczepanczyk2021
+    arxiv: "2104.06462"
+    authors: Szczepanczyk et al.
+    year: 2021
+    venue: Phys. Rev. D 104, 102002
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: detecting and reconstructing GWs from the next Galactic CCSN
+  - key: ce_horizon2021
+    arxiv: "2109.09882"
+    authors: Evans et al.
+    year: 2021
+    venue: Cosmic Explorer Horizon Study (report)
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: Cosmic Explorer design and science case
+  - key: powell_muller2022
+    arxiv: "2201.01397"
+    authors: Powell, Muller
+    year: 2022
+    venue: Phys. Rev. D 105, 063018
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: inferring CCSN properties from GW emission
+  - key: chao2022
+    arxiv: "2209.10089"
+    authors: Chao et al.
+    year: 2022
+    venue: ApJ 939, 13
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: CNN inference of core structure and EOS of rotating CCSNe
+  - key: bruel2023
+    arxiv: "2301.10019"
+    authors: Bruel et al.
+    year: 2023
+    venue: Phys. Rev. D 107, 083029
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: PNS inference with a detector network; antenna-pattern treatment
+  - key: villegas2025
+    arxiv: "2304.01267"
+    authors: Villegas et al.
+    year: 2025
+    venue: Class. Quantum Grav. 42, 115001
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: bounce-phase parameter estimation in real detector noise
+  - key: lvk_o3_ccsn
+    arxiv: "2305.16146"
+    authors: Szczepanczyk et al. (LVK)
+    year: 2024
+    venue: Phys. Rev. D 110, 042007
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: optically targeted CCSN search in O3
+  - key: pastormarcos2024
+    arxiv: "2308.03456"
+    authors: Pastor-Marcos et al.
+    year: 2024
+    venue: Phys. Rev. D 109, 063028
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: Bayesian inference on the Richers catalog; EOS-rotation degeneracies
+  - key: powell2024
+    arxiv: "2311.18221"
+    authors: Powell et al.
+    year: 2024
+    venue: Phys. Rev. D 109, 063019
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: explosion-mechanism classification with current and 3G detectors
+  - key: mezzacappa_zanolin2024
+    arxiv: "2401.11635"
+    authors: Mezzacappa, Zanolin
+    year: 2025
+    venue: Rev. Mod. Phys. 97, 041002
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: review of GWs from core-collapse supernovae
+  - key: nunes2024
+    arxiv: "2403.04938"
+    authors: Nunes et al.
+    year: 2024
+    venue: Phys. Rev. D 110, 064037
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: deep-learning classification and parameter inference for rotating CCSNe
+  - key: et_science2025
+    arxiv: "2503.12263"
+    authors: Abac et al.
+    year: 2026
+    venue: JCAP 03 (2026) 081
+    doi: 10.1088/1475-7516/2026/03/081
+    own: false
+    active: true
+    verified: true
+    topic: the science case of the Einstein Telescope (incl. CCSNe)
+  - key: mitra2026_generalization
+    arxiv: "2607.06736"
+    authors: Mitra
+    year: 2026
+    venue: preprint
+    doi: null
+    own: false
+    active: true
+    verified: true
+    topic: leave-one-EOS-out validation and SHAP analysis of EOS inference
+  - key: lundberg_lee2017
+    arxiv: "1705.07874"
+    authors: Lundberg, Lee
+    year: 2017
+    venue: NeurIPS 30
+    doi: null
+    own: false
+    active: true
+    verified: partial
+    topic: the SHAP method ("A Unified Approach to Interpreting Model Predictions")
+
+  # ---------------------------------------------------------------- optional (not fetched)
+  - key: murphy2024
+    arxiv: "2406.01784"
+    authors: Murphy et al.
+    year: 2024
+    venue: Phys. Rev. D 110, 083006
+    doi: null
+    own: false
+    active: false
+    verified: true
+    topic: optional; activate if needed
+  - key: casallaslagos2023
+    arxiv: "2304.11498"
+    authors: Casallas-Lagos, Antelis, Moreno, Zanolin, Mezzacappa, Szczepanczyk
+    year: 2023
+    venue: Phys. Rev. D 108, 084027
+    doi: null
+    own: false
+    active: false
+    verified: partial
+    topic: neural-network tracking of the g-mode frequency; preprint title differs from journal title, confirm the match

@@ -1,0 +1,11 @@
+# Replace each 'todo' with yes | partial | no, grading the answer against `expected` in eval/queries.yaml
+# Then run: python3 src/run_queries.py --table   (fills the table in REPORT.md)
+q1: yes
+q2: yes
+q3: no
+q4: yes
+q5: yes
+q6: yes
+q7: yes
+q8: yes
+q9: yes

@@ -1,0 +1,99 @@
+# Example queries to the local context, used for the course report.
+#
+#   python3 src/run_queries.py                    # retrieval check -> results/queries/RETRIEVAL.md
+#   python3 src/run_queries.py --agent qwen       # ask the AI4Science agent -> results/agent_runs/qwen/
+#   python3 src/run_queries.py --agent deepseek
+#
+# Fields
+#   question     what the user asks the agent
+#   search       arguments for src/search.py used by the retrieval check
+#   expect       catalog keys that must appear in the top 5 hits; "none" = the
+#                correct result is an empty search (negative test)
+#   expected     the gist of a correct answer, checked by hand against the cited
+#                paper (section/table given so that it can be re-checked)
+
+queries:
+  - id: q1
+    question: "According to Richers et al. 2017, how does the bounce-signal amplitude depend on T/|W|?"
+    search: ["bounce signal amplitude T/|W| linear slope", "--file", "richers2017"]
+    expect: [richers2017]
+    expected: >-
+      Roughly linear growth with T/|W| at slow rotation with similar slopes for all EOS;
+      linear fits for T/|W| <= 0.04 give slopes of about 237-315 x 10^-21 at 10 kpc (Table IV);
+      the growth departs from linear around T/|W| ~ 0.06-0.09 depending on the differential
+      rotation A, as centrifugal support sets in. Source: richers2017, bounce-signal section, Table IV.
+
+  - id: q2
+    question: "What is f_peak and how does it depend on the nuclear EOS?"
+    search: ["peak frequency f_peak equation of state central density"]
+    expect: [richers2017]
+    expected: >-
+      Frequency at which the early post-bounce spectrum peaks, about 600-1000 Hz.
+      In the slow-rotation regime (0.02 <= T/|W| <= 0.06) the mean f_peak ranges from 669 Hz (HSNL3)
+      to 772 Hz (SFHo) (Table VI); the EOS enters through the dynamical frequency sqrt(G rho_c), and
+      f_peak / sqrt(G rho_c) follows a universal relation with a kink near T/|W| ~ 0.06 (Fig. 9).
+
+  - id: q3
+    question: "Which of my papers use SHAP or other explainable-AI methods?"
+    search: ["SHAP Shapley explainability", "--own"]
+    expect: none
+    expected: >-
+      Negative test. None of my papers in the library uses SHAP (an --own search returns nothing).
+      SHAP appears only in mitra2026_generalization (not mine) and in the method paper
+      lundberg_lee2017. The agent must say "not found in my papers" instead of inventing a hit.
+
+  - id: q4
+    question: "Out to what distance can LIGO A+, Einstein Telescope and Cosmic Explorer classify the EOS?"
+    search: ["distance A+ Einstein Telescope Cosmic Explorer EOS classification accuracy kpc"]
+    expect: [abylkairov2025_distance]
+    expected: >-
+      For optimal orientation and accuracy of at least ~70%: about 20 kpc (A+), 80 kpc (ET),
+      100 kpc (CE). For random orientations only ET and CE keep useful accuracy for Galactic
+      sources. The authors present these as approximate upper limits.
+
+  - id: q5
+    question: "Does adding detectors to a network improve EOS classification?"
+    search: ["detector network HLVKA sky coverage EOS classification accuracy"]
+    expect: [akhmetali2026_networkeos]
+    expected: >-
+      Mostly it makes performance more uniform over the sky rather than extending the reach:
+      the day-averaged normalised AUC rises from 0.67 (HL) to 0.76 (HLVKA) and the sky fraction
+      above 0.7 accuracy from 0.69 to 0.93. Favourable 2G reach ~20 kpc (unfavourable ~3 kpc);
+      ET+CE40 ~100 kpc.
+
+  - id: q6
+    question: "Does uncertainty in the bounce time hurt EOS classification or parameter estimation?"
+    search: ["bounce time uncertainty shift classification parameter estimation"]
+    expect: [akhmetali2026_realistic, akhmetali2026_pehorizon]
+    expected: >-
+      No significant degradation: up to 20 ms of bounce-time uncertainty does not significantly
+      degrade EOS classification (akhmetali2026_realistic), and parameter estimation in the
+      Fourier domain is robust to it (akhmetali2026_pehorizon); near pole-on orientations do degrade it.
+
+  - id: q7
+    question: "Can the progenitor (iron-core) mass be inferred from the bounce signal?"
+    search: ["iron core mass classification accuracy bounce ring-down"]
+    expect: [mitra2023_ironcore, sakan2025_entropy]
+    expected: >-
+      Only partially: with four iron-core masses the classification accuracy does not exceed
+      about 70% (mitra2023_ironcore); entropy features (CWT + Renyi alpha=2 + Relief-F + SVM)
+      reach about 77% at SNR 200 (sakan2025_entropy).
+
+  - id: q8
+    question: "Is random cross-validation enough to claim EOS inference from supernova GWs?"
+    search: ["leave-one-EOS-out validation random cross-validation generalization"]
+    expect: [mitra2026_generalization]
+    expected: >-
+      No, according to Mitra (2026): random-CV R^2 of 0.70 / 0.67 / 0.60 for (K0, J, L) becomes
+      negative under leave-one-EOS-out validation, which tests unseen EOS. My inference (not a
+      statement of the paper): use grouped validation in future work.
+
+  - id: q9
+    question: "What is the rotation ratio T/|W| and which quantities depend on it? (ontology query)"
+    search: ["beta rotation"]
+    expect: [richers2017]
+    expected: >-
+      Use `python3 src/ontology.py show beta`: T/|W| is the ratio of rotational kinetic to
+      gravitational binding energy of the inner core; bounce signal, bounce amplitude and f_peak
+      depend on it; parameter estimation estimates it. Then cite the library for the physics.
+      The search for "beta" must still find T/|W| passages through synonym expansion.

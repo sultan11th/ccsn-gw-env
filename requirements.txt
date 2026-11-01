@@ -1,0 +1,7 @@
+# Python 3.10+
+PyYAML>=6.0
+# pandoc >= 2.19 for LaTeX/HTML -> Markdown. This package bundles a recent pandoc binary,
+# which src/fetch_arxiv.py finds automatically (a system pandoc on PATH also works).
+pypandoc_binary>=1.13
+# PDF fallback for papers without LaTeX source or arXiv HTML
+pypdf>=4.0

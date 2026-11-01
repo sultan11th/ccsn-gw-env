@@ -1,0 +1,317 @@
+# Ontology of the project: GWs from core-collapse supernovae + ML.
+#
+# Each concept has: label, group, definition, synonyms (used by search.py for
+# query expansion), sources (keys from literature/catalog.yaml) and typed,
+# directed relations to other concepts.
+#
+# Validate and render:  python3 src/ontology.py validate && python3 src/ontology.py graph
+# Look up a concept:    python3 src/ontology.py show f_peak
+
+relation_types:
+  is_a:       "subclass or instance of (taxonomy)"
+  part_of:    "component or phase of a larger whole"
+  depends_on: "physically or statistically varies with"
+  estimates:  "an ML task or method infers this quantity"
+  uses:       "a method or study relies on this data, model or technique"
+  related_to: "weak association, no stronger relation stated"
+
+groups:
+  physics:   "Stellar collapse physics"
+  signal:    "GW signal"
+  detection: "Detectors and data"
+  ml:        "Machine learning and inference"
+
+concepts:
+  # ------------------------------------------------------------------ physics
+  ccsn:
+    label: Core-collapse supernova
+    group: physics
+    synonyms: [CCSN, CCSNe, core collapse supernova]
+    definition: Explosion (or failed explosion) of a massive star whose iron core collapses to a proto-neutron star.
+    sources: [abdikamalov_review2022, mezzacappa_zanolin2024]
+  core_collapse:
+    label: Core collapse
+    group: physics
+    synonyms: [collapse, iron core collapse]
+    definition: Gravitational collapse of the stellar iron core once pressure support is lost.
+    part_of: [ccsn]
+    sources: [abdikamalov_review2022]
+  core_bounce:
+    label: Core bounce
+    group: physics
+    synonyms: [bounce]
+    definition: Abrupt halt of the inner-core collapse when nuclear density is exceeded and the EOS stiffens; launches the bounce shock.
+    part_of: [ccsn]
+    depends_on: [eos, inner_core_mass]
+    sources: [richers2017, dimmelmeier2008]
+  pns:
+    label: Proto-neutron star
+    group: physics
+    synonyms: [PNS, protoneutron star, proto-neutron star]
+    definition: Hot compact remnant formed at bounce that later cools into a neutron star.
+    part_of: [ccsn]
+    sources: [abdikamalov_review2022, torresforne2019]
+  rotation:
+    label: Core rotation
+    group: physics
+    synonyms: [rotating, rapid rotation, angular momentum]
+    definition: Rotation of the precollapse core; shapes the bounce signal through centrifugal deformation of the inner core.
+    sources: [richers2017, abdikamalov2014]
+  rotation_ratio:
+    label: "Rotation ratio T/|W|"
+    group: physics
+    synonyms: ["T/|W|", "T/W", beta, rotational energy ratio, kinetic to gravitational energy ratio]
+    definition: "Ratio of rotational kinetic energy T to gravitational binding energy |W| of the inner core (at bounce in Richers et al. 2017)."
+    is_a: [rotation]
+    sources: [richers2017, abdikamalov2014]
+  differential_rotation:
+    label: Differential rotation (parameter A)
+    group: physics
+    synonyms: [differential rotation, differential rotation parameter]
+    definition: Decrease of angular velocity with distance from the rotation axis; in Richers et al. 2017 set by the length scale A (smaller A = more differential).
+    is_a: [rotation]
+    sources: [richers2017]
+  eos:
+    label: Nuclear equation of state
+    group: physics
+    synonyms: [EOS, EoS, equation of state, nuclear EOS]
+    definition: Pressure-density-temperature-composition relation of dense nuclear matter.
+    sources: [richers2017, mitra2024_eos]
+  electron_capture:
+    label: Electron-capture rates
+    group: physics
+    synonyms: [electron capture, deleptonization]
+    definition: Rates of electron capture on nuclei and nucleons during collapse; set the electron fraction and the inner-core mass.
+    sources: [richers2017, mitra2024_eos]
+  inner_core_mass:
+    label: Inner-core mass at bounce
+    group: physics
+    synonyms: [inner core mass, inner core]
+    definition: Mass of the homologously collapsing inner core at bounce.
+    depends_on: [electron_capture, eos]
+    sources: [richers2017]
+  progenitor_mass:
+    label: Progenitor and iron-core mass
+    group: physics
+    synonyms: [progenitor, iron core mass, ZAMS mass]
+    definition: Mass of the pre-supernova star or of its iron core.
+    sources: [mitra2023_ironcore, sakan2025_entropy]
+
+  # ------------------------------------------------------------------ signal
+  gw_signal:
+    label: CCSN GW signal
+    group: signal
+    synonyms: [gravitational wave signal, GW signal, waveform, strain]
+    definition: Gravitational-wave strain emitted during collapse, bounce and the post-bounce phase.
+    part_of: [ccsn]
+    sources: [abdikamalov_review2022]
+  bounce_signal:
+    label: Bounce signal
+    group: signal
+    synonyms: [bounce signal, core bounce signal, type I signal]
+    definition: Strong, short GW burst emitted by the centrifugally deformed inner core at bounce in rotating collapse.
+    is_a: [gw_signal]
+    depends_on: [rotation_ratio, differential_rotation]
+    sources: [richers2017, dimmelmeier2008, abdikamalov2014]
+  bounce_amplitude:
+    label: Bounce amplitude
+    group: signal
+    synonyms: [peak amplitude, amplitude, delta h]
+    definition: Peak-to-peak strain amplitude of the bounce signal, quoted at a reference distance (e.g. 10 kpc).
+    part_of: [bounce_signal]
+    depends_on: [rotation_ratio, distance]
+    sources: [richers2017]
+  ringdown:
+    label: Early post-bounce ring-down
+    group: signal
+    synonyms: [ring-down, ringdown, post-bounce oscillations, postbounce]
+    definition: Decaying PNS oscillations that follow the bounce spike in rotating collapse.
+    is_a: [gw_signal]
+    depends_on: [pns_modes]
+    sources: [richers2017, fuller2015]
+  f_peak:
+    label: Peak frequency f_peak
+    group: signal
+    synonyms: [peak frequency, f_peak, fpeak]
+    definition: Frequency at which the spectrum of the early post-bounce GW signal peaks.
+    part_of: [ringdown]
+    depends_on: [dynamical_frequency, rotation_ratio]
+    sources: [richers2017, akhmetali2026_pehorizon]
+  dynamical_frequency:
+    label: "Dynamical frequency sqrt(G rho_c)"
+    group: signal
+    synonyms: [dynamical frequency, central density]
+    definition: "sqrt(G times the mean central density of the PNS); carries the EOS dependence of f_peak in Richers et al. 2017."
+    depends_on: [eos]
+    sources: [richers2017]
+  pns_modes:
+    label: PNS oscillation modes
+    group: signal
+    synonyms: [g-mode, f-mode, p-mode, asteroseismology, quasi-normal modes]
+    definition: Normal modes of the PNS (f, g, p) that dominate the post-bounce GW spectrum.
+    part_of: [pns]
+    sources: [torresforne2019, morozova2018]
+  sasi:
+    label: Standing accretion shock instability
+    group: signal
+    synonyms: [SASI]
+    definition: Large-scale oscillation of the stalled shock that emits low-frequency GWs.
+    is_a: [gw_signal]
+    sources: [radice2019, abdikamalov_review2022]
+  waveform_catalog:
+    label: Waveform catalog
+    group: signal
+    synonyms: [catalog, Richers catalog, simulation catalog, waveforms]
+    definition: Set of simulated GW waveforms used as training and test data (e.g. the 1824 models of Richers et al. 2017).
+    uses: [gw_signal]
+    sources: [richers2017]
+
+  # ------------------------------------------------------------------ detection
+  detector:
+    label: GW detector
+    group: detection
+    synonyms: [interferometer, LIGO, Virgo, KAGRA, A+]
+    definition: "Laser-interferometric GW observatory (current: LIGO, Virgo, KAGRA; upgrade A+)."
+    sources: [srivastava2019, abylkairov2025_distance]
+  einstein_telescope:
+    label: Einstein Telescope
+    group: detection
+    synonyms: [ET]
+    definition: Planned European third-generation GW observatory.
+    is_a: [detector]
+    sources: [et_science2025]
+  cosmic_explorer:
+    label: Cosmic Explorer
+    group: detection
+    synonyms: [CE, CE40]
+    definition: Planned US third-generation GW observatory.
+    is_a: [detector]
+    sources: [ce_horizon2021]
+  detector_network:
+    label: Detector network
+    group: detection
+    synonyms: [network, HLVKA, HLV, multi-detector]
+    definition: Several detectors analysed jointly; improves sky coverage through combined antenna patterns.
+    uses: [detector]
+    sources: [akhmetali2026_networkeos, akhmetali2026_networkpe, bruel2023]
+  detector_noise:
+    label: Detector noise
+    group: detection
+    synonyms: [noise, PSD, power spectral density, O4a noise, real noise]
+    definition: Stochastic detector output, characterised by its power spectral density; real noise also contains glitches.
+    related_to: [detector]
+    sources: [akhmetali2026_realistic]
+  snr:
+    label: Signal-to-noise ratio
+    group: detection
+    synonyms: [SNR, signal to noise]
+    definition: Strength of a signal relative to detector noise.
+    depends_on: [distance, detector_noise, orientation]
+    sources: [sakan2025_entropy, abylkairov2025_distance]
+  distance:
+    label: Source distance
+    group: detection
+    synonyms: [kpc, distance, horizon, reach]
+    definition: Distance to the supernova; strain falls as 1/distance.
+    sources: [abylkairov2025_distance]
+  orientation:
+    label: Source orientation
+    group: detection
+    synonyms: [inclination, viewing angle, orientation, pole-on, sky position]
+    definition: Angle between the rotation axis and the line of sight (and the sky position relative to the detectors).
+    sources: [abylkairov2025_distance, akhmetali2026_pehorizon]
+  bounce_time_uncertainty:
+    label: Bounce-time uncertainty
+    group: detection
+    synonyms: [bounce time, time shift, bounce-time offset]
+    definition: Unknown alignment between the data segment and the moment of bounce.
+    sources: [akhmetali2026_realistic, akhmetali2026_pehorizon]
+
+  # ------------------------------------------------------------------ ml
+  ml_task:
+    label: ML task
+    group: ml
+    synonyms: [machine learning, ML]
+    definition: Learning problem posed on GW data.
+    sources: [abylkairov2024_mlcompare]
+  eos_classification:
+    label: EOS classification
+    group: ml
+    synonyms: [EOS classification, classify EOS, classification]
+    definition: Assigning a waveform to one of a finite set of EOS models.
+    is_a: [ml_task]
+    estimates: [eos]
+    uses: [waveform_catalog]
+    sources: [abylkairov2024_mlcompare, mitra2024_eos, edwards2021]
+  mass_classification:
+    label: Progenitor-mass classification
+    group: ml
+    synonyms: [mass classification, iron core classification]
+    definition: Assigning a waveform to a progenitor or iron-core mass class.
+    is_a: [ml_task]
+    estimates: [progenitor_mass]
+    sources: [mitra2023_ironcore, sakan2025_entropy]
+  parameter_estimation:
+    label: Parameter estimation
+    group: ml
+    synonyms: [parameter estimation, regression, inference]
+    definition: Inferring continuous source parameters from the signal.
+    is_a: [ml_task]
+    estimates: [f_peak, rotation_ratio, bounce_amplitude]
+    sources: [akhmetali2026_pehorizon, pastormarcos2024]
+  bayesian_inference:
+    label: Bayesian inference
+    group: ml
+    synonyms: [Bayesian, posterior, MCMC, nested sampling]
+    definition: Parameter estimation through the posterior distribution given a signal model and noise model.
+    is_a: [parameter_estimation]
+    sources: [pastormarcos2024, edwards2021]
+  cnn:
+    label: Convolutional neural network
+    group: ml
+    synonyms: [CNN, convolutional, 1D CNN, deep learning]
+    definition: Neural network with convolutional layers, applied to time series or spectrograms.
+    uses: [waveform_catalog]
+    sources: [mitra2024_eos, akhmetali2026_networkeos, chan2020]
+  classical_ml:
+    label: Classical ML models
+    group: ml
+    synonyms: [SVM, support vector machine, random forest, XGBoost, k-NN, logistic regression]
+    definition: Non-deep models such as SVM, random forest and gradient boosting.
+    uses: [waveform_catalog]
+    sources: [abylkairov2024_mlcompare, abylkairov2025_distance]
+  entropy_features:
+    label: Entropy features
+    group: ml
+    synonyms: [entropy, Renyi, Tsallis, Shannon entropy, feature extraction]
+    definition: Information-entropy measures of the signal in time, STFT or wavelet representations, used as ML features.
+    related_to: [classical_ml]
+    sources: [sakan2025_entropy]
+  validation:
+    label: Validation protocol
+    group: ml
+    synonyms: [cross-validation, train test split, generalization]
+    definition: How data are split to estimate performance on unseen cases.
+    related_to: [ml_task]
+    sources: [mitra2026_generalization]
+  loeo:
+    label: Leave-one-EOS-out validation
+    group: ml
+    synonyms: [leave-one-EOS-out, LOEO, grouped cross-validation]
+    definition: Validation in which all waveforms of one EOS are held out, testing generalization to unseen EOS.
+    is_a: [validation]
+    sources: [mitra2026_generalization]
+  xai:
+    label: Explainable AI
+    group: ml
+    synonyms: [XAI, explainability, interpretability, feature importance]
+    definition: Methods that attribute a model's prediction to its inputs.
+    related_to: [ml_task]
+    sources: [lundberg_lee2017, mitra2026_generalization]
+  shap:
+    label: SHAP
+    group: ml
+    synonyms: [SHAP, Shapley values, Shapley]
+    definition: Additive feature attribution based on Shapley values.
+    is_a: [xai]
+    sources: [lundberg_lee2017, mitra2026_generalization]

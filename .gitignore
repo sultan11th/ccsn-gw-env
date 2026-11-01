@@ -1,0 +1,30 @@
+# generated
+index/
+__pycache__/
+*.pyc
+
+# downloads (re-create with: make fetch)
+literature/raw/
+
+# Converted papers: commit only my own papers. Other arXiv papers are mostly under
+# arXiv's non-exclusive distribution licence, which does not allow redistribution.
+# Re-create them with: make fetch
+literature/md/*
+!literature/md/.gitkeep
+!literature/md/abylkairov2021_pcilc.md
+!literature/md/bag2022_rotation.md
+!literature/md/mitra2023_ironcore.md
+!literature/md/takhanov2023_autoenc.md
+!literature/md/mitra2024_eos.md
+!literature/md/abylkairov2024_mlcompare.md
+!literature/md/abylkairov2025_distance.md
+!literature/md/sakan2025_entropy.md
+!literature/md/akhmetali2026_realistic.md
+!literature/md/akhmetali2026_pehorizon.md
+!literature/md/akhmetali2026_networkpe.md
+!literature/md/akhmetali2026_networkeos.md
+
+# secrets and local environments
+.env
+.venv/
+.goose/
