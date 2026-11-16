@@ -5,9 +5,11 @@
  "rows": [
   {
    "id": "q1",
-   "citations": 8,
+   "citations": 1,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "richers2017"
    ],
@@ -19,9 +21,11 @@
   },
   {
    "id": "q2",
-   "citations": 5,
+   "citations": 3,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "abylkairov2024_mlcompare",
     "abylkairov2025_distance",
@@ -43,9 +47,14 @@
   },
   {
    "id": "q3",
-   "citations": 17,
+   "citations": 2,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 2,
+   "unsearched_list": [
+    "literature/md/lundberg_lee2017.md:L17-L17",
+    "literature/md/lundberg_lee2017.md:L72-L81"
+   ],
    "refs_without_lines": [
     "abdikamalov2014",
     "abdikamalov_review2022",
@@ -86,9 +95,11 @@
   },
   {
    "id": "q4",
-   "citations": 16,
+   "citations": 2,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "abylkairov2025_distance"
    ],
@@ -100,9 +111,11 @@
   },
   {
    "id": "q5",
-   "citations": 13,
+   "citations": 0,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [],
    "searches": 11,
    "verification": true,
@@ -112,9 +125,11 @@
   },
   {
    "id": "q6",
-   "citations": 5,
+   "citations": 0,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "akhmetali2026_realistic"
    ],
@@ -126,9 +141,13 @@
   },
   {
    "id": "q7",
-   "citations": 6,
+   "citations": 2,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 1,
+   "unsearched_list": [
+    "literature/md/mitra2023_ironcore.md:L239-L245"
+   ],
    "refs_without_lines": [
     "mitra2023_ironcore"
    ],
@@ -140,9 +159,11 @@
   },
   {
    "id": "q8",
-   "citations": 23,
+   "citations": 3,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "abylkairov2024_mlcompare",
     "abylkairov2025_distance",
@@ -172,6 +193,8 @@
    "citations": 0,
    "invalid": 0,
    "invalid_list": [],
+   "unsearched": 0,
+   "unsearched_list": [],
    "refs_without_lines": [
     "abdikamalov2014",
     "abdikamalov_review2022",

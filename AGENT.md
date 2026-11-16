@@ -1,97 +1,67 @@
 # AGENT.md — Gravitational waves from core-collapse supernovae + machine learning
 
-This file is the contract between the researcher (Sultan Abylkairov) and the
-course agent (Goose, as packaged by AI4Science), whichever open-weight model runs it:
-a local model through Ollama, DeepSeek, or the Yandex AI Studio models of `ai4science`.
-Its rules refine the agent's general instructions for this project.
+Contract between the researcher (Sultan Abylkairov) and the agent (Goose with Qwen3 or
+DeepSeek). It overrides the agent's general instructions. **Answer in English.**
 
-## 1. Project goal
-Answer research questions about gravitational waves (GWs) from core-collapse
-supernovae (CCSNe) and the machine-learning (ML) methods used to analyse them —
-the rotating-core bounce signal, the nuclear equation of state (EOS), rotation
-(T/|W|), the peak frequency f_peak, detector reach and ML validation — using the
-**local library** in this repository, with every claim traceable to a source.
+## 1. Every question: follow these steps
+1. **Search:** `python3 src/search.py "<query>" -k 8`. If the hits are weak, try a synonym
+   (`python3 src/ontology.py show <term>` lists them) before saying something is missing.
+2. **Read:** `sed -n '<start>,<end>p' literature/md/<key>.md` for each passage you will use.
+3. **Answer:** short, every factual sentence followed by its citation, copied exactly
+   from the search output: `[literature/md/<key>.md:L<start>-L<end> § <section>]`.
+4. **Finish** with three lines: `Summary:` (one sentence), `Verification:` (commands that
+   re-check the answer), `Open issues:` (or "none").
 
-**Language:** work and answer in English (this overrides the agent's default
-language). Code and identifiers in English.
+Questions about the simulation data use `python3 src/data.py` instead of the search (§3).
+If nothing relevant is found, answer: "Not found in the local library (searched: <queries>)."
 
-## 2. Data and context (what lives where)
-| Path | Content | Access |
-|---|---|---|
-| `data/` | Raw data (e.g. waveform files) | read-only |
-| `literature/catalog.yaml` | Bibliographic truth: key, arXiv ID, venue, DOI, own paper or not | edit only when asked |
-| `literature/md/<key>.md` | Papers converted from arXiv to Markdown | read-only (regenerate with `src/fetch_arxiv.py`) |
-| `literature/raw/` | Original downloads (LaTeX, HTML, PDF) | read-only |
-| `ontology/concepts.yaml` | Concepts of the topic and their relations | edit only when asked |
-| `index/` | Search index (generated) | do not edit |
-| `src/` | Scripts | |
-| `results/` | All derived files (answers, tables, figures) | write here |
-| `diary.md` | Work journal | append-only |
-
-## 3. Tools for the local context (run them with the shell)
-- **Search the library:** `python3 src/search.py "<query>" -k 8`
-  - `--own` only my papers; `--file <key>` one paper; `--exact "<string>"` chunks
-    containing an exact string (numbers, EOS names); `--json` machine-readable.
-  - `python3 src/search.py --papers` lists the indexed papers.
-- **Look up a concept:** `python3 src/ontology.py show <concept or synonym>`
-  (definition, relations, source papers). `python3 src/ontology.py list` lists all.
-- **Read the cited passage:** `sed -n '<start>,<end>p' literature/md/<key>.md`.
-- After the library changes: `python3 src/build_index.py`.
-
-## 4. How to work
-1. **Search before answering.** For any factual question run `search.py` first.
-   Try synonyms (the ontology lists them) before concluding something is absent.
-2. **Read before citing.** Open the passage with `sed -n` and check that it really
-   says what you claim.
-3. **Cite every factual sentence** in the form the search prints:
-   `[literature/md/<key>.md:L<start>-L<end> § <section>]`.
-   Only cite passages that the search returned in this session.
-4. **Quote numbers exactly**, with units and conditions (detector, distance,
-   orientation, SNR, accuracy threshold, EOS set).
-5. **Separate source from inference:** "Paper X reports …" vs. "I infer …".
-6. **If the library has no answer, say so:** "Not found in the local library
-   (searched: …)". Then propose a paper to add. Never fill gaps from memory.
-7. **Bibliographic details come only from `literature/catalog.yaml`.** Do not copy
-   references from other papers' reference lists without checking the catalog.
-8. **Computations** are done by Python scripts in `src/`, outputs saved to
-   `results/`. Run code before reporting its result.
-9. **Terminology:** write T/|W| for the rotation ratio (β only as a search synonym),
-   f_peak, EOS; distances in kpc, frequencies in Hz, strain amplitudes as quoted
-   by the source (state the reference distance, e.g. "at 10 kpc").
-10. **Web and PDF tools** (`web_search`, `pdf_read`, …) only when the user asks
-    to add or check a paper. A paper enters the library only through
-    `src/fetch_arxiv.py` and a catalog row.
-
-## 5. Verification (every conclusion states how to check it)
-Each answer ends with a **Verification** line that lets anyone re-check it
-independently, for example:
-- `sed -n '210,224p' literature/md/richers2017.md` — the cited passage;
-- `python3 src/search.py --exact "772" --file richers2017` — the quoted number;
-- the table, figure or equation number in the source;
-- the script and command that produced a computed result.
-
-## 6. Journal
-After each task append to `diary.md` (never edit earlier entries):
-
+## 2. Example of a finished answer
 ```
-## YYYY-MM-DD HH:MM — <short title>
-- Request: <user request>
-- Model: <model alias>
-- Actions: <commands run>
-- Result: <answer in one or two sentences, with citations>
-- Verification: <how to re-check>
-- Open issues: <what remains unclear, or "none">
+Richers et al. report that in the linear regime the bounce-signal amplitude depends
+approximately linearly on T/|W| [literature/md/richers2017.md:L237-L247 § Results > The Bounce Signal].
+I infer that faster rotators give proportionally stronger bounce signals at the same distance.
+
+Summary: Bounce amplitude grows about linearly with T/|W| at low rotation (Richers et al. 2017).
+Verification: sed -n '237,247p' literature/md/richers2017.md
+Open issues: none
 ```
 
-## 7. Forbidden
-- Modifying, moving or deleting anything in `data/`, `literature/raw/` or
-  `literature/md/` by hand.
+## 3. Tools (the only commands you need)
+| Task | Command |
+|---|---|
+| Search papers | `python3 src/search.py "<query>" -k 8` (`--own` my papers, `--file <key>`, `--exact "<string>"`, `--papers`) |
+| Read a passage | `sed -n '<start>,<end>p' literature/md/<key>.md` (at most 40 lines at a time) |
+| Concept, synonyms, evidence, data columns | `python3 src/ontology.py show <term>` |
+| Dataset overview | `python3 src/data.py info` and `python3 src/data.py columns` |
+| Select simulations | `python3 src/data.py params --where "eos==SFHo" --where "beta_ic_b>=0.05" --cols f_peak,delta_dh` |
+| Statistics | `python3 src/data.py stats f_peak --by eos`, `python3 src/data.py corr beta_ic_b delta_dh` |
+| One waveform | `python3 src/data.py strain <run_id>` (`--every 10` samples, `--out results/x.csv`) |
+
+**Data:** 7,438 rotating core-collapse simulations (3 progenitors × 18 EOS × 138 rotation
+profiles). `data/data/parameters.csv` has `run_id` + 30 parameters (e.g. `beta_ic_b` = T/|W|
+of the inner core at bounce, `delta_dh` = bounce amplitude in cm, `f_peak` in Hz);
+`data/data/timeseries/strain.csv.gz` has D·h+ in cm from −1.95 to +5.98 ms (t = 0 at bounce).
+Row *i* is the same simulation in both files. Derived parameters come from the full-length
+data, so do not recompute them from the trimmed strain.
+
+## 4. Rules
+- Cite only passages that `search.py` (or `ontology.py show` as evidence) printed in this session; quote numbers exactly, with
+  units and conditions (detector, distance e.g. "at 10 kpc", SNR, accuracy threshold, EOS set).
+- Write "Paper X reports …" for sources and "I infer …" for your own reasoning.
+- Bibliographic details (authors, year, venue, DOI) only from `literature/catalog.yaml`.
+- Terms: T/|W| (not β), f_peak, EOS; kpc, Hz.
+- Computed results: run the command, then report its output; save files only in `results/`.
+- Web and PDF tools only when the user asks to add or check a paper.
+
+## 5. Forbidden
+- `cat`, `grep -r`, `find`, `head` or `less` on `literature/` or `data/`, `zcat` or pandas on `data/`:
+  outputs are too long. Use `search.py`, `sed -n` on a short range and `data.py`.
+- Reading `eval/`, `results/agent_runs/` or `results/answers/` (they contain expected answers).
+- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENT.md`.
 - Inventing papers, authors, arXiv IDs, DOIs, numbers, equations or section names.
-- Stating a conclusion without a citation and a verification method.
-- Citing a passage that `search.py` did not return in this session.
 - Committing `.env` or API keys.
 
-## 8. Definition of done
-An answer is done when it has: (1) citations for every factual claim,
-(2) a Verification line, (3) a saved copy in `results/answers/` when the user
-asks for a written result, and (4) a `diary.md` entry.
+## 6. Journal
+`src/agent.py run` writes the `diary.md` entry itself: do not edit `diary.md`. In an
+interactive session, end the task with one command:
+`python3 src/diary.py --request "..." --actions "..." --result "..." --verification "..." --open "none"`.

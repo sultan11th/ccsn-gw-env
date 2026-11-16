@@ -14,27 +14,70 @@ paper is among the top 5 hits (for the negative test: whether the search is empt
 
 Agent runs: for local/deepseek calls `python3 src/agent.py --backend <b> run "<question>"`,
 for course:<alias> calls `ai4science -m <alias> run "<question>"`, in the repository root.
-It saves each transcript, and checks every citation
-it printed: the file must exist, its key must be in the catalog, and the line range
-must lie inside the file. Correctness of the content is graded by hand in REPORT.md.
+Each query runs in a clean, read-only sandbox copy of the repository (AGENT.md, src/,
+literature/, ontology/, index/, data/ and an empty results/), so the agent cannot read
+eval/queries.yaml, earlier transcripts or earlier answers. Files the agent writes to
+results/ are copied to results/agent_runs/<label>/<id>_files/.
+
+It saves each transcript and checks every citation of the answer (src/citecheck.py):
+the key must be in the catalog, the line range inside the file, and the range inside a
+hit that search.py printed in the same run. Correctness is graded by hand in grades.yaml.
 """
 import argparse
 import datetime as dt
 import json
 import re
+import os
 import shutil
+import stat
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 import yaml
 
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+import citecheck  # noqa: E402
+
 ROOT = Path(__file__).resolve().parent.parent
 QUERIES = ROOT / "eval" / "queries.yaml"
-CITE = re.compile(r"(literature/md/([\w.-]+)\.md):L(\d+)-L(\d+)")
 PROMPT_SUFFIX = (" Answer from the local library, following AGENT.md: search first, read the passages, "
-                 "cite every claim with file and line range, end with a Verification line, "
-                 "and append an entry to diary.md.")
+                 "cite every claim with file and line range, end with the Summary, Verification and "
+                 "Open issues lines.")
+SANDBOX_ITEMS = ["AGENT.md", "src", "literature/md", "literature/catalog.yaml", "ontology", "index", "data"]
+
+
+def make_sandbox():
+    """Read-only copy of what the agent needs; results/ stays writable."""
+    box = Path(tempfile.mkdtemp(prefix="ccsn_agent_"))
+    for item in SANDBOX_ITEMS:
+        src, dst = ROOT / item, box / item
+        if not src.exists():
+            continue
+        dst.parent.mkdir(parents=True, exist_ok=True)
+        if src.is_dir():
+            shutil.copytree(src, dst, ignore=shutil.ignore_patterns("__pycache__", "*.pyc"))
+        else:
+            shutil.copy2(src, dst)
+    for dirpath, dirs, files in os.walk(box):
+        for name in files:
+            os.chmod(Path(dirpath) / name, 0o444)
+        if Path(dirpath) != box:
+            os.chmod(dirpath, 0o555)
+    (box / "results").mkdir()
+    return box
+
+
+def reset_results(box):
+    shutil.rmtree(box / "results", ignore_errors=True)
+    (box / "results").mkdir()
+
+
+def remove_sandbox(box):
+    for dirpath, dirs, files in os.walk(box):
+        os.chmod(dirpath, stat.S_IRWXU)
+    shutil.rmtree(box, ignore_errors=True)
 
 
 def load_queries(ids=None):
@@ -79,17 +122,6 @@ def retrieval(queries):
     print(f"Retrieval: {n_ok}/{len(rows)} passed -> {out.relative_to(ROOT)}")
 
 
-def check_citations(text, catalog_keys):
-    found, bad = [], []
-    for path, key, a, b in CITE.findall(text):
-        a, b = int(a), int(b)
-        f = ROOT / path
-        n = len(f.read_text(encoding="utf-8").splitlines()) if f.exists() else 0
-        ok = key in catalog_keys and f.exists() and 1 <= a <= b <= n
-        (found if ok else bad).append(f"{path}:L{a}-L{b}")
-    return found, bad
-
-
 def agent_command(spec, model):
     """Return (command prefix, label) for an agent spec: local | deepseek | course:<alias>."""
     if spec.startswith("course:"):
@@ -100,14 +132,13 @@ def agent_command(spec, model):
         return [exe, "-m", alias, "run"], f"course-{alias}"
     if spec not in ("local", "deepseek"):
         sys.exit(f"unknown agent '{spec}': use local, deepseek or course:<alias>")
-    cmd = [sys.executable, "src/agent.py", "--backend", spec] + (["--model", model] if model else []) + ["run"]
+    cmd = [sys.executable, str(ROOT / "src" / "agent.py"), "--backend", spec] + (["--model", model] if model else []) + ["run"]
     label = spec + (f"-{re.sub(r'[^A-Za-z0-9.]+', '-', model)}" if model else "")
     return cmd, label
 
 
 NOT_FOUND = re.compile(r"not\s+found|no\s+(?:results|matches|hits)|none\s+of\s+(?:my|your|the)|"
                        r"(?:do|does)\s+not\s+(?:use|mention|appear)|no\s+(?:paper|evidence)", re.I)
-LOOSE_REF = re.compile(r"literature/md/([\w.-]+)\.md(?!:L\d)")
 USAGE = ROOT / "results" / "agent_runs" / "usage.jsonl"
 DIARY = ROOT / "diary.md"
 GRADE_HELP = ("# Replace each 'todo' with yes | partial | no, grading the answer against `expected` in eval/queries.yaml\n"
@@ -124,12 +155,12 @@ def _diary_entries():
 
 def score(q, text, keys):
     """Automatic checks on one transcript."""
-    good, bad = check_citations(text, keys)
-    loose = sorted({m for m in LOOSE_REF.findall(text)})
+    c = citecheck.check(text, keys)
     return {
         "id": q["id"],
-        "citations": len(set(good)), "invalid": len(set(bad)), "invalid_list": sorted(set(bad)),
-        "refs_without_lines": loose,
+        "citations": len(c["valid"]), "invalid": len(c["invalid"]), "invalid_list": c["invalid"],
+        "unsearched": len(c["unsearched"]), "unsearched_list": c["unsearched"],
+        "refs_without_lines": c["refs_without_lines"],
         "searches": len(re.findall(r"src/search\.py", text)),
         "verification": bool(re.search(r"verification", text, re.I)),
         "not_found": bool(NOT_FOUND.search(text)) if q["expect"] == "none" else None,
@@ -137,10 +168,10 @@ def score(q, text, keys):
 
 
 def write_summary(out_dir, label, spec, model, rows):
-    head = ["| Query | Searches | Citations | Invalid | File refs without lines | Verification | Diary entry | Tokens | Not-found (q3) |",
-            "|---|---|---|---|---|---|---|---|---|"]
+    head = ["| Query | Searches | Citations | Invalid | Not from search | File refs without lines | Verification | Diary entry | Tokens | Not-found (q3) |",
+            "|---|---|---|---|---|---|---|---|---|---|"]
     fmt = lambda v: "-" if v is None else ("yes" if v is True else "no" if v is False else str(v))
-    body = [f"| {r['id']} | {r['searches']} | {r['citations']} | {r['invalid']} | {', '.join(r['refs_without_lines']) or '-'} "
+    body = [f"| {r['id']} | {r['searches']} | {r['citations']} | {r['invalid']} | {fmt(r.get('unsearched'))} | {', '.join(r['refs_without_lines']) or '-'} "
             f"| {fmt(r['verification'])} | {fmt(r.get('diary'))} | {fmt(r.get('tokens'))} | {fmt(r['not_found'])} |" for r in rows]
     (out_dir / "summary.json").write_text(json.dumps({"label": label, "spec": spec, "model": model, "rows": rows},
                                                      indent=1), encoding="utf-8")
@@ -149,6 +180,8 @@ def write_summary(out_dir, label, spec, model, rows):
         + (f" --model {model}" if model else "") + "`. Automatic checks only; grade correctness in "
         f"`{out_dir.relative_to(ROOT)}/grades.yaml`, then run `python3 src/run_queries.py --table`.\n\n"
         "- *Searches*: calls of src/search.py visible in the transcript.\n"
+        "- *Citations*: line-range citations in the answer (search-hit lines are not counted); "
+        "*Not from search*: valid citations outside every hit search.py printed in that run.\n"
         "- *File refs without lines*: papers named without an `:Lstart-Lend` range (not checkable).\n"
         "- *Diary entry*: diary.md gained an entry during this query.\n\n"
         + "\n".join(head + body) + "\n", encoding="utf-8")
@@ -166,25 +199,47 @@ def agent(queries, spec, model=None):
     out_dir = ROOT / "results" / "agent_runs" / label
     out_dir.mkdir(parents=True, exist_ok=True)
     rows = []
-    for q in queries:
-        print(f"{q['id']}: asking {label} ...", flush=True)
-        n_usage, n_diary = len(_lines(USAGE)), _diary_entries()
-        r = subprocess.run(prefix + [q["question"] + PROMPT_SUFFIX],
-                           cwd=ROOT, capture_output=True, text=True, timeout=1800)
-        err = r.stderr if r.returncode else "\n".join(l for l in r.stderr.splitlines() if l.startswith("[agent]"))
-        text = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", r.stdout + ("\n" + err if err else ""))
-        row = score(q, text, keys)
-        usage = [json.loads(l) for l in _lines(USAGE)[n_usage:] if l.strip()]
-        row["tokens"] = sum((u.get("prompt_tokens") or 0) + (u.get("completion_tokens") or 0) for u in usage) if usage else None
-        row["diary"] = _diary_entries() > n_diary
-        rows.append(row)
-        (out_dir / f"{q['id']}.md").write_text(
-            f"# {q['id']}. {q['question']}\n\n- Agent: `{label}`\n- Date: {dt.datetime.now():%Y-%m-%d %H:%M}\n"
-            f"- Valid citations: {row['citations']}; invalid: {row['invalid']} {row['invalid_list'] or ''}\n"
-            f"- Tokens: {row['tokens']}; diary entry: {row['diary']}\n"
-            f"- Expected (gist): {q['expected']}\n\n## Transcript\n\n```text\n{text.strip()}\n```\n", encoding="utf-8")
-        write_summary(out_dir, label, spec, model, rows)      # after every query, so a crash keeps results
+    box = make_sandbox()
+    if not spec.startswith("course:"):
+        prefix = prefix[:-1] + ["--workdir", str(box), "run"]
+    print(f"sandbox: {box}", flush=True)
+    try:
+        for q in queries:
+            rows.append(_ask(q, prefix, spec, label, keys, out_dir, box))
+            write_summary(out_dir, label, spec, model, rows)      # after every query, so a crash keeps results
+    finally:
+        remove_sandbox(box)
     print(f"Transcripts -> {out_dir.relative_to(ROOT)}/  (grade answers in grades.yaml)")
+
+
+def _ask(q, prefix, spec, label, keys, out_dir, box):
+    """One query in the sandbox; returns the score row."""
+    print(f"{q['id']}: asking {label} ...", flush=True)
+    reset_results(box)
+    n_usage, n_diary = len(_lines(USAGE)), _diary_entries()
+    r = subprocess.run(prefix + [q["question"] + PROMPT_SUFFIX],
+                       cwd=box if spec.startswith("course:") else ROOT,
+                       capture_output=True, text=True, timeout=1800)
+    err = r.stderr if r.returncode else "\n".join(l for l in r.stderr.splitlines() if l.startswith("[agent]"))
+    text = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", r.stdout + ("\n" + err if err else ""))
+    row = score(q, text, keys)
+    usage = [json.loads(l) for l in _lines(USAGE)[n_usage:] if l.strip()]
+    row["tokens"] = sum((u.get("prompt_tokens") or 0) + (u.get("completion_tokens") or 0) for u in usage) if usage else None
+    row["diary"] = _diary_entries() > n_diary
+    made = [f for f in (box / "results").rglob("*") if f.is_file()]
+    if made:
+        dest = out_dir / f"{q['id']}_files"
+        shutil.rmtree(dest, ignore_errors=True)
+        for f in made:
+            (dest / f.relative_to(box / "results")).parent.mkdir(parents=True, exist_ok=True)
+            shutil.copy2(f, dest / f.relative_to(box / "results"))
+    (out_dir / f"{q['id']}.md").write_text(
+        f"# {q['id']}. {q['question']}\n\n- Agent: `{label}`\n- Date: {dt.datetime.now():%Y-%m-%d %H:%M}\n"
+        f"- Valid citations: {row['citations']}; invalid: {row['invalid']} {row['invalid_list'] or ''}; "
+        f"not from search: {row['unsearched']} {row['unsearched_list'] or ''}\n"
+        f"- Tokens: {row['tokens']}; diary entry: {row['diary']}\n"
+        f"- Expected (gist): {q['expected']}\n\n## Transcript\n\n```text\n{text.strip()}\n```\n", encoding="utf-8")
+    return row
 
 
 def rescore(label):

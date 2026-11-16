@@ -14,9 +14,10 @@ memory. It has the four required parts:
 
 1. **Contract** `AGENT.md` (Appendix A): goal, data, tools, citation and verification
    rules, journal format, forbidden actions and a definition of done.
-2. **Ontology and concept graph**: 41 concepts in four groups with 49 typed relations;
+2. **Ontology and concept graph**: 49 concepts in four groups with 59 typed relations,
+   23 of them with a cited passage, linked to the dataset columns;
    validated automatically and rendered as a Mermaid graph.
-3. **Search over a personal library**: 43 papers (my 12 arXiv papers and 31 key external
+3. **Search over a personal library**: 48 papers (my 9 CCSN papers and 39 key external
    papers, including Richers et al. 2017) converted from arXiv to Markdown, searched by
    BM25 with ontology synonyms. Every hit is cited by file, line range and section.
 4. **Work journal** `diary.md`, append-only, written by me and by the agent.
@@ -49,11 +50,15 @@ graph LR
   onto -->|ontology.py graph| graphmd["ontology/graph.md"]
   idx --> search["search.py"]
   onto --> show["ontology.py show"]
+  dataset["data/ (7,438 simulations)"] --> dpy["data.py"]
   contract["AGENT.md"] --> agent["Goose agent<br/>(local Qwen3-Coder / DeepSeek)"]
+  proxy["llm_proxy.py<br/>output cap, budget"] <--> agent
   search --> agent
   show --> agent
-  agent --> answer["answer with citations<br/>+ Verification line"]
-  agent --> diary["diary.md"]
+  dpy --> agent
+  agent --> answer["answer with citations<br/>+ Summary / Verification"]
+  answer -->|"citecheck.py"| check["citation check"]
+  answer -->|"agent.py + diary.py"| diary["diary.md"]
 ```
 
 The agent is Goose, the engine of the course's AI4Science agent, with Goose's shell and
@@ -85,15 +90,38 @@ data, how to work, journal, forbidden) and adds what a literature-based project 
 | Read the passage before citing; cite only passages returned in this session | Prevents citing a plausible but wrong paragraph | Line ranges in every hit |
 | Quote numbers exactly, with units and conditions | Detection distances and accuracies are meaningless without conditions | `--exact` search for numbers |
 | Bibliographic details only from `catalog.yaml` | Reference lists in published papers contain errors (Section 5) | Catalog checked against arXiv with `fetch_arxiv.py --check` |
-| Every conclusion ends with a Verification line | Course requirement: a way to re-check independently | Examples of verification commands in §5 of the contract |
-| Append a journal entry after each task | Traceability of the work | Entry format in §6; `diary.md` is append-only |
-| Work in English | The course agent's default language is Russian; this project is in English | Stated in §1 of the contract |
-| Raw data and converted papers are read-only | Reproducibility | Papers are regenerated only by `fetch_arxiv.py` |
+| Every conclusion ends with a Verification line | Course requirement: a way to re-check independently | Worked example answer in §2 of the contract |
+| A journal entry after each task | Traceability of the work | Written by `agent.py` (via `diary.py`) after each `run`, not by the model; `diary.md` is append-only |
+| Work in English | The course agent's default language is Russian; this project is in English | Stated at the top of the contract |
+| Raw data and converted papers are read-only | Reproducibility | Papers are regenerated only by `fetch_arxiv.py`; agent runs use a read-only sandbox |
+| Data only through `data.py`; no `cat`/`grep -r` on the library | One raw file fills a small model's context | `data.py` prints at most 50 rows; the proxy cuts long tool output |
+
+### 3.1 Designed for open-weight models
+
+The agent runs on Qwen3-Coder-30B-A3B (65k context) or DeepSeek, which follow long
+rule lists less reliably than frontier models. The environment therefore enforces the
+rules in code instead of relying on the prompt:
+
+| Problem seen in the first local runs | Fix |
+|---|---|
+| `find`/`grep` dumps cost up to 1.2M tokens per question | `llm_proxy.py` cuts every tool result above 6,000 characters (head + tail, with a hint to use `search.py`/`sed -n`) |
+| A looping run has no natural end | Per-run budget in the proxy: 300k tokens / 40 calls (local), 200k / 30 (DeepSeek); `max_tokens` 4096 on DeepSeek |
+| The agent read earlier answers in `results/` (q9) | `run_queries.py` runs each question in a read-only sandbox copy without `eval/` and `results/` |
+| Diary entries with `Model: echo $GOOSE_MODEL`, duplicates | `agent.py` writes the entry itself; the model name comes from the launcher |
+| "Cite only what the search returned" was unchecked | `citecheck.py` compares each citation with the search hits of the same run; printed after every run and counted in the summaries |
+| A 97-line contract of principles | A 4-step recipe, one worked example and a tool table (§1–3 of `AGENT.md`) |
+| Raw data far larger than a context window | `data.py` (filters, statistics, correlation, one waveform), short outputs only |
+| Shell can change anything | Sandbox files are read-only; `make lock` does the same for interactive sessions |
 
 ## 4. Personal library
 
-**Content.** `literature/catalog.yaml` has 45 entries, 43 of them active: 12 papers
-co-authored by me and 31 external papers. Two more are listed as optional. Each entry
+**Content.** `literature/catalog.yaml` has 48 entries, all active: 9 papers
+co-authored by me and 39 external papers. On 2026-11-17 three of my papers on other topics
+(CMB foregrounds, galaxy rotation curves, autoencoders) were removed, because they matched
+topic words such as "rotation" without being about supernovae, as was the SHAP method paper (not CCSN), and 9 CCSN
+papers were added (classic bounce-signal and review papers, Bayesian and regression
+inference, CNN detection, 3D models, g-mode reconstruction), each checked against the
+arXiv API; candidates whose journal reference could not be confirmed were left out. Each entry
 records the arXiv ID, a short author string, year, venue, DOI, whether it is my paper,
 whether it is active, its verification status and a one-line topic note. Full titles
 and author lists are written into each Markdown file's front matter from the arXiv API.
@@ -115,7 +143,7 @@ automatically can be converted from a file saved in a browser (`--local`).
 
 | | Count |
 |---|---|
-| Papers indexed | 43 / 43 |
+| Papers indexed | 48 / 48 |
 
 **Licensing.** Most arXiv papers carry arXiv's non-exclusive licence, which does not
 allow redistribution. The repository therefore commits only my own converted papers;
@@ -135,31 +163,52 @@ contract forbids copying references from other papers' reference lists.
 
 ## 6. Ontology and concept graph
 
-`ontology/concepts.yaml` defines 41 concepts in four groups — stellar-collapse physics (11),
-GW signal (9), detectors and data (9), ML and inference (12) — with 49 directed relations
+`ontology/concepts.yaml` defines 49 concepts in four groups — stellar-collapse physics (13),
+GW signal (10), detectors and data (11), ML and inference (15) — with 59 directed relations
 of six types:
 
-| Relation | Meaning | Count |
-|---|---|---|
-| `is_a` | subclass or instance of | 13 |
-| `part_of` | component or phase of | 7 |
-| `depends_on` | physically or statistically varies with | 15 |
-| `estimates` | ML task infers this quantity | 5 |
-| `uses` | method relies on this data or technique | 5 |
-| `related_to` | weak association | 4 |
+| Relation | Meaning | Count | With cited evidence |
+|---|---|---|---|
+| `is_a` | subclass or instance of (taxonomy) | 15 | 1 |
+| `part_of` | component or phase of a larger whole | 9 | 1 |
+| `depends_on` | physically or statistically varies with | 15 | 11 |
+| `estimates` | an ML task or method infers this quantity | 6 | 6 |
+| `uses` | a method or study relies on this data, model or technique | 8 | 3 |
+| `related_to` | weak association, no stronger relation stated | 6 | 1 |
 
 Every concept has a definition, synonyms and source papers from the catalog. For
 example, *bounce signal* `depends_on` *rotation ratio T/|W|* and *differential rotation*;
 *f_peak* is `part_of` the *ring-down* and `depends_on` the *dynamical frequency* and
 *T/|W|*; *EOS classification* `estimates` the *EOS* and `uses` the *waveform catalog*.
 
-The ontology is used in three ways:
+**Evidence for relations.** A relation can carry the passage that supports it,
+`{to: rotation_ratio, evidence: "literature/md/richers2017.md:L237-L247"}`. The validator
+checks that the paper is in the catalog and the line range exists, and `show` prints the
+`sed -n` command, so the graph follows the same "every claim is checkable" rule as the
+agent's answers; the citation check accepts these passages like search hits. 17 of the 21
+`depends_on`/`estimates` relations have evidence; the rest are marked for review.
+
+**Link to the data.** 14 concepts name the dataset columns that measure them
+(`rotation_ratio` → `beta_ic_b`, `bounce_amplitude` → `delta_dh`, `f_peak` → `f_peak`,
+`dynamical_frequency` → `rho_c_pb`, …), and `show` prints a ready `data.py` command, so the
+agent can check a literature claim on the 7,438 simulations — e.g. `python3 src/data.py corr
+beta_ic_b delta_dh --where "beta_ic_b<0.06"` gives r = 0.947, the linear regime of Richers et al.
+
+The ontology is used in four ways:
 - **Query expansion.** A query that mentions a concept also matches its synonyms
-  ("beta" finds passages that write T/|W|, "LOEO" finds "leave-one-EOS-out").
+  ("beta" finds passages that write T/|W|, "LOEO" finds "leave-one-EOS-out"). Synonyms
+  must be specific: generic words ("network", "entropy", "classification", "noise") pulled
+  queries to the wrong concept and were replaced by phrases.
 - **Concept look-up by the agent.** `python3 src/ontology.py show <term>` prints the
-  definition, relations in both directions and source papers.
+  definition, relations in both directions with evidence, data columns and source papers.
 - **Checks.** `ontology.py validate` rejects undefined relation targets, unknown source
-  keys and missing definitions; the self-test checks that the graph is up to date.
+  keys, unresolvable evidence and unknown data columns; the self-test checks that the
+  graph is up to date.
+- **Audit** (`ontology.py audit`, also in the self-test): every one of the 48 papers is a
+  source of some concept; 45 of the 49 concepts retrieve one of their sources in the top 5
+  when their label is searched (the misses are the umbrella concepts *CCSN* and *ML task* and
+  two labels whose hits are dominated by reference lists); no lowercase one-word synonym
+  occurs in more than 5 % of the chunks.
 
 The full graph is in [`ontology/graph.md`](ontology/graph.md) (rendered by GitHub).
 
@@ -245,10 +294,15 @@ The script checks every printed citation automatically (the file exists, the key
 the catalog, the line range lies inside the file); I graded correctness against the
 expected answers by hand. Token usage per run is in `results/agent_runs/usage.jsonl`.
 
-| Agent | Correct (yes/partial/no) | Valid / invalid citations | Searched before answering | Verification line | Diary entry | q3 answered "not found" | Tokens |
-|---|---|---|---|---|---|---|
-| Goose + Qwen3-Coder-30B-A3B FP8 (local, vLLM) | 8 / 0 / 1 | 93 / 0 | 8/9 | 9/9 | 9/9 | yes | 2,379,107 |
-| Goose + `deepseek-flash` (API) | <!-- FILL -->/9 | <!-- FILL --> | <!-- FILL -->/9 | <!-- FILL -->/9 | <!-- FILL --> | <!-- FILL --> |
+<!-- RESULTS:BEGIN -->
+| Agent | Correct (yes / partial / no) | Valid / invalid citations | Searched before answering | Verification line | Diary entry | q3 answered "not found" | Tokens |
+|---|---|---|---|---|---|---|---|
+| Goose + Qwen3-Coder-30B-A3B FP8 (local, vLLM) | 8 / 0 / 1 | 13 / 0 | 8/9 | 9/9 | 9/9 | yes | 2,379,107 |
+| Goose + `deepseek-flash` (API) | <!-- FILL --> | | | | | | |
+<!-- RESULTS:END -->
+
+Citations are counted in the answer only (search-hit lines are excluded), as rescored by
+`src/citecheck.py`; earlier versions of this table counted hit lines too (93).
 
 
 ## 9. Work journal
@@ -414,5 +468,84 @@ is built — that sampled citations point to the right lines.
   contract, the citation check in `run_queries.py` and the negative test q3 make this
   visible rather than prevent it.
 - **The ontology is small and hand-made.** Next step: let the agent propose new concepts
-  from the library, validated by `ontology.py validate`, and add the data part of the
-  project (the Richers waveform catalog in `data/`) with analysis scripts in `src/`.
+  from the library, validated by `ontology.py validate`.
+- **The local data are reduced.** `data/` (not committed) keeps the parameter table and the
+  strain from −2 to +6 ms of 7,438 simulations (3 progenitors × 18 EOS); the full release
+  with 14 time series is kept outside the repository. Derived parameters were computed from
+  the full-length data.
+- **The agent runs above predate the enforcement changes of §3.1** and must be repeated
+  with the sandbox, the output cap and the automatic diary.
+
+## Appendix A. `AGENT.md`
+
+<!-- AGENT.md:BEGIN -->
+
+# AGENT.md — Gravitational waves from core-collapse supernovae + machine learning
+
+Contract between the researcher (Sultan Abylkairov) and the agent (Goose with Qwen3 or
+DeepSeek). It overrides the agent's general instructions. **Answer in English.**
+
+## 1. Every question: follow these steps
+1. **Search:** `python3 src/search.py "<query>" -k 8`. If the hits are weak, try a synonym
+   (`python3 src/ontology.py show <term>` lists them) before saying something is missing.
+2. **Read:** `sed -n '<start>,<end>p' literature/md/<key>.md` for each passage you will use.
+3. **Answer:** short, every factual sentence followed by its citation, copied exactly
+   from the search output: `[literature/md/<key>.md:L<start>-L<end> § <section>]`.
+4. **Finish** with three lines: `Summary:` (one sentence), `Verification:` (commands that
+   re-check the answer), `Open issues:` (or "none").
+
+Questions about the simulation data use `python3 src/data.py` instead of the search (§3).
+If nothing relevant is found, answer: "Not found in the local library (searched: <queries>)."
+
+## 2. Example of a finished answer
+```
+Richers et al. report that in the linear regime the bounce-signal amplitude depends
+approximately linearly on T/|W| [literature/md/richers2017.md:L237-L247 § Results > The Bounce Signal].
+I infer that faster rotators give proportionally stronger bounce signals at the same distance.
+
+Summary: Bounce amplitude grows about linearly with T/|W| at low rotation (Richers et al. 2017).
+Verification: sed -n '237,247p' literature/md/richers2017.md
+Open issues: none
+```
+
+## 3. Tools (the only commands you need)
+| Task | Command |
+|---|---|
+| Search papers | `python3 src/search.py "<query>" -k 8` (`--own` my papers, `--file <key>`, `--exact "<string>"`, `--papers`) |
+| Read a passage | `sed -n '<start>,<end>p' literature/md/<key>.md` (at most 40 lines at a time) |
+| Concept, synonyms, evidence, data columns | `python3 src/ontology.py show <term>` |
+| Dataset overview | `python3 src/data.py info` and `python3 src/data.py columns` |
+| Select simulations | `python3 src/data.py params --where "eos==SFHo" --where "beta_ic_b>=0.05" --cols f_peak,delta_dh` |
+| Statistics | `python3 src/data.py stats f_peak --by eos`, `python3 src/data.py corr beta_ic_b delta_dh` |
+| One waveform | `python3 src/data.py strain <run_id>` (`--every 10` samples, `--out results/x.csv`) |
+
+**Data:** 7,438 rotating core-collapse simulations (3 progenitors × 18 EOS × 138 rotation
+profiles). `data/data/parameters.csv` has `run_id` + 30 parameters (e.g. `beta_ic_b` = T/|W|
+of the inner core at bounce, `delta_dh` = bounce amplitude in cm, `f_peak` in Hz);
+`data/data/timeseries/strain.csv.gz` has D·h+ in cm from −1.95 to +5.98 ms (t = 0 at bounce).
+Row *i* is the same simulation in both files. Derived parameters come from the full-length
+data, so do not recompute them from the trimmed strain.
+
+## 4. Rules
+- Cite only passages that `search.py` (or `ontology.py show` as evidence) printed in this session; quote numbers exactly, with
+  units and conditions (detector, distance e.g. "at 10 kpc", SNR, accuracy threshold, EOS set).
+- Write "Paper X reports …" for sources and "I infer …" for your own reasoning.
+- Bibliographic details (authors, year, venue, DOI) only from `literature/catalog.yaml`.
+- Terms: T/|W| (not β), f_peak, EOS; kpc, Hz.
+- Computed results: run the command, then report its output; save files only in `results/`.
+- Web and PDF tools only when the user asks to add or check a paper.
+
+## 5. Forbidden
+- `cat`, `grep -r`, `find`, `head` or `less` on `literature/` or `data/`, `zcat` or pandas on `data/`:
+  outputs are too long. Use `search.py`, `sed -n` on a short range and `data.py`.
+- Reading `eval/`, `results/agent_runs/` or `results/answers/` (they contain expected answers).
+- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENT.md`.
+- Inventing papers, authors, arXiv IDs, DOIs, numbers, equations or section names.
+- Committing `.env` or API keys.
+
+## 6. Journal
+`src/agent.py run` writes the `diary.md` entry itself: do not edit `diary.md`. In an
+interactive session, end the task with one command:
+`python3 src/diary.py --request "..." --actions "..." --result "..." --verification "..." --open "none"`.
+
+<!-- AGENT.md:END -->

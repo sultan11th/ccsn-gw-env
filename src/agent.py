@@ -24,12 +24,20 @@ Settings (environment or a .env file in the repository root, never committed)
   LOCAL_CONTEXT      context window told to Goose for the local model (default 32768; keep it
                      equal to the server's limit: vLLM --max-model-len, Ollama OLLAMA_CONTEXT_LENGTH)
 
+  TOKEN_BUDGET, MAX_REQUESTS, MAX_TOOL_CHARS   per-run limits enforced by the proxy
+                     (defaults per backend in BACKENDS below; 0 = no limit)
+
 What the agent gets: the course instructions + this project's AGENT.md as system prompt,
 and Goose's built-in `developer` tools (shell, file editor), which is all it needs to run
-src/search.py and src/ontology.py. Token usage is logged to results/agent_runs/usage.jsonl.
+src/search.py, src/data.py and src/ontology.py. Token usage is logged to results/agent_runs/usage.jsonl.
+
+In `run` mode the launcher also (1) checks every citation of the answer against the
+search hits of the same run (src/citecheck.py) and prints the result, and (2) appends the
+diary.md entry itself (src/diary.py), so the model never writes the journal.
 """
 import argparse
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -38,6 +46,8 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from llm_proxy import ProxyServer  # noqa: E402
+import citecheck  # noqa: E402
+import diary  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 USAGE_LOG = ROOT / "results" / "agent_runs" / "usage.jsonl"
@@ -45,17 +55,27 @@ USAGE_LOG = ROOT / "results" / "agent_runs" / "usage.jsonl"
 BACKENDS = {
     "local": {"url_env": "LOCAL_URL", "url": "http://localhost:8000", "model_env": "LOCAL_MODEL",
               "model": "qwen3-coder-30b", "key_env": "LOCAL_API_KEY", "inject": {},
-              "context_env": "LOCAL_CONTEXT", "context": 32768},
+              "context_env": "LOCAL_CONTEXT", "context": 32768,
+              "limits": {"TOKEN_BUDGET": 300_000, "MAX_REQUESTS": 40, "MAX_TOOL_CHARS": 6000}},
     "deepseek": {"url_env": "DEEPSEEK_URL", "url": "https://api.deepseek.com", "model_env": "DEEPSEEK_MODEL",
                  "model": "deepseek-flash", "key_env": "DEEPSEEK_API_KEY",
                  # thinking off: with thinking on, tool-using turns must resend reasoning_content
-                 "inject": {"thinking": {"type": "disabled"}},
-                 "context_env": "DEEPSEEK_CONTEXT", "context": 128000},
+                 "inject": {"thinking": {"type": "disabled"}, "max_tokens": 4096},
+                 "context_env": "DEEPSEEK_CONTEXT", "context": 128000,
+                 "limits": {"TOKEN_BUDGET": 200_000, "MAX_REQUESTS": 30, "MAX_TOOL_CHARS": 6000}},
 }
 
 MINIMAL_PROMPT = """You are a research assistant working in the user's project folder through a shell.
 Run commands to find facts; never answer factual questions from memory. Run code before reporting results.
 Keep answers short. The project contract below (AGENT.md) has priority over these lines."""
+
+RUN_NOTE = """
+# Run mode
+This is a single task. The launcher writes the diary.md entry for you after the run:
+do NOT edit diary.md. End your answer with the `Summary:`, `Verification:` and `Open issues:` lines."""
+
+COMMAND = re.compile(r"^\s*command:\s*(.+)$", re.M)
+LAST = lambda label, text: (re.findall(rf"^\W*{label}\W*:\s*(.+)$", text, re.M | re.I) or [""])[-1].strip(" *")
 
 
 def load_dotenv(path):
@@ -88,6 +108,26 @@ def course_instructions():
     return (yaml.safe_load(recipe.read_text(encoding="utf-8")) or {}).get("instructions")
 
 
+def limit(b, name):
+    v = int(os.environ.get(name, b["limits"][name]))
+    return v or None
+
+
+def record_run(task, text, label, totals):
+    """Citation check + diary entry after a `run`; returns the check report."""
+    r = citecheck.check(text)
+    cmds = [c.strip() for c in COMMAND.findall(text)]
+    actions = "; ".join(c if len(c) <= 160 else c[:157] + "..." for c in cmds[:12])
+    if len(cmds) > 12:
+        actions += f"; ... ({len(cmds)} commands in total)"
+    checks = citecheck.summary(r)
+    if totals.get("refused"):
+        checks += f"; run stopped by the proxy: {totals['refused']}"
+    diary.append_entry(task, actions, LAST("Summary", text), LAST("Verification", text),
+                       LAST("Open issues", text) or "none stated", model=label, checks=checks)
+    return citecheck.report(r)
+
+
 def system_prompt(kind):
     base = course_instructions() if kind == "course" else None
     if kind == "course" and not base:
@@ -107,6 +147,9 @@ def main():
     ap.add_argument("--mode", choices=["auto", "smart_approve", "approve", "chat"],
                     help="Goose permission mode (default: auto for run, smart_approve for sessions)")
     ap.add_argument("--dry-run", action="store_true", help="print the command and settings, do not start")
+    ap.add_argument("--workdir", default=str(ROOT),
+                    help="folder the agent works in (run_queries.py passes a clean sandbox copy)")
+    ap.add_argument("--no-diary", action="store_true", help="run mode: do not append to diary.md")
     ap.add_argument("task", nargs=argparse.REMAINDER, help='"run" followed by the task text, or nothing for a session')
     a = ap.parse_args()
 
@@ -132,10 +175,14 @@ def main():
     fd, prompt_path = tempfile.mkstemp(suffix=".md", prefix="ccsn-agent-prompt-")
     with os.fdopen(fd, "w", encoding="utf-8") as f:
         prompt_used, prompt_text = system_prompt(a.prompt)
-        f.write(prompt_text)
+        f.write(prompt_text + (RUN_NOTE if run_mode else ""))
 
     USAGE_LOG.parent.mkdir(parents=True, exist_ok=True)
-    proxy = ProxyServer(upstream, key, b["inject"], str(USAGE_LOG), label=f"{a.backend}:{model}")
+    label = f"{a.backend}:{model}"
+    limits = {n: limit(b, n) for n in b["limits"]}
+    proxy = ProxyServer(upstream, key, b["inject"], str(USAGE_LOG), label=label,
+                        max_tool_chars=limits["MAX_TOOL_CHARS"], token_budget=limits["TOKEN_BUDGET"],
+                        max_requests=limits["MAX_REQUESTS"])
     env = os.environ.copy()
     env.update({
         "GOOSE_PROVIDER": "openai",                      # Ollama and DeepSeek both speak the OpenAI API
@@ -149,6 +196,8 @@ def main():
         "GOOSE_TEMPERATURE": os.environ.get("GOOSE_TEMPERATURE", "0.2"),
         "GOOSE_PATH_ROOT": str(ROOT / ".goose"),
         "GOOSE_TELEMETRY_ENABLED": "false",
+        "CCSN_MODEL": label,                             # read by src/diary.py
+        "PYTHONDONTWRITEBYTECODE": "1",
     })
     cmd = [goose or "goose"]
     cmd += (["run", "--no-profile", "--no-session", "--with-builtin", "developer", "-t", task] if run_mode
@@ -162,21 +211,41 @@ def main():
         print(f"prompt:   {prompt_used} ({len(open(prompt_path, encoding='utf-8').read()):,} chars incl. AGENT.md)")
         print(f"goose:    {goose or 'NOT FOUND'}")
         print(f"env:      {shown}")
+        print(f"limits:   {limits}  workdir: {a.workdir}")
         print(f"command:  {' '.join(cmd[:-1] + [repr(cmd[-1])]) if run_mode else ' '.join(cmd)}")
         os.unlink(prompt_path)
         proxy.server_close()
         return 0
 
     proxy.start()
+    text, rc = "", 1
     try:
-        rc = subprocess.run(cmd, env=env, cwd=ROOT).returncode
+        if run_mode:                                     # tee: show live and keep the transcript
+            p = subprocess.Popen(cmd, env=env, cwd=a.workdir, stdout=subprocess.PIPE, stderr=subprocess.STDOUT,
+                                 text=True, errors="replace")
+            chunks = []
+            for line in p.stdout:
+                sys.stdout.write(line)
+                sys.stdout.flush()
+                chunks.append(line)
+            rc = p.wait()
+            text = re.sub(r"\x1b\[[0-9;]*[A-Za-z]", "", "".join(chunks))
+        else:
+            rc = subprocess.run(cmd, env=env, cwd=a.workdir).returncode
     finally:
         proxy.shutdown()
         os.unlink(prompt_path)
         t = proxy.totals
-        print(f"\n[agent] {a.backend}:{model} - {t['requests']} requests, {t['prompt_tokens']:,} prompt + "
-              f"{t['completion_tokens']:,} completion tokens, {t['errors']} errors (log: "
-              f"{USAGE_LOG.relative_to(ROOT)})", file=sys.stderr)
+        print(f"\n[agent] {label} - {t['requests']} requests, {t['prompt_tokens']:,} prompt + "
+              f"{t['completion_tokens']:,} completion tokens, {t['errors']} errors, "
+              f"tool results cut: {t['truncated']} (log: {USAGE_LOG.relative_to(ROOT)})", file=sys.stderr)
+        if t["refused"]:
+            print(f"[agent] stopped by the proxy: {t['refused']}", file=sys.stderr)
+    if run_mode:
+        rep = record_run(task, text, label, t) if not a.no_diary else citecheck.report(citecheck.check(text))
+        print(rep)
+        if not a.no_diary:
+            print("[agent] diary.md entry appended", file=sys.stderr)
     return rc
 
 

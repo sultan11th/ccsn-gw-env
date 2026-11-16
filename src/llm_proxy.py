@@ -7,6 +7,11 @@ Why it exists
   * Adds the real API key, so the key never appears in Goose's configuration.
   * Counts tokens (prompt / completion) per request and appends them to a JSONL log,
     which replaces the token budget that the course wrapper keeps for Yandex AI Studio.
+  * Caps tool output: every tool result in the conversation longer than max_tool_chars
+    is cut (head + tail) before it reaches the model, so one `cat` or `grep -r` cannot
+    fill the context of a small local model or cost a fortune on an API.
+  * Enforces a budget per run: after token_budget tokens or max_requests model calls it
+    refuses further requests (HTTP 400 with a clear message), which ends the agent's run.
 
 It forwards every path unchanged: a request to http://127.0.0.1:<port>/v1/chat/completions
 goes to <upstream>/v1/chat/completions. Streaming (SSE) responses are passed through as
@@ -27,15 +32,20 @@ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 class ProxyServer(ThreadingHTTPServer):
     daemon_threads = True
 
-    def __init__(self, upstream, api_key=None, inject=None, log_path=None, label=""):
+    def __init__(self, upstream, api_key=None, inject=None, log_path=None, label="",
+                 max_tool_chars=None, token_budget=None, max_requests=None):
         super().__init__(("127.0.0.1", 0), _Handler)
+        self.max_tool_chars = max_tool_chars
+        self.token_budget = token_budget
+        self.max_requests = max_requests
         self.upstream = upstream.rstrip("/")
         self.api_key = api_key
         self.inject = inject or {}
         self.log_path = log_path
         self.label = label
         self.lock = threading.Lock()
-        self.totals = {"requests": 0, "prompt_tokens": 0, "completion_tokens": 0, "errors": 0}
+        self.totals = {"requests": 0, "prompt_tokens": 0, "completion_tokens": 0, "errors": 0,
+                       "truncated": 0, "refused": None}
 
     @property
     def url(self):
@@ -55,6 +65,41 @@ class ProxyServer(ThreadingHTTPServer):
                        ("prompt_tokens", "completion_tokens", "total_tokens")}}
                 with open(self.log_path, "a", encoding="utf-8") as f:
                     f.write(json.dumps(row) + "\n")
+
+    def over_budget(self):
+        t = self.totals
+        if self.max_requests and t["requests"] >= self.max_requests:
+            return f"request limit reached ({self.max_requests} model calls in this run)"
+        used = t["prompt_tokens"] + t["completion_tokens"]
+        if self.token_budget and used >= self.token_budget:
+            return f"token budget reached ({used:,} of {self.token_budget:,} tokens in this run)"
+        return None
+
+    def cap_tools(self, messages):
+        """Cut long tool results (head + tail); returns the number of results cut."""
+        n, cap = 0, self.max_tool_chars
+        if not cap:
+            return 0
+        for m in messages if isinstance(messages, list) else []:
+            if not isinstance(m, dict) or m.get("role") != "tool":
+                continue
+            c = m.get("content")
+            parts = c if isinstance(c, list) else [c]
+            for i, part in enumerate(parts):
+                text = part.get("text") if isinstance(part, dict) else part
+                if isinstance(text, str) and len(text) > cap:
+                    head, tail = text[: cap * 3 // 4], text[-cap // 4:]
+                    cut = (f"{head}\n[... {len(text) - len(head) - len(tail):,} characters cut by the proxy. "
+                           f"Do not print whole files: use src/search.py, sed -n 'a,bp' on a short range, "
+                           f"or src/data.py ...]\n{tail}")
+                    if isinstance(part, dict):
+                        part["text"] = cut
+                    else:
+                        parts[i] = cut
+                    n += 1
+            if not isinstance(c, list):
+                m["content"] = parts[0]
+        return n
 
     def start(self):
         threading.Thread(target=self.serve_forever, daemon=True).start()
@@ -79,11 +124,26 @@ class _Handler(BaseHTTPRequestHandler):
             if isinstance(data, dict):
                 for k, v in srv.inject.items():
                     data.setdefault(k, v)
+                n_cut = srv.cap_tools(data.get("messages"))
+                if n_cut:
+                    with srv.lock:
+                        srv.totals["truncated"] = max(srv.totals["truncated"], n_cut)
                 stream = bool(data.get("stream"))
                 if stream:
                     data.setdefault("stream_options", {"include_usage": True})
                 model = data.get("model")
                 body = json.dumps(data).encode()
+        reason = srv.over_budget() if method == "POST" else None
+        if reason:
+            srv.totals["refused"] = reason
+            msg = json.dumps({"error": {"message": f"proxy: {reason}; stop and give your final answer",
+                                        "type": "budget_exceeded"}}).encode()
+            self.send_response(400)
+            self.send_header("Content-Type", "application/json")
+            self.send_header("Content-Length", str(len(msg)))
+            self.end_headers()
+            self.wfile.write(msg)
+            return
         headers = {"Content-Type": self.headers.get("Content-Type", "application/json"),
                    "Accept": self.headers.get("Accept", "*/*")}
         auth = f"Bearer {srv.api_key}" if srv.api_key else self.headers.get("Authorization")
@@ -152,8 +212,12 @@ def main():
     ap.add_argument("--api-key", default=None)
     ap.add_argument("--inject", default="{}", help='JSON merged into each request, e.g. \'{"thinking":{"type":"disabled"}}\'')
     ap.add_argument("--log", default=None, help="append token usage as JSONL")
+    ap.add_argument("--max-tool-chars", type=int, default=None, help="cut tool results longer than this")
+    ap.add_argument("--token-budget", type=int, default=None, help="refuse requests after this many tokens")
+    ap.add_argument("--max-requests", type=int, default=None, help="refuse requests after this many model calls")
     a = ap.parse_args()
-    srv = ProxyServer(a.upstream, a.api_key, json.loads(a.inject), a.log)
+    srv = ProxyServer(a.upstream, a.api_key, json.loads(a.inject), a.log, max_tool_chars=a.max_tool_chars,
+                      token_budget=a.token_budget, max_requests=a.max_requests)
     print(srv.server_address[1], flush=True)
     srv.serve_forever()
 

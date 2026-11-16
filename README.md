@@ -9,10 +9,12 @@ papers, cites every claim by file and line range, and logs its work.
 | Component | Where | What it does |
 |---|---|---|
 | Contract | [`AGENT.md`](AGENT.md) | Rules the agent reads at start-up: goal, data, tools, citation and verification rules, journal, forbidden actions |
-| Library | [`literature/catalog.yaml`](literature/catalog.yaml), `literature/md/` | 43 papers (12 mine + 31 external) converted from arXiv to Markdown |
-| Ontology | [`ontology/concepts.yaml`](ontology/concepts.yaml), [`ontology/graph.md`](ontology/graph.md) | 41 concepts, 6 relation types, rendered as a Mermaid graph |
+| Library | [`literature/catalog.yaml`](literature/catalog.yaml), `literature/md/` | 48 papers on CCSN gravitational waves (9 mine + 39 external) converted from arXiv to Markdown |
+| Ontology | [`ontology/concepts.yaml`](ontology/concepts.yaml), [`ontology/graph.md`](ontology/graph.md) | 49 concepts, 6 relation types, cited evidence for relations, links to data columns; Mermaid graph; `ontology.py audit` |
 | Search | [`src/search.py`](src/search.py) | BM25 over paragraph chunks with ontology synonyms; citations `file:Lstart-Lend § section` |
-| Journal | [`diary.md`](diary.md) | Append-only work log |
+| Data | [`src/data.py`](src/data.py), `data/` (local only) | 7,438 simulations: parameter table + strain from −2 to +6 ms; short outputs only |
+| Journal | [`diary.md`](diary.md) | Append-only work log, written by `src/agent.py` after each run ([`src/diary.py`](src/diary.py)) |
+| Checks | [`src/citecheck.py`](src/citecheck.py) | Every citation of an answer must lie inside a search hit of the same run |
 | Agent runtime | [`src/agent.py`](src/agent.py), [`src/llm_proxy.py`](src/llm_proxy.py) | The course agent (Goose) on a local model (vLLM or Ollama) or DeepSeek; `ai4science` also works |
 | Evaluation | [`eval/queries.yaml`](eval/queries.yaml), `results/` | Example queries, retrieval check, agent transcripts |
 | Report | [`REPORT.md`](REPORT.md) | Course submission |
@@ -25,7 +27,7 @@ a local model server ([vLLM](https://docs.vllm.ai) on a GPU, or [Ollama](https:/
 
 ```bash
 pip install -r requirements.txt
-make fetch        # download and convert the 43 active papers (arXiv asks for ≥3 s between requests)
+make fetch        # download and convert the 48 active papers (arXiv asks for ≥3 s between requests)
 make index        # build the search index
 make test         # self-test: prints "selftest OK"
 make queries      # retrieval check of the example queries -> results/queries/RETRIEVAL.md
@@ -38,7 +40,12 @@ python3 src/search.py "f_peak dependence on the EOS" -k 5
 python3 src/search.py "SHAP" --own                 # only my papers
 python3 src/search.py --exact "772" --file richers2017
 python3 src/ontology.py show beta                  # concept card for T/|W|
+python3 src/data.py info                           # the simulation dataset
+python3 src/data.py stats f_peak --by eos
 ```
+
+The dataset in `data/` is not committed (see `.gitignore`); put the reduced copy there
+(`data/data/parameters.csv`, `data/data/timeseries/strain.csv.gz`, see `data/README.md`).
 
 ### Running the agent
 
@@ -72,6 +79,18 @@ tools. A small local proxy (`src/llm_proxy.py`) adds the API key, switches DeepS
 thinking mode off (with thinking on, DeepSeek rejects tool-using turns unless the client sends
 its reasoning back, and Goose is not built for that), and logs token usage to `results/agent_runs/usage.jsonl`.
 
+Because Qwen3 and DeepSeek follow long prompts less reliably, the rules are enforced in code:
+
+- the proxy cuts every tool result above 6,000 characters and stops a run after a token or
+  request budget (local 300k / 40, DeepSeek 200k / 30; `TOKEN_BUDGET`, `MAX_REQUESTS`,
+  `MAX_TOOL_CHARS` in `.env`, 0 = no limit);
+- after each `run`, `agent.py` checks the citations against the search hits
+  (`src/citecheck.py`) and writes the `diary.md` entry itself;
+- `make agent-*` runs every question in a read-only sandbox copy without `eval/` and `results/`,
+  so the agent cannot read expected or earlier answers;
+- `make lock` makes data, papers, catalog, ontology and `AGENT.md` read-only before an
+  interactive session (`make unlock` to undo).
+
 If arXiv refuses a download, fetch the source or PDF in a browser and convert it with
 `python3 src/fetch_arxiv.py <key> --local <file>`.
 
@@ -81,14 +100,14 @@ If arXiv refuses a download, fetch the source or PDF in a browser and convert it
 AGENT.md              contract for the agent
 REPORT.md             course report (Appendix A = AGENT.md, kept in sync by the self-test)
 diary.md              work journal
-data/                 raw data, read-only
 literature/
-  catalog.yaml        bibliographic truth (45 entries, 43 active)
+  catalog.yaml        bibliographic truth (48 entries, all active)
   md/                 converted papers (only my own papers are committed)
   raw/                downloads (not committed)
 ontology/
   concepts.yaml       concepts and relations
   graph.md            generated Mermaid graph
+data/                 simulation dataset (local only, not committed)
 eval/queries.yaml     example queries with expected answers
 index/                search index (generated, not committed)
 results/              retrieval check, agent transcripts, answers
@@ -96,6 +115,9 @@ src/
   fetch_arxiv.py      arXiv -> Markdown (LaTeX, then HTML, then PDF)
   build_index.py      chunking + index
   search.py           library search (standard library only)
+  data.py             dataset queries with short outputs (standard library only)
+  citecheck.py        citation check of an agent answer
+  diary.py            writes diary.md entries
   textnorm.py         shared normalisation of physics notation
   ontology.py         validate / graph / show / list
   run_queries.py      retrieval check and agent runs
