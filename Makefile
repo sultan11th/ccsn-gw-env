@@ -1,7 +1,7 @@
 # Common tasks. Run from the repository root.
 PY ?= python3
 
-.PHONY: all fetch index graph test queries agent-local agent-deepseek agent-course check-bib lock unlock
+.PHONY: all fetch index graph test check queries agent-local agent-deepseek agent-course check-bib lock unlock
 
 all: fetch index graph test queries   ## build the library and verify everything
 
@@ -18,6 +18,9 @@ graph:            ## validate the ontology and regenerate ontology/graph.md
 test:             ## self-test (offline fixtures + repository consistency)
 	$(PY) tests/selftest.py
 
+check:            ## HW2 verifier: data contract, properties, split, statistics (see METHOD.md)
+	$(PY) -m unittest discover -s checks -v
+
 queries:          ## retrieval check of eval/queries.yaml -> results/queries/RETRIEVAL.md
 	$(PY) src/run_queries.py
 
@@ -33,9 +36,9 @@ agent-course:     ## all example queries with the course wrapper (Yandex AI Stud
 check-bib:        ## compare literature/catalog.yaml with arXiv metadata
 	$(PY) src/fetch_arxiv.py --check
 
-LOCKED = data literature/md literature/raw ontology/concepts.yaml literature/catalog.yaml AGENT.md
+LOCKED = data literature/md literature/raw ontology/concepts.yaml literature/catalog.yaml AGENTS.md checks METHOD.md
 
-lock:             ## make data, papers, ontology, catalog and AGENT.md read-only (before an interactive agent session)
+lock:             ## make data, papers, ontology, catalog and AGENTS.md read-only (before an interactive agent session)
 	@for p in $(LOCKED); do [ -e $$p ] && find $$p -type f -exec chmod a-w {} + ; done; echo "locked: $(LOCKED)"
 
 unlock:           ## undo `make lock` (needed before make fetch / graph or editing these files)

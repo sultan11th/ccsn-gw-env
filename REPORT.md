@@ -12,7 +12,7 @@ questions about my research field — gravitational waves (GWs) from core-collap
 supernovae (CCSNe) and machine learning (ML) — from my own library, not from model
 memory. It has the four required parts:
 
-1. **Contract** `AGENT.md` (Appendix A): goal, data, tools, citation and verification
+1. **Contract** `AGENTS.md` (Appendix A): goal, data, tools, citation and verification
    rules, journal format, forbidden actions and a definition of done.
 2. **Ontology and concept graph**: 49 concepts in four groups with 59 typed relations,
    23 of them with a cited passage, linked to the dataset columns;
@@ -51,7 +51,7 @@ graph LR
   idx --> search["search.py"]
   onto --> show["ontology.py show"]
   dataset["data/ (7,438 simulations)"] --> dpy["data.py"]
-  contract["AGENT.md"] --> agent["Goose agent<br/>(local Qwen3-Coder / DeepSeek)"]
+  contract["AGENTS.md"] --> agent["Goose agent<br/>(local Qwen3-Coder / DeepSeek)"]
   proxy["llm_proxy.py<br/>output cap, budget"] <--> agent
   search --> agent
   show --> agent
@@ -72,13 +72,13 @@ model backends, changing only the model (`src/agent.py`):
 | Course (`ai4science`) | Yandex AI Studio models | reference |
 
 `src/agent.py` reuses the Goose binary and the course instructions from the AI4Science
-installation and adds `AGENT.md` to the system prompt, so every model receives the same
+installation and adds `AGENTS.md` to the system prompt, so every model receives the same
 contract. A small local proxy (`src/llm_proxy.py`) adds the API key, switches DeepSeek's
 thinking mode off (with thinking on, DeepSeek rejects tool-using turns unless the client
 resends the model's reasoning), and logs token usage for each run. The library tools are
 plain command-line scripts, so they behave the same for every model.
 
-## 3. The contract (`AGENT.md`)
+## 3. The contract (`AGENTS.md`)
 
 The full text is in Appendix A. It follows the structure of the course example (goal,
 data, how to work, journal, forbidden) and adds what a literature-based project needs:
@@ -109,7 +109,7 @@ rules in code instead of relying on the prompt:
 | The agent read earlier answers in `results/` (q9) | `run_queries.py` runs each question in a read-only sandbox copy without `eval/` and `results/` |
 | Diary entries with `Model: echo $GOOSE_MODEL`, duplicates | `agent.py` writes the entry itself; the model name comes from the launcher |
 | "Cite only what the search returned" was unchecked | `citecheck.py` compares each citation with the search hits of the same run; printed after every run and counted in the summaries |
-| A 97-line contract of principles | A 4-step recipe, one worked example and a tool table (§1–3 of `AGENT.md`) |
+| A 97-line contract of principles | A 4-step recipe, one worked example and a tool table (§1–3 of `AGENTS.md`) |
 | Raw data far larger than a context window | `data.py` (filters, statistics, correlation, one waveform), short outputs only |
 | Shell can change anything | Sandbox files are read-only; `make lock` does the same for interactive sessions |
 
@@ -307,7 +307,7 @@ Citations are counted in the answer only (search-hit lines are excluded), as res
 
 ## 9. Work journal
 
-The journal format is fixed in §6 of the contract (date, request, model, actions,
+The journal format is fixed in §7 of the contract (date, request, model, actions,
 result, verification, open issues). Excerpt:
 
 ```markdown
@@ -453,7 +453,7 @@ result, verification, open issues). Excerpt:
 access: it converts two synthetic e-prints (a multi-file tar and a single-file gzip),
 builds an index and checks ranking, citations and line ranges, synonym expansion, the
 filters and the "No results" behaviour; then it checks the real catalog, the ontology,
-that the graph is up to date, that Appendix A equals `AGENT.md`, and — once the library
+that the graph is up to date, that Appendix A equals `AGENTS.md`, and — once the library
 is built — that sampled citations point to the right lines.
 
 ## 11. Limitations and next steps
@@ -476,11 +476,11 @@ is built — that sampled citations point to the right lines.
 - **The agent runs above predate the enforcement changes of §3.1** and must be repeated
   with the sandbox, the output cap and the automatic diary.
 
-## Appendix A. `AGENT.md`
+## Appendix A. `AGENTS.md`
 
-<!-- AGENT.md:BEGIN -->
+<!-- AGENTS.md:BEGIN -->
 
-# AGENT.md — Gravitational waves from core-collapse supernovae + machine learning
+# AGENTS.md — Gravitational waves from core-collapse supernovae + machine learning
 
 Contract between the researcher (Sultan Abylkairov) and the agent (Goose with Qwen3 or
 DeepSeek). It overrides the agent's general instructions. **Answer in English.**
@@ -539,13 +539,27 @@ data, so do not recompute them from the trimmed strain.
 - `cat`, `grep -r`, `find`, `head` or `less` on `literature/` or `data/`, `zcat` or pandas on `data/`:
   outputs are too long. Use `search.py`, `sed -n` on a short range and `data.py`.
 - Reading `eval/`, `results/agent_runs/` or `results/answers/` (they contain expected answers).
-- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENT.md`.
+- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENTS.md`.
 - Inventing papers, authors, arXiv IDs, DOIs, numbers, equations or section names.
 - Committing `.env` or API keys.
 
-## 6. Journal
+## 6. Verification of the data and the analysis (HW2)
+One command runs the whole verifier (contract C1-C14, mutation tests, physical properties
+P1-P7, the EOS-grouped split, the statistics code and `data.py`); see `METHOD.md`:
+
+```
+python3 -m unittest discover -s checks -v
+```
+
+It uses the full data in `data/data/` when present, otherwise the committed fragment
+`checks/fixtures/data/` (810 runs); `CCSN_DATA=<dir>` selects a directory. The experiment of
+`METHOD.md` §7 runs step by step: `python3 scripts/amp_experiment.py dry|smoke|sweep|full`.
+Do not edit `checks/` or `METHOD.md` (they are locked by `make lock`); if a check fails,
+report it instead of changing the check.
+
+## 7. Journal
 `src/agent.py run` writes the `diary.md` entry itself: do not edit `diary.md`. In an
 interactive session, end the task with one command:
 `python3 src/diary.py --request "..." --actions "..." --result "..." --verification "..." --open "none"`.
 
-<!-- AGENT.md:END -->
+<!-- AGENTS.md:END -->

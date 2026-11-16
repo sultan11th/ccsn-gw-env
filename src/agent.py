@@ -27,7 +27,7 @@ Settings (environment or a .env file in the repository root, never committed)
   TOKEN_BUDGET, MAX_REQUESTS, MAX_TOOL_CHARS   per-run limits enforced by the proxy
                      (defaults per backend in BACKENDS below; 0 = no limit)
 
-What the agent gets: the course instructions + this project's AGENT.md as system prompt,
+What the agent gets: the course instructions + this project's AGENTS.md as system prompt,
 and Goose's built-in `developer` tools (shell, file editor), which is all it needs to run
 src/search.py, src/data.py and src/ontology.py. Token usage is logged to results/agent_runs/usage.jsonl.
 
@@ -67,7 +67,7 @@ BACKENDS = {
 
 MINIMAL_PROMPT = """You are a research assistant working in the user's project folder through a shell.
 Run commands to find facts; never answer factual questions from memory. Run code before reporting results.
-Keep answers short. The project contract below (AGENT.md) has priority over these lines."""
+Keep answers short. The project contract below (AGENTS.md) has priority over these lines."""
 
 RUN_NOTE = """
 # Run mode
@@ -132,9 +132,9 @@ def system_prompt(kind):
     base = course_instructions() if kind == "course" else None
     if kind == "course" and not base:
         print("[agent] course recipe not found; using the minimal prompt (set AI4SCIENCE_HOME)", file=sys.stderr)
-    contract = (ROOT / "AGENT.md").read_text(encoding="utf-8")
+    contract = (ROOT / "AGENTS.md").read_text(encoding="utf-8")
     used = "course" if base else "minimal"
-    return used, (base or MINIMAL_PROMPT) + "\n\n# Project contract (AGENT.md, read from the project folder)\n\n" + contract
+    return used, (base or MINIMAL_PROMPT) + "\n\n# Project contract (AGENTS.md, read from the project folder)\n\n" + contract
 
 
 def main():
@@ -143,7 +143,7 @@ def main():
     ap.add_argument("--backend", choices=BACKENDS, required=True)
     ap.add_argument("--model", help="override the model name")
     ap.add_argument("--prompt", choices=["course", "minimal"], default="course",
-                    help="course = AI4Science instructions + AGENT.md (default); minimal = short prompt + AGENT.md")
+                    help="course = AI4Science instructions + AGENTS.md (default); minimal = short prompt + AGENTS.md")
     ap.add_argument("--mode", choices=["auto", "smart_approve", "approve", "chat"],
                     help="Goose permission mode (default: auto for run, smart_approve for sessions)")
     ap.add_argument("--dry-run", action="store_true", help="print the command and settings, do not start")
@@ -208,7 +208,7 @@ def main():
         print(f"backend:  {a.backend} -> {upstream} (thinking injected: {bool(b['inject'])})")
         print(f"model:    {model}")
         print(f"home:     {course_home()} (AI4SCIENCE_HOME)")
-        print(f"prompt:   {prompt_used} ({len(open(prompt_path, encoding='utf-8').read()):,} chars incl. AGENT.md)")
+        print(f"prompt:   {prompt_used} ({len(open(prompt_path, encoding='utf-8').read()):,} chars incl. AGENTS.md)")
         print(f"goose:    {goose or 'NOT FOUND'}")
         print(f"env:      {shown}")
         print(f"limits:   {limits}  workdir: {a.workdir}")

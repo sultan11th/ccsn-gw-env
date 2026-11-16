@@ -1,4 +1,4 @@
-"""Append one entry to diary.md in the format of AGENT.md §6 (date and model filled in).
+"""Append one entry to diary.md in the format of AGENTS.md §7 (date and model filled in).
 
 agent.py calls append_entry() after every `run`, so in run mode the agent never writes
 the diary itself. In an interactive session the agent ends with one command:

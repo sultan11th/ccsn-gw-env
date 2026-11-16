@@ -8,7 +8,7 @@ papers, cites every claim by file and line range, and logs its work.
 
 | Component | Where | What it does |
 |---|---|---|
-| Contract | [`AGENT.md`](AGENT.md) | Rules the agent reads at start-up: goal, data, tools, citation and verification rules, journal, forbidden actions |
+| Contract | [`AGENTS.md`](AGENTS.md) | Rules the agent reads at start-up: goal, data, tools, citation and verification rules, journal, forbidden actions |
 | Library | [`literature/catalog.yaml`](literature/catalog.yaml), `literature/md/` | 48 papers on CCSN gravitational waves (9 mine + 39 external) converted from arXiv to Markdown |
 | Ontology | [`ontology/concepts.yaml`](ontology/concepts.yaml), [`ontology/graph.md`](ontology/graph.md) | 49 concepts, 6 relation types, cited evidence for relations, links to data columns; Mermaid graph; `ontology.py audit` |
 | Search | [`src/search.py`](src/search.py) | BM25 over paragraph chunks with ontology synonyms; citations `file:Lstart-Lend § section` |
@@ -50,7 +50,7 @@ The dataset in `data/` is not committed (see `.gitignore`); put the reduced copy
 ### Running the agent
 
 The agent is Goose (the engine of the course's `ai4science`) with this project's
-`AGENT.md`. The same agent can run on three model backends; only the model changes:
+`AGENTS.md`. The same agent can run on three model backends; only the model changes:
 
 | Backend | Command | Model (default) | Cost / limit |
 |---|---|---|---|
@@ -74,7 +74,7 @@ make agent-deepseek                  # the same on DeepSeek -> results/agent_run
 ```
 
 `src/agent.py` reuses the Goose binary and the course instructions from your AI4Science
-clone, adds `AGENT.md` to the system prompt, and gives the agent Goose's shell and file
+clone, adds `AGENTS.md` to the system prompt, and gives the agent Goose's shell and file
 tools. A small local proxy (`src/llm_proxy.py`) adds the API key, switches DeepSeek's
 thinking mode off (with thinking on, DeepSeek rejects tool-using turns unless the client sends
 its reasoning back, and Goose is not built for that), and logs token usage to `results/agent_runs/usage.jsonl`.
@@ -88,7 +88,7 @@ Because Qwen3 and DeepSeek follow long prompts less reliably, the rules are enfo
   (`src/citecheck.py`) and writes the `diary.md` entry itself;
 - `make agent-*` runs every question in a read-only sandbox copy without `eval/` and `results/`,
   so the agent cannot read expected or earlier answers;
-- `make lock` makes data, papers, catalog, ontology and `AGENT.md` read-only before an
+- `make lock` makes data, papers, catalog, ontology and `AGENTS.md` read-only before an
   interactive session (`make unlock` to undo).
 
 If arXiv refuses a download, fetch the source or PDF in a browser and convert it with
@@ -97,8 +97,8 @@ If arXiv refuses a download, fetch the source or PDF in a browser and convert it
 ## Repository layout
 
 ```
-AGENT.md              contract for the agent
-REPORT.md             course report (Appendix A = AGENT.md, kept in sync by the self-test)
+AGENTS.md              contract for the agent
+REPORT.md             course report (Appendix A = AGENTS.md, kept in sync by the self-test)
 diary.md              work journal
 literature/
   catalog.yaml        bibliographic truth (48 entries, all active)

@@ -1,0 +1,19 @@
+{
+ "full": {
+  "rows": 7438,
+  "md5": {
+   "parameters.csv": "ce3c743c5db3269cb8147c651d605671",
+   "timeseries/strain.csv.gz": "295790fc5f65dceeecb809df6dd2e4b1",
+   "data_dictionary.csv": "89db9011f677aa5b7e37c3f46687d104"
+  }
+ },
+ "fragment": {
+  "rows": 810,
+  "md5": {
+   "parameters.csv": "4c9c864edefeb9b61d3c5f350787dfc9",
+   "timeseries/strain.csv.gz": "d561cf0ddf0c6b802623ee4b3eed31bd",
+   "data_dictionary.csv": "89db9011f677aa5b7e37c3f46687d104"
+  },
+  "made_by": "scripts/make_fragment.py (A in {634, 1268} km)"
+ }
+}

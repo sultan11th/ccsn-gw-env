@@ -3,7 +3,7 @@
 A citation is `literature/md/<key>.md:L<start>-L<end>`. It is
   valid      the key is in the catalog, the file exists and the line range lies inside it;
   searched   additionally, the range lies inside a hit that src/search.py printed in the
-             same transcript (AGENT.md: cite only passages the search returned).
+             same transcript (AGENTS.md: cite only passages the search returned).
 Search hits are recognised in the text output (`[3] 7.97  literature/md/...:L10-L20 § ...`)
 in --json output (`"citation": "literature/md/...:L10-L20 § ..."`) and in the evidence
 lines of `ontology.py show` (`evidence: [literature/md/...:L10-L20]`); those lines are

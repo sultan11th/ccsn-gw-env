@@ -14,7 +14,7 @@ paper is among the top 5 hits (for the negative test: whether the search is empt
 
 Agent runs: for local/deepseek calls `python3 src/agent.py --backend <b> run "<question>"`,
 for course:<alias> calls `ai4science -m <alias> run "<question>"`, in the repository root.
-Each query runs in a clean, read-only sandbox copy of the repository (AGENT.md, src/,
+Each query runs in a clean, read-only sandbox copy of the repository (AGENTS.md, src/,
 literature/, ontology/, index/, data/ and an empty results/), so the agent cannot read
 eval/queries.yaml, earlier transcripts or earlier answers. Files the agent writes to
 results/ are copied to results/agent_runs/<label>/<id>_files/.
@@ -42,10 +42,10 @@ import citecheck  # noqa: E402
 
 ROOT = Path(__file__).resolve().parent.parent
 QUERIES = ROOT / "eval" / "queries.yaml"
-PROMPT_SUFFIX = (" Answer from the local library, following AGENT.md: search first, read the passages, "
+PROMPT_SUFFIX = (" Answer from the local library, following AGENTS.md: search first, read the passages, "
                  "cite every claim with file and line range, end with the Summary, Verification and "
                  "Open issues lines.")
-SANDBOX_ITEMS = ["AGENT.md", "src", "literature/md", "literature/catalog.yaml", "ontology", "index", "data"]
+SANDBOX_ITEMS = ["AGENTS.md", "src", "literature/md", "literature/catalog.yaml", "ontology", "index", "data", "checks"]
 
 
 def make_sandbox():

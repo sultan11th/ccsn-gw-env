@@ -23,13 +23,17 @@ import argparse
 import csv
 import gzip
 import math
+import os
 import re
 import statistics
 import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-DATA = ROOT / "data" / "data"
+# $CCSN_DATA, else the full local dataset, else the small committed fragment (checks/fixtures/data)
+DATA = Path(os.environ["CCSN_DATA"]) if os.environ.get("CCSN_DATA") else (
+    ROOT / "data" / "data" if (ROOT / "data" / "data" / "parameters.csv").exists()
+    else ROOT / "checks" / "fixtures" / "data")
 PARAMS = DATA / "parameters.csv"
 STRAIN = DATA / "timeseries" / "strain.csv.gz"
 DICT = DATA / "data_dictionary.csv"

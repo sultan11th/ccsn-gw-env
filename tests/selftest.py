@@ -5,7 +5,7 @@ two synthetic e-prints from tests/fixtures (a multi-file .tar.gz and a single-fi
 .gz), builds an index and checks search, filters, citations and line ranges.
 Also: the proxy (output cap, budget), citecheck.py and diary.py on synthetic input.
 Part 2 (this repository): catalog consistency, ontology validity, Mermaid graph up to
-date, REPORT.md appendix identical to AGENT.md, diary entries from 2026-11-17 on, data.py
+date, REPORT.md appendix identical to AGENTS.md, diary entries from 2026-11-17 on, data.py
 on the local dataset (if present), and, if an index exists, that citations resolve.
 """
 import json
@@ -178,7 +178,7 @@ def checker_and_diary():
                        checks="1 valid", path=tmp)
     diary.append_entry("Q2?", "", "", "", path=tmp)
     text = tmp.read_text(encoding="utf-8")
-    check("diary.py: entries in the AGENT.md format, model filled in",
+    check("diary.py: entries in the AGENTS.md format, model filled in",
           text.count("\n## ") + text.startswith("## ") == 2 and "- Model: local:test" in text
           and "- Citation check: 1 valid" in text and "- Verification: missing" in text, text)
     shutil.rmtree(tmp.parent, ignore_errors=True)
@@ -220,8 +220,8 @@ def repository():
         check("ontology: no generic one-word synonyms", not au["generic_synonyms"], "; ".join(au["generic_synonyms"]))
 
     report = (ROOT / "REPORT.md").read_text(encoding="utf-8")
-    agent = (ROOT / "AGENT.md").read_text(encoding="utf-8").strip()
-    check("report: Appendix A is identical to AGENT.md", agent in report,
+    agent = (ROOT / "AGENTS.md").read_text(encoding="utf-8").strip()
+    check("report: Appendix A is identical to AGENTS.md", agent in report,
           "run: python3 tests/selftest.py --sync-report")
 
     entries = [e for e in (ROOT / "diary.md").read_text(encoding="utf-8").split("\n## ")
@@ -260,14 +260,14 @@ def repository():
 
 
 def sync_report():
-    """Replace Appendix A of REPORT.md with the current AGENT.md."""
+    """Replace Appendix A of REPORT.md with the current AGENTS.md."""
     report = (ROOT / "REPORT.md").read_text(encoding="utf-8")
-    start, end = "<!-- AGENT.md:BEGIN -->", "<!-- AGENT.md:END -->"
+    start, end = "<!-- AGENTS.md:BEGIN -->", "<!-- AGENTS.md:END -->"
     head, rest = report.split(start)
     _, tail = rest.split(end)
-    agent = (ROOT / "AGENT.md").read_text(encoding="utf-8").strip()
+    agent = (ROOT / "AGENTS.md").read_text(encoding="utf-8").strip()
     (ROOT / "REPORT.md").write_text(f"{head}{start}\n\n{agent}\n\n{end}{tail}", encoding="utf-8")
-    print("REPORT.md Appendix A synced with AGENT.md")
+    print("REPORT.md Appendix A synced with AGENTS.md")
 
 
 if __name__ == "__main__":

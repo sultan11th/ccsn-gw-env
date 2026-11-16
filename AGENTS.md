@@ -1,4 +1,4 @@
-# AGENT.md — Gravitational waves from core-collapse supernovae + machine learning
+# AGENTS.md — Gravitational waves from core-collapse supernovae + machine learning
 
 Contract between the researcher (Sultan Abylkairov) and the agent (Goose with Qwen3 or
 DeepSeek). It overrides the agent's general instructions. **Answer in English.**
@@ -57,11 +57,25 @@ data, so do not recompute them from the trimmed strain.
 - `cat`, `grep -r`, `find`, `head` or `less` on `literature/` or `data/`, `zcat` or pandas on `data/`:
   outputs are too long. Use `search.py`, `sed -n` on a short range and `data.py`.
 - Reading `eval/`, `results/agent_runs/` or `results/answers/` (they contain expected answers).
-- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENT.md`.
+- Changing `data/`, `literature/`, `ontology/`, `index/` or `AGENTS.md`.
 - Inventing papers, authors, arXiv IDs, DOIs, numbers, equations or section names.
 - Committing `.env` or API keys.
 
-## 6. Journal
+## 6. Verification of the data and the analysis (HW2)
+One command runs the whole verifier (contract C1-C14, mutation tests, physical properties
+P1-P7, the EOS-grouped split, the statistics code and `data.py`); see `METHOD.md`:
+
+```
+python3 -m unittest discover -s checks -v
+```
+
+It uses the full data in `data/data/` when present, otherwise the committed fragment
+`checks/fixtures/data/` (810 runs); `CCSN_DATA=<dir>` selects a directory. The experiment of
+`METHOD.md` §7 runs step by step: `python3 scripts/amp_experiment.py dry|smoke|sweep|full`.
+Do not edit `checks/` or `METHOD.md` (they are locked by `make lock`); if a check fails,
+report it instead of changing the check.
+
+## 7. Journal
 `src/agent.py run` writes the `diary.md` entry itself: do not edit `diary.md`. In an
 interactive session, end the task with one command:
 `python3 src/diary.py --request "..." --actions "..." --result "..." --verification "..." --open "none"`.

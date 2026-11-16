@@ -1,0 +1,33 @@
+file,column,unit,description
+parameters.csv,run_id,,unique run identifier: s<progenitor mass>_A<A km>_w<omega_0>_<EOS>; key shared by all files
+parameters.csv,progenitor_mass,Msun,"ZAMS mass of the progenitor model (15, 27, 40; run_id prefix s15, s27, s40)"
+parameters.csv,eos,,nuclear equation of state
+parameters.csv,A,km,"s12-equivalent differential rotation length scale (grid label, as in Richers et al. 2017); the initial model uses A_eff"
+parameters.csv,omega_0,rad/s,"s12-equivalent central angular velocity (grid label, as in Richers et al. 2017); the initial model uses omega_0_eff"
+parameters.csv,rotation_scale,,"radial scale factor s of the progenitor core relative to the s12 model of Richers et al. (2017), s ~ (rho_c,s12 / rho_c)^(1/3) from the precollapse central densities: 1.11049 (s15), 1.3416 (s27), 1.7674 (s40)"
+parameters.csv,A_eff,km,physical differential rotation length scale of the initial model: s * A
+parameters.csv,omega_0_eff,rad/s,physical initial central angular velocity of the initial model: omega_0 / s^2
+parameters.csv,t_bounce_signal_end,s,end of the bounce signal: 3rd zero crossing (from t = -2 ms) of the 2 kHz low-passed D*h+
+parameters.csv,dh_bounce_max,cm,maximum of D*h+ between the bounce spike (time of dh_bounce_min) and t_bounce_signal_end (positive peak after the spike); native-rate data
+parameters.csv,dh_bounce_min,cm,global minimum of D*h+ (bounce spike) from -50 ms to t_bounce_signal_end; in rapid rotators it occurs up to ~0.3 ms before t_bounce (Richers et al. 2017 search only after t_bounce); native-rate data
+parameters.csv,delta_dh,cm,bounce signal amplitude D*Delta h+ = dh_bounce_max - dh_bounce_min (Richers et al. 2017; see dh_bounce_min)
+parameters.csv,dh_prebounce_max,cm,positive peak of D*h+ before the bounce spike (maximum from -50 ms to the time of dh_bounce_min); native-rate data
+parameters.csv,f_peak,Hz,"peak frequency of postbounce PNS oscillations (Richers et al. 2017): largest feature of |FT(D*h+ up to t_bounce_signal_end + 6 ms)| - |FT(D*h+ up to t_bounce_signal_end)|, searched in 600-1075 Hz for the intermediate-Omega_0 run of each (progenitor, EOS, A) sequence and in a 75 Hz window centred on the adjacent run otherwise; if the run ends up to 0.3 ms before t_bounce_signal_end + 6 ms the window ends at the last sample. Exception (deviation from the published method): for s40, A = 300 km, SFHo, omega_0 = 4.0-8.0 rad/s (9 runs) the strongest feature in 600-1075 Hz (~820 Hz mode) instead of the tracked ~1000 Hz mode. Richers et al. (2017) consider f_peak less robust for beta_ic_b < 0.02 (weak oscillations) or > 0.17 (several nonlinear modes)"
+parameters.csv,omega_max,rad/s,highest equatorial angular velocity v_phi/r outside r = 5 km reached at any output time (Richers et al. 2017)
+parameters.csv,beta_ic_b,,T/|W| of the inner core at bounce
+parameters.csv,beta_b,,T/|W| of the whole star at bounce
+parameters.csv,mgrav_ic_b,Msun,gravitational mass of the inner core at bounce
+parameters.csv,mrest_ic_b,Msun,rest mass of the inner core at bounce
+parameters.csv,mgrav_ic_pb,Msun,"inner-core gravitational mass averaged over [t_bounce_signal_end, t_bounce_signal_end + 6 ms]"
+parameters.csv,mgrav_b,Msun,total gravitational mass on the grid at bounce
+parameters.csv,j_ic_b,g cm^2/s,angular momentum of the inner core at bounce
+parameters.csv,j_b,g cm^2/s,total angular momentum on the grid at bounce
+parameters.csv,rho_c_b,g/cm^3,central rest-mass density at bounce
+parameters.csv,rho_c_pb,g/cm^3,"central rest-mass density averaged over [t_bounce_signal_end, t_bounce_signal_end + 6 ms] (rho_bar_c of Richers et al. 2017)"
+parameters.csv,T_c_b,MeV,central temperature at bounce
+parameters.csv,s_c_b,kB/baryon,central specific entropy at bounce
+parameters.csv,ye_c_b,,central electron fraction at bounce
+parameters.csv,alpha_c_b,,central lapse function at bounce
+parameters.csv,r_pns_eq_b,km,equatorial radius of the rho = 1e11 g/cm^3 contour at bounce
+parameters.csv,r_pns_pole_b,km,polar radius of the rho = 1e11 g/cm^3 contour at bounce
+timeseries/strain.csv.gz,(all time columns),cm,"D*h+ : distance times plus polarisation of the GW strain, observer in the equatorial plane"
