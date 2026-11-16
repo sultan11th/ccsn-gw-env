@@ -13,12 +13,15 @@ def group_kfold(groups, k, seed):
     names = sorted(set(groups))
     if not 2 <= k <= len(names):
         raise ValueError(f"need 2 <= k <= number of groups ({len(names)}), got k={k}")
-    random.Random(seed).shuffle(names)
-    fold_of = {g: i % k for i, g in enumerate(names)}
+    # INJECTED ERROR (branch hw2-injected-error): rows are dealt to folds one by one, as in a
+    # plain shuffled k-fold, so waveforms of one EOS land in both train and test (leakage).
+    order = list(range(len(groups)))
+    random.Random(seed).shuffle(order)
+    fold_of = {i: n % k for n, i in enumerate(order)}
     folds = []
     for f in range(k):
-        test = [i for i, g in enumerate(groups) if fold_of[g] == f]
-        train = [i for i, g in enumerate(groups) if fold_of[g] != f]
+        test = [i for i in range(len(groups)) if fold_of[i] == f]
+        train = [i for i in range(len(groups)) if fold_of[i] != f]
         folds.append((train, test))
     return folds
 
