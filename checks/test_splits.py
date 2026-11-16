@@ -2,8 +2,8 @@
 import random
 import unittest
 
-from _common import rows
-from hw2lib import group_kfold
+from _common import cc, rows
+from hw2lib import DISTINGUISHABLE, EOS_FAMILY, group_kfold
 
 
 def generated_cases(n_cases=200, seed=12345):
@@ -53,6 +53,41 @@ class GroupKFold(unittest.TestCase):
     def test_rejects_impossible_k(self):
         with self.assertRaises(ValueError):
             group_kfold(["a", "b"], 3, 0)
+
+
+class EOSFamilies(unittest.TestCase):
+    """Revision R1 of METHOD.md: folds of whole EOS families (10 families of the 18 EOS)."""
+
+    def test_family_map_covers_the_18_eos_once(self):
+        self.assertEqual(set(EOS_FAMILY), cc.EOS)
+
+    def test_ten_families_each_with_one_distinguishable_eos(self):
+        families = {}
+        for eos, fam in EOS_FAMILY.items():
+            families.setdefault(fam, set()).add(eos)
+        self.assertEqual(len(families), 10)
+        self.assertEqual(set(families), set(DISTINGUISHABLE))
+        for fam, members in families.items():
+            self.assertEqual(members & set(DISTINGUISHABLE), {fam}, f"family {fam}: {sorted(members)}")
+
+    def test_family_folds_on_real_labels_have_no_family_or_eos_on_both_sides(self):
+        eos = [r["eos"] for r in rows()]
+        fam = [EOS_FAMILY[e] for e in eos]
+        for seed in range(5):
+            folds = group_kfold(fam, 5, seed)
+            self.assertEqual(sorted(i for _, te in folds for i in te), list(range(len(eos))))
+            for train, test in folds:
+                self.assertFalse({fam[i] for i in train} & {fam[i] for i in test})
+                self.assertFalse({eos[i] for i in train} & {eos[i] for i in test})
+                self.assertEqual(len({fam[i] for i in test}), 2)
+
+    def test_eos_folds_split_families_the_leak_r1_removes(self):
+        eos = [r["eos"] for r in rows()]
+        leaks = 0
+        for seed in range(5):
+            for train, test in group_kfold(eos, 6, seed):
+                leaks += bool({EOS_FAMILY[eos[i]] for i in train} & {EOS_FAMILY[eos[i]] for i in test})
+        self.assertGreater(leaks, 0, "EOS-grouped folds never split a family")
 
 
 if __name__ == "__main__":

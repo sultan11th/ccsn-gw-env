@@ -3,6 +3,22 @@ import math
 import random
 
 
+# ----------------------------------------------------------------------------- EOS families
+# METHOD.md §9, revision R1: the 10 EOS with distinguishable bounce signals
+# (literature/md/akhmetali2026_networkeos.md:L79-L81) and the EOS whose GWs are very similar
+# to one of them (literature/md/abylkairov2025_distance.md:L185-L185 and the author).
+DISTINGUISHABLE = ("LS180", "LS220", "LS375", "HSTM1", "HSDD2", "HSIUF", "SFHo", "GShenNL3", "GShenFSU2.1", "HShen")
+EOS_FAMILY = {
+    "LS180": "LS180", "LS220": "LS220", "LS375": "LS375", "GShenNL3": "GShenNL3",
+    "HSDD2": "HSDD2", "BHBl": "HSDD2", "BHBlp": "HSDD2", "HSTMA": "HSDD2",
+    "HShen": "HShen", "HShenH": "HShen",
+    "GShenFSU2.1": "GShenFSU2.1", "GShenFSU1.7": "GShenFSU2.1",
+    "SFHo": "SFHo", "SFHx": "SFHo",
+    "HSTM1": "HSTM1", "HSNL3": "HSTM1",
+    "HSIUF": "HSIUF", "HSFSG": "HSIUF",
+}
+
+
 # ----------------------------------------------------------------------------- split
 def group_kfold(groups, k, seed):
     """Split row indices into k folds so that no group (e.g. EOS) is in both train and test.

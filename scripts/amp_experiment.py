@@ -1,6 +1,9 @@
 """HW2 experiment: does T/|W| predict the bounce amplitude on unseen EOS better than omega_0?
 
-    python3 scripts/amp_experiment.py dry | smoke | sweep | full  [--data DIR]
+    python3 scripts/amp_experiment.py dry | smoke | sweep | full  [--data DIR] [--group eos|family]
+
+--group eos (default) is the original analysis of METHOD.md §7 (6 folds of 3 EOS);
+--group family is revision R1 of METHOD.md §9 (5 folds of 2 EOS families).
 
 Steps, models, split, statistics and the decision follow METHOD.md §7-8 exactly. Each step
 prints PASSED or exits with code 1, and appends a line to results/hw2/RUNLOG.md; `full`
@@ -17,12 +20,14 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "src"))
 import ccsn_contract as cc  # noqa: E402
-from hw2lib import decide, group_kfold, holm, ols, paired_t, rmse  # noqa: E402
+from hw2lib import EOS_FAMILY, decide, group_kfold, holm, ols, paired_t, rmse  # noqa: E402
 
 OUT = ROOT / "results" / "hw2"
 PROGENITORS = (15, 27, 40)
 SEEDS = (0, 1, 2, 3, 4)
-K = 6
+K = {"eos": 6, "family": 5}
+N_GROUPS = {"eos": 18, "family": 10}
+GROUP = "eos"                                    # set from --group in main()
 REGIME = (0.02, 0.06)
 PREDICTORS = ("beta_ic_b", "omega_0")            # test, baseline
 ALPHA, DELTA_REL = 0.05, 0.05
@@ -50,11 +55,15 @@ def select(rows, prog):
     return [r for r in rows if r["progenitor_mass"] == prog and REGIME[0] <= r["beta_ic_b"] <= REGIME[1]]
 
 
+def group_of(r):
+    return r["eos"] if GROUP == "eos" else EOS_FAMILY[r["eos"]]
+
+
 def cv_rmse(rows, x_col, seed):
-    """Pooled held-out RMSE of delta_dh over the K EOS-grouped folds; also the fitted slopes."""
-    groups = [r["eos"] for r in rows]
+    """Pooled held-out RMSE of delta_dh over the grouped folds; also the fitted slopes."""
+    groups = [group_of(r) for r in rows]
     y_all, yhat_all, slopes = [], [], []
-    for train, test in group_kfold(groups, K, seed):
+    for train, test in group_kfold(groups, K[GROUP], seed):
         a, b = ols([rows[i][x_col] for i in train], [rows[i]["delta_dh"] for i in train])
         slopes.append(b)
         y_all += [rows[i]["delta_dh"] for i in test]
@@ -63,8 +72,8 @@ def cv_rmse(rows, x_col, seed):
 
 
 def is_partition(rows, seed):
-    groups = [r["eos"] for r in rows]
-    folds = group_kfold(groups, K, seed)
+    groups = [group_of(r) for r in rows]
+    folds = group_kfold(groups, K[GROUP], seed)
     tests = sorted(i for _, te in folds for i in te)
     disjoint = all(not ({groups[i] for i in tr} & {groups[i] for i in te}) for tr, te in folds)
     return tests == list(range(len(rows))) and disjoint
@@ -74,7 +83,11 @@ def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("step", choices=["dry", "smoke", "sweep", "full"])
     ap.add_argument("--data", help="data directory (default: full data if present, else the fragment)")
+    ap.add_argument("--group", choices=["eos", "family"], default="eos",
+                    help="fold groups: single EOS (METHOD.md §7) or EOS families (revision R1)")
     a = ap.parse_args()
+    global GROUP
+    GROUP = a.group
     d = cc.data_dir(a.data)
     rev = cc.revision(d) or "unknown"
 
@@ -85,9 +98,10 @@ def main():
         finish(a.step, d, rev, False, f"contract violated: {', '.join(broken)} (run python3 src/ccsn_contract.py)")
     rows = cc.load(d)
     sel = {p: select(rows, p) for p in PROGENITORS}
-    counts = {p: (len(v), len({r['eos'] for r in v})) for p, v in sel.items()}
-    ok = all(n >= 50 and n_eos == 18 for n, n_eos in counts.values())
-    note = "slow runs (n, EOS) per progenitor: " + ", ".join(f"s{p}: {n}, {e}" for p, (n, e) in counts.items())
+    counts = {p: (len(v), len({group_of(r) for r in v})) for p, v in sel.items()}
+    ok = all(n >= 50 and n_g == N_GROUPS[GROUP] for n, n_g in counts.values())
+    note = (f"[groups: {GROUP}] slow runs (n, {GROUP} groups) per progenitor: "
+            + ", ".join(f"s{p}: {n}, {e}" for p, (n, e) in counts.items()))
     if a.step == "dry":
         finish("dry", d, rev, ok, "contract OK; " + note)
     if not ok:
@@ -98,7 +112,7 @@ def main():
         r_beta, slopes = cv_rmse(sel[15], "beta_ic_b", 0)
         r_omega, _ = cv_rmse(sel[15], "omega_0", 0)
         ok = all(math.isfinite(v) and v > 0 for v in (r_beta, r_omega)) and all(s > 0 for s in slopes)
-        finish("smoke", d, rev, ok, f"s15 seed 0: RMSE beta {r_beta:.3f} cm, omega_0 {r_omega:.3f} cm; "
+        finish("smoke", d, rev, ok, f"[groups: {GROUP}] s15 seed 0: RMSE beta {r_beta:.3f} cm, omega_0 {r_omega:.3f} cm; "
                f"beta slopes {min(slopes):.4g}..{max(slopes):.4g} cm")
 
     # sweep -----------------------------------------------------------------------------
@@ -110,8 +124,8 @@ def main():
     parts = all(is_partition(sel[p], s) for p in PROGENITORS for s in SEEDS)
     ok = all(math.isfinite(v) for v in table.values()) and parts
     if a.step == "sweep":
-        finish("sweep", d, rev, ok, f"{len(table)} RMSEs finite: {all(math.isfinite(v) for v in table.values())}; "
-               f"folds are partitions with disjoint EOS: {parts}")
+        finish("sweep", d, rev, ok, f"[groups: {GROUP}] {len(table)} RMSEs finite: {all(math.isfinite(v) for v in table.values())}; "
+               f"folds are partitions with disjoint {GROUP} groups: {parts}")
     if not ok:
         finish("full", d, rev, False, "sweep condition not met")
 
@@ -131,15 +145,19 @@ def main():
     accepted = all(stats[p]["decision"] == "T/|W| better" for p in PROGENITORS)
     OUT.mkdir(parents=True, exist_ok=True)
     meta = {"data": str(d.relative_to(ROOT)) if d.is_relative_to(ROOT) else str(d), "revision": rev,
-            "python": platform.python_version(), "seeds": SEEDS, "k": K, "regime": REGIME, "alpha": ALPHA,
+            "group": GROUP, "python": platform.python_version(), "seeds": SEEDS, "k": K[GROUP], "regime": REGIME,
+            "alpha": ALPHA,
             "delta_rel": DELTA_REL, "time": dt.datetime.now().isoformat(timespec="seconds")}
-    (OUT / f"experiment_{rev}.json").write_text(json.dumps(
+    tag = rev if GROUP == "eos" else f"{rev}_family"
+    (OUT / f"experiment_{tag}.json").write_text(json.dumps(
         {"meta": meta, "claim_H_accepted": accepted, "per_progenitor": {str(p): v for p, v in stats.items()}},
         indent=1, default=list) + "\n", encoding="utf-8")
-    md = [f"# Claim H on the `{rev}` data", "",
+    how = ("6 folds of 3 EOS (METHOD.md §7)" if GROUP == "eos"
+           else "5 folds of 2 EOS families (METHOD.md §9, revision R1)")
+    md = [f"# Claim H on the `{rev}` data, folds grouped by {GROUP}", "",
           f"Data `{meta['data']}` (revision `{rev}`), Python {meta['python']}, seeds {list(SEEDS)}, "
-          f"{K} EOS-grouped folds, regime {REGIME[0]} <= T/|W| <= {REGIME[1]}. Generated by "
-          f"`python3 scripts/amp_experiment.py full`.", "",
+          f"{how}, regime {REGIME[0]} <= T/|W| <= {REGIME[1]}. Generated by "
+          f"`python3 scripts/amp_experiment.py full --group {GROUP}`.", "",
           "Held-out RMSE of D·Δh [cm] per seed (T/|W| model / Ω₀ baseline):", "",
           "| Progenitor | Runs | " + " | ".join(f"seed {s}" for s in SEEDS) + " |",
           "|---|---|" + "---|" * len(SEEDS)]
@@ -161,11 +179,12 @@ def main():
         st = stats[p]
         md.append(f"| s{p} | {st['mean']:.2f} | {st['sd']:.3f} | [{st['ci'][0]:.2f}; {st['ci'][1]:.2f}] | "
                   f"{st['p']:.2e} | {st['p_holm']:.2e} | {st['delta']:.2f} | {st['decision']} |")
-    md += ["", f"**Claim H {'accepted' if accepted else 'not accepted'}** by the rule of METHOD.md §7."]
+    md += ["", f"**Claim H {'accepted' if accepted else 'not accepted'}** by the rule of "
+           f"{'METHOD.md §7' if GROUP == 'eos' else 'METHOD.md §9, revision R1'}."]
     md = [ln.replace("T/|W|", "T/\\|W\\|") if ln.startswith("|") else ln for ln in md]   # pipes in table cells
-    (OUT / f"experiment_{rev}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+    (OUT / f"experiment_{tag}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
-    finish("full", d, rev, True, f"claim H {'accepted' if accepted else 'not accepted'}; "
+    finish("full", d, rev, True, f"[groups: {GROUP}] claim H {'accepted' if accepted else 'not accepted'}; "
            + "; ".join(f"s{p}: {stats[p]['decision']}" for p in PROGENITORS))
 
 
