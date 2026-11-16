@@ -36,7 +36,7 @@ def log(step, data, revision, ok, note):
                      encoding="utf-8")
     with open(f, "a", encoding="utf-8") as fh:
         fh.write(f"| {dt.datetime.now():%Y-%m-%d %H:%M:%S} | {step} | {data} | {revision} | "
-                 f"{'PASSED' if ok else 'FAILED'} | {note} |\n")
+                 f"{'PASSED' if ok else 'FAILED'} | {note.replace('|', chr(92) + '|')} |\n")
 
 
 def finish(step, d, rev, ok, note):
@@ -162,6 +162,7 @@ def main():
         md.append(f"| s{p} | {st['mean']:.2f} | {st['sd']:.3f} | [{st['ci'][0]:.2f}; {st['ci'][1]:.2f}] | "
                   f"{st['p']:.2e} | {st['p_holm']:.2e} | {st['delta']:.2f} | {st['decision']} |")
     md += ["", f"**Claim H {'accepted' if accepted else 'not accepted'}** by the rule of METHOD.md §7."]
+    md = [ln.replace("T/|W|", "T/\\|W\\|") if ln.startswith("|") else ln for ln in md]   # pipes in table cells
     (OUT / f"experiment_{rev}.md").write_text("\n".join(md) + "\n", encoding="utf-8")
     print("\n".join(md))
     finish("full", d, rev, True, f"claim H {'accepted' if accepted else 'not accepted'}; "

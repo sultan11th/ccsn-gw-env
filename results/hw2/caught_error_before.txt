@@ -1,0 +1,2068 @@
+$ git checkout hw2-injected-error   # commit de3fe99
+$ python3 -m unittest discover -s checks -v
+test_C10_revision (test_contract.Contract) ... ok
+test_C11_strain_alignment (test_contract.Contract) ... ok
+test_C12_time_grid (test_contract.Contract) ... ok
+test_C13_strain_cells (test_contract.Contract) ... ok
+test_C14_strain_vs_dh_bounce_min (test_contract.Contract) ... ok
+test_C1_columns (test_contract.Contract) ... ok
+test_C2_types (test_contract.Contract) ... ok
+test_C3_units (test_contract.Contract) ... ok
+test_C4_key (test_contract.Contract) ... ok
+test_C5_categories (test_contract.Contract) ... ok
+test_C6_grid (test_contract.Contract) ... ok
+test_C7_rotation_scale (test_contract.Contract) ... ok
+test_C8_identities (test_contract.Contract) ... ok
+test_C9_ranges (test_contract.Contract) ... ok
+test_detects_C1 (test_contract_mutations.Mutations) ... ok
+test_detects_C10 (test_contract_mutations.Mutations) ... ok
+test_detects_C11 (test_contract_mutations.Mutations) ... ok
+test_detects_C12 (test_contract_mutations.Mutations) ... ok
+test_detects_C13 (test_contract_mutations.Mutations) ... ok
+test_detects_C14 (test_contract_mutations.Mutations) ... ok
+test_detects_C2 (test_contract_mutations.Mutations) ... ok
+test_detects_C3 (test_contract_mutations.Mutations) ... ok
+test_detects_C4 (test_contract_mutations.Mutations) ... ok
+test_detects_C5 (test_contract_mutations.Mutations) ... ok
+test_detects_C6 (test_contract_mutations.Mutations) ... ok
+test_detects_C7 (test_contract_mutations.Mutations) ... ok
+test_detects_C8 (test_contract_mutations.Mutations) ... ok
+test_detects_C9 (test_contract_mutations.Mutations) ... ok
+test_unmodified_copy_passes (test_contract_mutations.Mutations) ... ok
+test_out_is_idempotent (test_datatool.DataTool) ... ok
+test_printed_rows_are_capped (test_datatool.DataTool) ... ok
+test_two_filters_are_the_intersection (test_datatool.DataTool) ... ok
+test_P1_gravitational_mass_below_rest_mass (test_properties.Physics) ... ok
+test_P2_rotating_core_is_oblate (test_properties.Physics) ... ok
+test_P3_electron_fraction_neutron_rich (test_properties.Physics) ... ok
+test_P4_lapse_between_0_and_1 (test_properties.Physics) ... ok
+test_P5_inner_core_is_part_of_the_grid (test_properties.Physics) ... ok
+test_P6_below_bar_mode_threshold (test_properties.Physics) ... ok
+test_P7_rotation_at_bounce_grows_with_omega0_in_slow_regime (test_properties.Physics) ... ok
+test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) ... test_real_eos_labels_three_eos_per_fold (test_splits.GroupKFold) ... FAIL
+test_rejects_impossible_k (test_splits.GroupKFold) ... ok
+test_same_seed_same_folds (test_splits.GroupKFold) ... ok
+test_seeds_change_the_assignment (test_splits.GroupKFold) ... ok
+test_decision_rule (test_stats.Stats) ... ok
+test_holm_known_and_properties (test_stats.Stats) ... ok
+test_ols_recovers_exact_line (test_stats.Stats) ... ok
+test_paired_t_known_value (test_stats.Stats) ... ok
+test_rmse (test_stats.Stats) ... ok
+test_t_cdf_known_quantiles (test_stats.Stats) ... ok
+test_t_cdf_symmetry_and_inverse (test_stats.Stats) ... ok
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=20, k=4, seed=215706)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g13', 'g12'} is not false : fold 0: groups ['g12', 'g13'] in both train and test (n=20, groups=15, k=4, seed=215706)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=64, k=9, seed=928974)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g9', 'g20', 'g7', 'g6', 'g12', 'g10'} is not false : fold 0: groups ['g10', 'g12', 'g20'] in both train and test (n=64, groups=25, k=9, seed=928974)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=56, k=4, seed=822252)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g3'] in both train and test (n=56, groups=7, k=4, seed=822252)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=49, k=6, seed=131554)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g9', 'g1', 'g16', 'g12'} is not false : fold 0: groups ['g1', 'g12', 'g16'] in both train and test (n=49, groups=29, k=6, seed=131554)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=43, k=5, seed=419112)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g0', 'g3', 'g8', 'g2', 'g6', 'g12'} is not false : fold 0: groups ['g0', 'g11', 'g12'] in both train and test (n=43, groups=14, k=5, seed=419112)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=59, k=7, seed=257198)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g8', 'g7', 'g2', 'g16', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g10', 'g12'] in both train and test (n=59, groups=17, k=7, seed=257198)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=258, k=6, seed=149525)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g12', 'g17', 'g19', 'g5', 'g14', 'g0', 'g3', 'g9', 'g22', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=258, groups=24, k=6, seed=149525)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=125, k=2, seed=404638)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g9', 'g8', 'g7', 'g2', 'g6', 'g1', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=125, groups=12, k=2, seed=404638)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=284, k=2, seed=88821)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g25', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g14', 'g5', 'g0', 'g9', 'g3', 'g2', 'g22', 'g8', 'g26', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=284, groups=27, k=2, seed=88821)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=214, k=9, seed=268016)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g4', 'g0', 'g3', 'g9', 'g8', 'g20', 'g13', 'g2', 'g6', 'g7', 'g17', 'g19', 'g10', 'g25'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=214, groups=29, k=9, seed=268016)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=28, k=3, seed=708793)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g3', 'g9', 'g2', 'g12', 'g17'} is not false : fold 0: groups ['g12', 'g17', 'g2'] in both train and test (n=28, groups=21, k=3, seed=708793)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=246, k=2, seed=655509)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=246, groups=6, k=2, seed=655509)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=38, k=2, seed=999157)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=38, groups=6, k=2, seed=999157)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=206, k=5, seed=556175)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g23', 'g17', 'g12', 'g10', 'g14', 'g5', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g1', 'g24', 'g16'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=206, groups=26, k=5, seed=556175)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=194, k=2, seed=792478)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=194, groups=8, k=2, seed=792478)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=42, k=4, seed=715567)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g7', 'g23', 'g19', 'g10', 'g25'} is not false : fold 0: groups ['g10', 'g19', 'g23'] in both train and test (n=42, groups=26, k=4, seed=715567)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=250, k=5, seed=807452)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g5', 'g14', 'g0', 'g3', 'g2', 'g27', 'g22', 'g8', 'g26', 'g1', 'g24', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=250, groups=28, k=5, seed=807452)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=225, k=6, seed=761086)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g9', 'g8', 'g13', 'g10', 'g2', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=225, groups=14, k=6, seed=761086)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=73, k=6, seed=924985)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g3', 'g9', 'g8', 'g2', 'g7'} is not false : fold 0: groups ['g2', 'g3', 'g4'] in both train and test (n=73, groups=10, k=6, seed=924985)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=268, k=4, seed=793552)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=268, groups=5, k=4, seed=793552)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=283, k=8, seed=198779)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g9', 'g7', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=283, groups=13, k=8, seed=198779)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=162, k=2, seed=970911)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g0', 'g3', 'g9', 'g8', 'g7', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=162, groups=13, k=2, seed=970911)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=181, k=8, seed=980804)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=181, groups=11, k=8, seed=980804)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=282, k=2, seed=262219)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g12', 'g17', 'g19', 'g10', 'g5', 'g14', 'g0', 'g9', 'g3', 'g2', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=282, groups=22, k=2, seed=262219)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=290, k=2, seed=74059)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=290, groups=11, k=2, seed=74059)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=30, k=5, seed=482017)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g0', 'g4', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g4'] in both train and test (n=30, groups=6, k=5, seed=482017)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=108, k=3, seed=985377)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g14', 'g3', 'g9', 'g8', 'g13', 'g7', 'g2', 'g6', 'g1', 'g15', 'g16', 'g12', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=108, groups=17, k=3, seed=985377)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=295, k=3, seed=28388)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=295, groups=8, k=3, seed=28388)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=58, k=5, seed=514802)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=58, groups=11, k=5, seed=514802)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=260, k=8, seed=413689)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g0', 'g9', 'g3', 'g8', 'g13', 'g7', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=260, groups=14, k=8, seed=413689)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=221, k=4, seed=313364)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g14', 'g11', 'g0', 'g5', 'g3', 'g13', 'g8', 'g9', 'g10', 'g2', 'g1', 'g15', 'g16', 'g12', 'g17', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=221, groups=18, k=4, seed=313364)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=216, k=9, seed=493523)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g3', 'g20', 'g9', 'g22', 'g6', 'g23', 'g15', 'g24', 'g18', 'g17', 'g12', 'g21', 'g10', 'g25'} is not false : fold 0: groups ['g10', 'g11', 'g12'] in both train and test (n=216, groups=26, k=9, seed=493523)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=14, k=3, seed=253277)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g3', 'g1'} is not false : fold 0: groups ['g1', 'g2', 'g3'] in both train and test (n=14, groups=6, k=3, seed=253277)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=202, k=2, seed=235149)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=202, groups=8, k=2, seed=235149)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=192, k=4, seed=775461)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g1', 'g0', 'g2', 'g3'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=192, groups=4, k=4, seed=775461)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=112, k=10, seed=528147)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g0', 'g20', 'g13', 'g23', 'g1', 'g24', 'g16', 'g12', 'g21', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g12'] in both train and test (n=112, groups=28, k=10, seed=528147)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=137, k=5, seed=276976)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g9', 'g13', 'g7', 'g2', 'g6', 'g1', 'g15', 'g16', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=137, groups=17, k=5, seed=276976)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=162, k=4, seed=27659)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g4', 'g11', 'g5', 'g0', 'g3', 'g9', 'g8', 'g13', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=162, groups=15, k=4, seed=27659)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=53, k=7, seed=427301)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g3', 'g6', 'g18', 'g12', 'g19', 'g7'} is not false : fold 0: groups ['g12', 'g18', 'g19'] in both train and test (n=53, groups=22, k=7, seed=427301)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=260, k=4, seed=750342)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=260, groups=5, k=4, seed=750342)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=269, k=2, seed=454277)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=269, groups=3, k=2, seed=454277)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=62, k=6, seed=739686)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g3', 'g8', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g1', 'g3', 'g4'] in both train and test (n=62, groups=9, k=6, seed=739686)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=210, k=7, seed=778369)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g9', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=210, groups=10, k=7, seed=778369)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=140, k=3, seed=320401)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=140, groups=9, k=3, seed=320401)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=162, k=3, seed=754353)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g1', 'g0', 'g2', 'g3'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=162, groups=4, k=3, seed=754353)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=199, k=3, seed=116067)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g4', 'g11', 'g5', 'g0', 'g9', 'g13', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=199, groups=15, k=3, seed=116067)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=249, k=3, seed=505529)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g9', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=249, groups=10, k=3, seed=505529)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=185, k=8, seed=126422)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g3', 'g20', 'g8', 'g10', 'g2', 'g6', 'g1', 'g15', 'g16', 'g18', 'g17', 'g19', 'g7'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=185, groups=24, k=8, seed=126422)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=184, k=4, seed=647553)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=184, groups=6, k=4, seed=647553)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=285, k=3, seed=737188)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g7', 'g2', 'g6', 'g1', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=285, groups=11, k=3, seed=737188)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=192, k=10, seed=52870)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g0', 'g27', 'g29', 'g3', 'g8', 'g28', 'g1', 'g16', 'g18', 'g12', 'g21', 'g25'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=192, groups=30, k=10, seed=52870)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=78, k=7, seed=124158)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g3', 'g8', 'g16', 'g18', 'g21', 'g19', 'g10', 'g25'} is not false : fold 0: groups ['g10', 'g16', 'g18'] in both train and test (n=78, groups=28, k=7, seed=124158)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=28, k=5, seed=706654)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g8', 'g2', 'g1', 'g7'} is not false : fold 0: groups ['g1', 'g2', 'g5'] in both train and test (n=28, groups=9, k=5, seed=706654)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=32, k=10, seed=764188)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g21', 'g3'} is not false : fold 0: groups ['g21', 'g3', 'g4'] in both train and test (n=32, groups=22, k=10, seed=764188)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=52, k=2, seed=400661)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=52, groups=3, k=2, seed=400661)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=293, k=5, seed=214291)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g14', 'g11', 'g0', 'g3', 'g13', 'g8', 'g9', 'g7', 'g2', 'g1', 'g15', 'g16', 'g18', 'g17', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=293, groups=19, k=5, seed=214291)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=50, k=4, seed=39538)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g8', 'g2', 'g6', 'g7'} is not false : fold 0: groups ['g0', 'g2', 'g3'] in both train and test (n=50, groups=9, k=4, seed=39538)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=115, k=4, seed=899330)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g13', 'g9', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=115, groups=15, k=4, seed=899330)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=236, k=2, seed=808747)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g2', 'g3', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=236, groups=4, k=2, seed=808747)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=72, k=7, seed=539351)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g3', 'g22', 'g8', 'g7', 'g6', 'g17', 'g21', 'g19', 'g10'} is not false : fold 0: groups ['g10', 'g14', 'g17'] in both train and test (n=72, groups=24, k=7, seed=539351)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=289, k=4, seed=638247)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g13', 'g6', 'g12', 'g17', 'g19', 'g10', 'g14', 'g5', 'g0', 'g9', 'g3', 'g2', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=289, groups=21, k=4, seed=638247)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=191, k=6, seed=994266)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g4', 'g11', 'g0', 'g9', 'g22', 'g8', 'g20', 'g3', 'g6', 'g26', 'g23', 'g24', 'g16', 'g12', 'g17', 'g10', 'g25'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=191, groups=27, k=6, seed=994266)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=214, k=3, seed=951873)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=214, groups=9, k=3, seed=951873)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=229, k=10, seed=656660)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g0', 'g22', 'g13', 'g9', 'g20', 'g2', 'g6', 'g26', 'g23', 'g15', 'g24', 'g16', 'g25'} is not false : fold 0: groups ['g0', 'g11', 'g13'] in both train and test (n=229, groups=27, k=10, seed=656660)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=41, k=5, seed=375374)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g8', 'g2', 'g1', 'g15', 'g17', 'g12'} is not false : fold 0: groups ['g1', 'g12', 'g15'] in both train and test (n=41, groups=20, k=5, seed=375374)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=220, k=7, seed=213685)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g0', 'g3', 'g9', 'g13', 'g8', 'g10', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=220, groups=15, k=7, seed=213685)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=152, k=2, seed=745752)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=152, groups=3, k=2, seed=745752)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=170, k=2, seed=513354)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g4', 'g0', 'g9', 'g13', 'g8', 'g3', 'g7', 'g2', 'g6', 'g1', 'g15', 'g16', 'g17', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=170, groups=18, k=2, seed=513354)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=223, k=3, seed=424881)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g0', 'g3', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=223, groups=4, k=3, seed=424881)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=207, k=5, seed=919263)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=207, groups=13, k=5, seed=919263)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=220, k=10, seed=717656)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g14', 'g11', 'g3', 'g20', 'g8', 'g9', 'g10', 'g2', 'g6', 'g1', 'g15', 'g18', 'g19', 'g7'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=220, groups=22, k=10, seed=717656)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=219, k=7, seed=736047)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g9', 'g3', 'g8', 'g2', 'g6', 'g1', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=219, groups=12, k=7, seed=736047)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=64, k=10, seed=966981)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g9', 'g1', 'g15', 'g12'} is not false : fold 0: groups ['g1', 'g11', 'g12'] in both train and test (n=64, groups=16, k=10, seed=966981)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=46, k=3, seed=553912)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g14', 'g11', 'g0', 'g8', 'g2', 'g1', 'g18', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=46, groups=20, k=3, seed=553912)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=20, k=8, seed=134510)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g7'} is not false : fold 0: groups ['g7'] in both train and test (n=20, groups=17, k=8, seed=134510)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=124, k=4, seed=478396)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=124, groups=9, k=4, seed=478396)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=173, k=6, seed=703442)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g15', 'g18', 'g21', 'g13', 'g23', 'g12', 'g19', 'g10', 'g5', 'g14', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g1', 'g16'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=173, groups=25, k=6, seed=703442)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=117, k=2, seed=443617)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g14', 'g11', 'g5', 'g0', 'g3', 'g13', 'g8', 'g9', 'g7', 'g2', 'g6', 'g1', 'g15', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=117, groups=16, k=2, seed=443617)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=65, k=4, seed=947991)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=65, groups=10, k=4, seed=947991)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=168, k=9, seed=133100)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g13', 'g2', 'g6', 'g1', 'g15', 'g16', 'g18', 'g12', 'g19', 'g7'} is not false : fold 0: groups ['g1', 'g11', 'g12'] in both train and test (n=168, groups=22, k=9, seed=133100)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=35, k=6, seed=536836)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g15', 'g11'} is not false : fold 1: groups ['g11', 'g15'] in both train and test (n=35, groups=29, k=6, seed=536836)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=238, k=3, seed=700321)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g12', 'g17', 'g19', 'g10', 'g5', 'g14', 'g0', 'g9', 'g3', 'g2', 'g22', 'g8', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=238, groups=25, k=3, seed=700321)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=137, k=9, seed=579342)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g9', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=137, groups=10, k=9, seed=579342)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=87, k=4, seed=619534)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g0', 'g20', 'g26', 'g1', 'g23', 'g24', 'g17', 'g19', 'g7', 'g25'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=87, groups=27, k=4, seed=619534)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=284, k=8, seed=116897)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=284, groups=11, k=8, seed=116897)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=172, k=10, seed=760713)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g0', 'g9', 'g3', 'g2', 'g6', 'g23', 'g15', 'g24', 'g16', 'g18', 'g12', 'g19', 'g10'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=172, groups=27, k=10, seed=760713)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=122, k=10, seed=99773)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g13', 'g20', 'g8', 'g2', 'g1', 'g18', 'g19'} is not false : fold 0: groups ['g1', 'g13', 'g18'] in both train and test (n=122, groups=26, k=10, seed=99773)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=141, k=6, seed=210390)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g0', 'g3', 'g10', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=141, groups=13, k=6, seed=210390)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=199, k=3, seed=414576)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g4', 'g0', 'g9', 'g13', 'g8', 'g3', 'g7', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=199, groups=15, k=3, seed=414576)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=199, k=3, seed=461595)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g0', 'g3', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=199, groups=4, k=3, seed=461595)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=43, k=2, seed=871571)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=43, groups=2, k=2, seed=871571)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=231, k=4, seed=369514)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=231, groups=8, k=4, seed=369514)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=82, k=3, seed=455129)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g0', 'g9', 'g13', 'g22', 'g20', 'g1', 'g15', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=82, groups=25, k=3, seed=455129)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=190, k=8, seed=422760)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g14', 'g11', 'g9', 'g13', 'g3', 'g20', 'g6', 'g23', 'g15', 'g18', 'g12', 'g21', 'g19', 'g7'} is not false : fold 0: groups ['g11', 'g12', 'g13'] in both train and test (n=190, groups=24, k=8, seed=422760)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=209, k=3, seed=634722)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g5', 'g14', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g26', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=209, groups=28, k=3, seed=634722)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=215, k=2, seed=947801)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=215, groups=2, k=2, seed=947801)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=136, k=8, seed=389155)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g2', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=136, groups=12, k=8, seed=389155)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=63, k=6, seed=403147)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g22', 'g9', 'g3', 'g1', 'g12', 'g19', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g12'] in both train and test (n=63, groups=24, k=6, seed=403147)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=97, k=4, seed=130647)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=97, groups=5, k=4, seed=130647)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=233, k=9, seed=804346)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g0', 'g3', 'g13', 'g9', 'g7', 'g2', 'g6', 'g1', 'g15', 'g16', 'g17', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=233, groups=18, k=9, seed=804346)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=224, k=2, seed=62816)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=224, groups=2, k=2, seed=62816)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=224, k=3, seed=287961)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=224, groups=5, k=3, seed=287961)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=102, k=3, seed=787513)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g20', 'g18', 'g21', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g14', 'g5', 'g0', 'g9', 'g3', 'g2', 'g22', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=102, groups=24, k=3, seed=787513)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=286, k=4, seed=12280)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g17', 'g12', 'g19', 'g10', 'g5', 'g14', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=286, groups=23, k=4, seed=12280)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=210, k=3, seed=350054)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g5', 'g0', 'g3', 'g2', 'g22', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=210, groups=25, k=3, seed=350054)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=105, k=8, seed=400458)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g4'] in both train and test (n=105, groups=8, k=8, seed=400458)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=49, k=9, seed=46310)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g24', 'g14', 'g11', 'g8'} is not false : fold 0: groups ['g11', 'g14', 'g24'] in both train and test (n=49, groups=25, k=9, seed=46310)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=71, k=4, seed=511468)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g3', 'g13', 'g9', 'g10', 'g26', 'g15', 'g18', 'g19', 'g7', 'g25'} is not false : fold 0: groups ['g0', 'g10', 'g13'] in both train and test (n=71, groups=27, k=4, seed=511468)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=57, k=10, seed=157311)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g4', 'g22', 'g3', 'g15', 'g12'} is not false : fold 0: groups ['g12', 'g14', 'g15'] in both train and test (n=57, groups=23, k=10, seed=157311)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=226, k=5, seed=300178)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g12', 'g17', 'g19', 'g10', 'g5', 'g14', 'g0', 'g9', 'g3', 'g2', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=226, groups=22, k=5, seed=300178)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=5, k=3, seed=467960)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g1'} is not false : fold 0: groups ['g1'] in both train and test (n=5, groups=3, k=3, seed=467960)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=65, k=7, seed=139928)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g9', 'g10', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g1', 'g10', 'g4'] in both train and test (n=65, groups=11, k=7, seed=139928)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=48, k=4, seed=267983)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g0', 'g9', 'g13', 'g2', 'g15', 'g16', 'g18'} is not false : fold 0: groups ['g0', 'g11', 'g13'] in both train and test (n=48, groups=19, k=4, seed=267983)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=61, k=4, seed=50509)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g2', 'g3', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=61, groups=4, k=4, seed=50509)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=237, k=4, seed=913856)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=237, groups=5, k=4, seed=913856)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=118, k=3, seed=971398)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=118, groups=7, k=3, seed=971398)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=20, k=2, seed=278689)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g13', 'g14', 'g11', 'g7'} is not false : fold 0: groups ['g11', 'g13', 'g14'] in both train and test (n=20, groups=15, k=2, seed=278689)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=83, k=6, seed=527535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g8', 'g2', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=83, groups=9, k=6, seed=527535)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=181, k=9, seed=398494)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g13', 'g20', 'g10', 'g2', 'g6', 'g1', 'g15', 'g16', 'g17', 'g21', 'g19', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=181, groups=24, k=9, seed=398494)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=35, k=7, seed=166559)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g7', 'g5'} is not false : fold 0: groups ['g5', 'g7'] in both train and test (n=35, groups=23, k=7, seed=166559)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=291, k=2, seed=359276)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=291, groups=2, k=2, seed=359276)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=93, k=4, seed=385748)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=93, groups=10, k=4, seed=385748)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=154, k=3, seed=5639)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g4', 'g0', 'g3', 'g9', 'g8', 'g13', 'g10', 'g2', 'g6', 'g1', 'g15', 'g16', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=154, groups=17, k=3, seed=5639)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=272, k=3, seed=368032)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=272, groups=6, k=3, seed=368032)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=187, k=4, seed=504053)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g15', 'g18', 'g21', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g14', 'g0', 'g9', 'g3', 'g2', 'g27', 'g22', 'g8', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=187, groups=28, k=4, seed=504053)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=102, k=2, seed=357490)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=102, groups=8, k=2, seed=357490)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=242, k=7, seed=640865)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g9', 'g3', 'g8', 'g13', 'g10', 'g2', 'g6', 'g1', 'g15', 'g16', 'g7'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=242, groups=17, k=7, seed=640865)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=197, k=6, seed=751689)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=197, groups=6, k=6, seed=751689)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=174, k=3, seed=362361)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=174, groups=5, k=3, seed=362361)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=86, k=3, seed=535608)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g14', 'g0', 'g29', 'g3', 'g20', 'g13', 'g22', 'g2', 'g6', 'g26', 'g1', 'g17', 'g21', 'g19', 'g7', 'g25'} is not false : fold 0: groups ['g0', 'g1', 'g13'] in both train and test (n=86, groups=30, k=3, seed=535608)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=177, k=4, seed=285901)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g17', 'g12', 'g10', 'g0', 'g9', 'g2', 'g22', 'g8', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=177, groups=25, k=4, seed=285901)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=21, k=5, seed=229248)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g7', 'g8', 'g2', 'g1'} is not false : fold 0: groups ['g1', 'g2', 'g7'] in both train and test (n=21, groups=9, k=5, seed=229248)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=43, k=4, seed=182888)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=43, groups=7, k=4, seed=182888)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=260, k=8, seed=182175)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g20', 'g8', 'g13', 'g22', 'g2', 'g6', 'g1', 'g15', 'g16', 'g18', 'g12', 'g17', 'g19', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g12'] in both train and test (n=260, groups=23, k=8, seed=182175)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=62, k=8, seed=557547)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g9', 'g3', 'g7'} is not false : fold 0: groups ['g0', 'g3', 'g4'] in both train and test (n=62, groups=13, k=8, seed=557547)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=56, k=8, seed=405983)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g9', 'g10', 'g15', 'g21', 'g7'} is not false : fold 0: groups ['g10', 'g15', 'g21'] in both train and test (n=56, groups=25, k=8, seed=405983)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=239, k=2, seed=275255)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=239, groups=5, k=2, seed=275255)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=254, k=8, seed=908302)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g0', 'g9', 'g13', 'g8', 'g20', 'g3', 'g6', 'g1', 'g16', 'g17', 'g21', 'g19', 'g10', 'g12'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=254, groups=22, k=8, seed=908302)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=29, k=2, seed=265991)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g8', 'g18', 'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g18'] in both train and test (n=29, groups=22, k=2, seed=265991)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=99, k=5, seed=78704)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g0', 'g13', 'g8', 'g7', 'g1', 'g12', 'g17', 'g19', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=99, groups=20, k=5, seed=78704)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=275, k=7, seed=760543)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=275, groups=7, k=7, seed=760543)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=67, k=2, seed=426636)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=67, groups=2, k=2, seed=426636)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=86, k=4, seed=918186)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g11', 'g27', 'g9', 'g13', 'g3', 'g28', 'g6', 'g1', 'g16', 'g18', 'g17', 'g21', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=86, groups=29, k=4, seed=918186)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=299, k=8, seed=943875)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=299, groups=9, k=8, seed=943875)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=14, k=10, seed=624356)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g8'} is not false : fold 2: groups ['g8'] in both train and test (n=14, groups=11, k=10, seed=624356)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=124, k=2, seed=288660)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g21', 'g13', 'g6', 'g12', 'g17', 'g19', 'g10', 'g5', 'g14', 'g9', 'g3', 'g2', 'g8', 'g16', 'g7'} is not false : fold 0: groups ['g10', 'g11', 'g12'] in both train and test (n=124, groups=22, k=2, seed=288660)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=30, k=5, seed=688723)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g2', 'g0', 'g3'} is not false : fold 0: groups ['g0', 'g2', 'g3'] in both train and test (n=30, groups=5, k=5, seed=688723)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=284, k=3, seed=122107)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=284, groups=11, k=3, seed=122107)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=252, k=9, seed=193840)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g7', 'g2', 'g6', 'g1', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=252, groups=11, k=9, seed=193840)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=210, k=4, seed=878064)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=210, groups=7, k=4, seed=878064)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=254, k=6, seed=198213)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g4', 'g0', 'g3', 'g9', 'g8', 'g13', 'g10', 'g2', 'g6', 'g15', 'g16', 'g17', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=254, groups=18, k=6, seed=198213)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=215, k=6, seed=928330)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=215, groups=8, k=6, seed=928330)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=25, k=10, seed=376769)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5'} is not false : fold 0: groups ['g5'] in both train and test (n=25, groups=22, k=10, seed=376769)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=112, k=10, seed=678668)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g3', 'g13', 'g8', 'g16', 'g12', 'g7'} is not false : fold 0: groups ['g11', 'g12', 'g13'] in both train and test (n=112, groups=17, k=10, seed=678668)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=238, k=7, seed=534258)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g20', 'g15', 'g18', 'g21', 'g13', 'g6', 'g23', 'g17', 'g12', 'g10', 'g14', 'g5', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=238, groups=24, k=7, seed=534258)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=166, k=4, seed=88595)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=166, groups=8, k=4, seed=88595)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=280, k=3, seed=730634)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=280, groups=11, k=3, seed=730634)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=34, k=5, seed=204302)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g23', 'g3'} is not false : fold 0: groups ['g11', 'g23', 'g3'] in both train and test (n=34, groups=24, k=5, seed=204302)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=109, k=6, seed=889963)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g14', 'g11', 'g5', 'g9', 'g20', 'g8', 'g3', 'g7', 'g15', 'g17', 'g10'} is not false : fold 0: groups ['g10', 'g11', 'g14'] in both train and test (n=109, groups=23, k=6, seed=889963)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=152, k=3, seed=380290)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=152, groups=5, k=3, seed=380290)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=53, k=8, seed=117378)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g8', 'g2', 'g6', 'g7'} is not false : fold 0: groups ['g2', 'g5', 'g6'] in both train and test (n=53, groups=9, k=8, seed=117378)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=59, k=2, seed=500581)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g0', 'g4', 'g20', 'g8', 'g13', 'g16', 'g18', 'g17', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g11', 'g12'] in both train and test (n=59, groups=21, k=2, seed=500581)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=84, k=7, seed=635234)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g3', 'g8', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g1', 'g2', 'g3'] in both train and test (n=84, groups=9, k=7, seed=635234)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=188, k=4, seed=748535)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g4', 'g9', 'g13', 'g3', 'g8', 'g2', 'g6', 'g1', 'g15', 'g16', 'g18', 'g12', 'g17', 'g19', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=188, groups=20, k=4, seed=748535)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=249, k=9, seed=709707)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g9', 'g3', 'g8', 'g10', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=249, groups=11, k=9, seed=709707)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=45, k=3, seed=343399)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g14', 'g4', 'g13', 'g8', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g12'] in both train and test (n=45, groups=16, k=3, seed=343399)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=29, k=9, seed=633521)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g13', 'g18'} is not false : fold 0: groups ['g13', 'g18'] in both train and test (n=29, groups=20, k=9, seed=633521)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=76, k=10, seed=423492)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g14', 'g0', 'g8', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=76, groups=15, k=10, seed=423492)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=206, k=3, seed=298243)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g3', 'g13', 'g8', 'g9', 'g7', 'g2', 'g6', 'g1', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=206, groups=14, k=3, seed=298243)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=136, k=4, seed=575608)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g3', 'g2', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=136, groups=5, k=4, seed=575608)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=150, k=2, seed=805022)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1'] in both train and test (n=150, groups=2, k=2, seed=805022)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=156, k=7, seed=795593)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g0', 'g9', 'g3', 'g8', 'g22', 'g13', 'g2', 'g1', 'g15', 'g16', 'g18', 'g17', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g13'] in both train and test (n=156, groups=24, k=7, seed=795593)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=176, k=9, seed=938911)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g11', 'g3', 'g20', 'g9', 'g2', 'g1', 'g23', 'g16', 'g12', 'g21', 'g10'} is not false : fold 0: groups ['g1', 'g10', 'g11'] in both train and test (n=176, groups=26, k=9, seed=938911)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=245, k=2, seed=369698)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g15', 'g18', 'g21', 'g25', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g5', 'g14', 'g0', 'g9', 'g3', 'g28', 'g2', 'g29', 'g27', 'g22', 'g8', 'g26', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=245, groups=30, k=2, seed=369698)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=55, k=6, seed=973857)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g13', 'g20', 'g6', 'g23', 'g15', 'g24', 'g21', 'g25'} is not false : fold 0: groups ['g13', 'g15', 'g20'] in both train and test (n=55, groups=27, k=6, seed=973857)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=152, k=4, seed=972224)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g0', 'g3', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=152, groups=4, k=4, seed=972224)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=68, k=9, seed=975858)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g0', 'g8', 'g15', 'g18', 'g10'} is not false : fold 0: groups ['g0', 'g10', 'g15'] in both train and test (n=68, groups=19, k=9, seed=975858)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=247, k=5, seed=733083)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g9', 'g8', 'g7', 'g2', 'g6', 'g1', 'g10'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=247, groups=11, k=5, seed=733083)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=76, k=5, seed=259086)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g0', 'g9', 'g2', 'g1', 'g16', 'g18', 'g17', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=76, groups=21, k=5, seed=259086)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=269, k=8, seed=768977)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g3', 'g13', 'g8', 'g22', 'g2', 'g6', 'g1', 'g15', 'g23', 'g16', 'g18', 'g17', 'g21', 'g19', 'g7'} is not false : fold 0: groups ['g1', 'g11', 'g13'] in both train and test (n=269, groups=24, k=8, seed=768977)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=176, k=5, seed=268001)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g4', 'g11', 'g0', 'g5', 'g3', 'g13', 'g8', 'g9', 'g10', 'g2', 'g6', 'g1', 'g15', 'g16', 'g17', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=176, groups=18, k=5, seed=268001)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=133, k=6, seed=929260)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g11', 'g0', 'g9', 'g13', 'g8', 'g2', 'g6', 'g1', 'g15', 'g16', 'g18', 'g17', 'g12'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=133, groups=19, k=6, seed=929260)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=20, k=3, seed=163731)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g2', 'g0', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=20, groups=3, k=3, seed=163731)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=197, k=4, seed=488253)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=197, groups=7, k=4, seed=488253)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=215, k=4, seed=312614)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=215, groups=7, k=4, seed=312614)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=200, k=10, seed=381733)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g0', 'g3', 'g8', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=200, groups=13, k=10, seed=381733)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=130, k=4, seed=690077)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g11', 'g0', 'g3', 'g9', 'g26', 'g23', 'g15', 'g24', 'g1', 'g16', 'g18', 'g12', 'g21', 'g17', 'g25'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=130, groups=28, k=4, seed=690077)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=70, k=10, seed=915269)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g3', 'g9', 'g8', 'g7'} is not false : fold 0: groups ['g3', 'g4', 'g7'] in both train and test (n=70, groups=14, k=10, seed=915269)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=142, k=6, seed=741400)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g0', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=142, groups=9, k=6, seed=741400)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=214, k=2, seed=822705)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g18', 'g21', 'g25', 'g13', 'g6', 'g23', 'g17', 'g12', 'g19', 'g10', 'g14', 'g5', 'g0', 'g3', 'g9', 'g2', 'g22', 'g8', 'g26', 'g1', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=214, groups=27, k=2, seed=822705)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=150, k=3, seed=123678)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g1', 'g2', 'g0', 'g3'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=150, groups=4, k=3, seed=123678)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=109, k=2, seed=165054)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g20', 'g21', 'g6', 'g12', 'g19', 'g10', 'g14', 'g5', 'g0', 'g9', 'g3', 'g28', 'g2', 'g27', 'g22', 'g8', 'g26', 'g24', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=109, groups=30, k=2, seed=165054)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=280, k=3, seed=814705)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g3', 'g2', 'g6', 'g1'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=280, groups=7, k=3, seed=814705)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=37, k=2, seed=18341)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g11', 'g13', 'g20', 'g12', 'g19', 'g7'} is not false : fold 0: groups ['g11', 'g12', 'g13'] in both train and test (n=37, groups=25, k=2, seed=18341)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=168, k=4, seed=964870)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g14', 'g11', 'g4', 'g0', 'g3', 'g13', 'g9', 'g8', 'g2', 'g6', 'g1', 'g15', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g11'] in both train and test (n=168, groups=16, k=4, seed=964870)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=253, k=3, seed=75276)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g11', 'g15', 'g18', 'g13', 'g6', 'g12', 'g17', 'g10', 'g14', 'g5', 'g0', 'g3', 'g9', 'g2', 'g8', 'g1', 'g16', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=253, groups=19, k=3, seed=75276)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=63, k=3, seed=501744)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g14', 'g5', 'g11', 'g0', 'g9', 'g13', 'g3', 'g8', 'g7', 'g2', 'g12', 'g10'} is not false : fold 0: groups ['g0', 'g10', 'g11'] in both train and test (n=63, groups=15, k=3, seed=501744)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=82, k=9, seed=651439)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g5', 'g4', 'g0', 'g8', 'g2', 'g6', 'g1', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g2'] in both train and test (n=82, groups=9, k=9, seed=651439)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=60, k=8, seed=851824)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g9', 'g13', 'g2', 'g26', 'g6', 'g16', 'g7'} is not false : fold 0: groups ['g13', 'g16', 'g2'] in both train and test (n=60, groups=27, k=8, seed=851824)
+
+======================================================================
+FAIL: test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) (n=127, k=6, seed=486709)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 35, in test_partition_and_no_leakage_on_generated_inputs
+    self.assert_valid(groups, k, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'g4', 'g5', 'g11', 'g0', 'g14', 'g9', 'g13', 'g8', 'g10', 'g2', 'g6', 'g1', 'g12', 'g7'} is not false : fold 0: groups ['g0', 'g1', 'g10'] in both train and test (n=127, groups=17, k=6, seed=486709)
+
+======================================================================
+FAIL: test_real_eos_labels_three_eos_per_fold (test_splits.GroupKFold)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 49, in test_real_eos_labels_three_eos_per_fold
+    self.assert_valid(eos, 6, seed)
+  File "/home/sultan/Desktop/YSDA_YSA/ИИ-ассистенты для исследователя/ccsn-gw-env/checks/test_splits.py", line 30, in assert_valid
+    self.assertFalse(shared, f"fold {f}: groups {sorted(shared)[:3]} in both train and test ({ctx})")
+AssertionError: {'SFHo', 'HShen', 'BHBl', 'BHBlp', 'HSTMA', 'LS375', 'LS220', 'HSNL3', 'GShenNL3', 'LS180', 'HSFSG', 'GShenFSU2.1', 'GShenFSU1.7', 'HSIUF', 'HSTM1', 'HShenH', 'SFHx', 'HSDD2'} is not false : fold 0: groups ['BHBl', 'BHBlp', 'GShenFSU1.7'] in both train and test (n=7438, groups=18, k=6, seed=0)
+
+----------------------------------------------------------------------
+Ran 51 tests in 3.046s
+
+FAILED (failures=201)
+exit code: 1

@@ -150,7 +150,18 @@ Claim H holds on my data, and the numbers behind it can be trusted
 
 ## 9. Revisions after the first run
 
-(none yet)
+**2026-11-17, after the first runs.** No rule, threshold, seed or step of §1–§8 was changed:
+the contract, the properties and the acceptance rule are applied exactly as written. To keep
+§1–§8 unchanged, the caught-errors table of §8 is filled here:
+
+| What was wrong | Real or injected | Caught by | Before | After |
+|---|---|---|---|---|
+| `group_kfold` dealt *rows* to folds (plain shuffled k-fold), so waveforms of one EOS were in train and test (template leakage; it lowers the held-out RMSE of the T/\|W\| model by ≈ 7 %, `scripts/leak_effect.py`) | injected, branch `hw2-injected-error` | `checks/test_splits.py` (200/200 generated inputs and the real EOS labels) and the `sweep` partition guard | `results/hw2/caught_error_before.txt`: `FAILED (failures=201)`, exit 1 | `results/hw2/caught_error_after.txt`: `Ran 51 tests … OK`, exit 0 |
+| a step of `scripts/amp_experiment.py` that passed did not exit, so `smoke` ran on into `sweep` and `full` | real | running the step plan of §8 on the branch (RUNLOG rows 1–2) | `results/hw2/RUNLOG.md` row 2: `full … FAILED` after a `smoke` command | commit "each experiment step stops after it passes"; every later row ends at its own step |
+
+Additions that do not change any rule: mutation tests of the contract
+(`checks/test_contract_mutations.py`: each of C1–C14 must reject a corrupted copy of the
+fragment) and the diagnostic script `scripts/leak_effect.py`.
 
 ## 10. Limitations known in advance
 

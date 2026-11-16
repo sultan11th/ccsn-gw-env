@@ -1,0 +1,58 @@
+$ CCSN_DATA=checks/fixtures/data python3 -m unittest discover -s checks -v
+test_C10_revision (test_contract.Contract) ... ok
+test_C11_strain_alignment (test_contract.Contract) ... ok
+test_C12_time_grid (test_contract.Contract) ... ok
+test_C13_strain_cells (test_contract.Contract) ... ok
+test_C14_strain_vs_dh_bounce_min (test_contract.Contract) ... ok
+test_C1_columns (test_contract.Contract) ... ok
+test_C2_types (test_contract.Contract) ... ok
+test_C3_units (test_contract.Contract) ... ok
+test_C4_key (test_contract.Contract) ... ok
+test_C5_categories (test_contract.Contract) ... ok
+test_C6_grid (test_contract.Contract) ... ok
+test_C7_rotation_scale (test_contract.Contract) ... ok
+test_C8_identities (test_contract.Contract) ... ok
+test_C9_ranges (test_contract.Contract) ... ok
+test_detects_C1 (test_contract_mutations.Mutations) ... ok
+test_detects_C10 (test_contract_mutations.Mutations) ... ok
+test_detects_C11 (test_contract_mutations.Mutations) ... ok
+test_detects_C12 (test_contract_mutations.Mutations) ... ok
+test_detects_C13 (test_contract_mutations.Mutations) ... ok
+test_detects_C14 (test_contract_mutations.Mutations) ... ok
+test_detects_C2 (test_contract_mutations.Mutations) ... ok
+test_detects_C3 (test_contract_mutations.Mutations) ... ok
+test_detects_C4 (test_contract_mutations.Mutations) ... ok
+test_detects_C5 (test_contract_mutations.Mutations) ... ok
+test_detects_C6 (test_contract_mutations.Mutations) ... ok
+test_detects_C7 (test_contract_mutations.Mutations) ... ok
+test_detects_C8 (test_contract_mutations.Mutations) ... ok
+test_detects_C9 (test_contract_mutations.Mutations) ... ok
+test_unmodified_copy_passes (test_contract_mutations.Mutations) ... ok
+test_out_is_idempotent (test_datatool.DataTool) ... ok
+test_printed_rows_are_capped (test_datatool.DataTool) ... ok
+test_two_filters_are_the_intersection (test_datatool.DataTool) ... ok
+test_P1_gravitational_mass_below_rest_mass (test_properties.Physics) ... ok
+test_P2_rotating_core_is_oblate (test_properties.Physics) ... ok
+test_P3_electron_fraction_neutron_rich (test_properties.Physics) ... ok
+test_P4_lapse_between_0_and_1 (test_properties.Physics) ... ok
+test_P5_inner_core_is_part_of_the_grid (test_properties.Physics) ... ok
+test_P6_below_bar_mode_threshold (test_properties.Physics) ... ok
+test_P7_rotation_at_bounce_grows_with_omega0_in_slow_regime (test_properties.Physics) ... ok
+test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) ... ok
+test_real_eos_labels_three_eos_per_fold (test_splits.GroupKFold) ... ok
+test_rejects_impossible_k (test_splits.GroupKFold) ... ok
+test_same_seed_same_folds (test_splits.GroupKFold) ... ok
+test_seeds_change_the_assignment (test_splits.GroupKFold) ... ok
+test_decision_rule (test_stats.Stats) ... ok
+test_holm_known_and_properties (test_stats.Stats) ... ok
+test_ols_recovers_exact_line (test_stats.Stats) ... ok
+test_paired_t_known_value (test_stats.Stats) ... ok
+test_rmse (test_stats.Stats) ... ok
+test_t_cdf_known_quantiles (test_stats.Stats) ... ok
+test_t_cdf_symmetry_and_inverse (test_stats.Stats) ... ok
+
+----------------------------------------------------------------------
+Ran 51 tests in 1.584s
+
+OK
+exit code: 0

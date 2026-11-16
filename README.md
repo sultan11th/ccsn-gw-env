@@ -19,6 +19,16 @@ papers, cites every claim by file and line range, and logs its work.
 | Evaluation | [`eval/queries.yaml`](eval/queries.yaml), `results/` | Example queries, retrieval check, agent transcripts |
 | Report | [`REPORT.md`](REPORT.md) | Course submission |
 
+## Verification (HW2)
+
+`python3 -m unittest discover -s checks -v` (or `make check`) runs the verifier: a 14-rule
+contract for the simulation dataset with mutation tests, 7 physical properties, the
+EOS-grouped split and the statistics code. `scripts/amp_experiment.py dry|smoke|sweep|full`
+tests the claim that T/|W| predicts the bounce amplitude on unseen EOS better than Ω₀.
+Method: [`METHOD.md`](METHOD.md); report: [`reports/HW2_REPORT.md`](reports/HW2_REPORT.md);
+results: `results/hw2/`. In a clean clone everything runs on the committed 810-run fragment
+`checks/fixtures/data/`.
+
 ## Quick start
 
 Requirements: Python 3.10+, [pandoc](https://pandoc.org/installing.html) ≥ 2.19, the
