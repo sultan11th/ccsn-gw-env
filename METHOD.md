@@ -163,6 +163,46 @@ Additions that do not change any rule: mutation tests of the contract
 (`checks/test_contract_mutations.py`: each of C1–C14 must reject a corrupted copy of the
 fragment) and the diagnostic script `scripts/leak_effect.py`.
 
+### Revision R1 (2026-11-17): leave-family-out folds
+
+**Reason.** Author's review of this method: among the 18 EOS only 10 give distinguishable
+bounce signals (`literature/md/akhmetali2026_networkeos.md:L79-L81`); each of the other 8
+gives GWs very similar to one of these 10. Grouping folds by single EOS therefore still
+leaks: a "held-out" EOS can have a near-twin in the training folds, so "unseen EOS" is not
+unseen in the sense that matters (`literature/md/mitra2026_generalization.md:L301-L309`
+recommends leave-family-out validation). R1 is motivated by this domain knowledge. It is
+written **after** the result of §7 was known (Claim H accepted with EOS-grouped folds);
+that result stays in the report unchanged as the original analysis.
+
+**Families** (10; the first member is the distinguishable EOS):
+
+| Family | Members | Source of the grouping |
+|---|---|---|
+| LS180 | LS180 | — |
+| LS220 | LS220 | — |
+| LS375 | LS375 | — |
+| GShenNL3 | GShenNL3 | — |
+| HSDD2 | HSDD2, BHBl, BHBlp, HSTMA | BHBΛ, BHBΛΦ extend HSDD2 with hyperons (`literature/md/abylkairov2025_distance.md:L185-L185`); HSTMA: author |
+| HShen | HShen, HShenH | HShenH extends HShen with hyperons (same passage) |
+| GShenFSU2.1 | GShenFSU2.1, GShenFSU1.7 | differ only above nuclear saturation (same passage) |
+| SFHo | SFHo, SFHx | author |
+| HSTM1 | HSTM1, HSNL3 | author |
+| HSIUF | HSIUF, HSFSG | author |
+
+**Changed rule (applies to the analysis "family"; §7 stays the analysis "eos").** Point 4
+of §7 becomes: 5 folds, the 10 families assigned 2 per fold at random by `group_kfold` with
+groups = family and seeds 0–4; all other points (regime, OLS, pooled RMSE, paired t over 5
+seeds, Holm over 3 progenitors, α = 0.05, δ = 5 % of the baseline RMSE, decision) are
+unchanged. The `dry` condition becomes "all 10 families present". **Claim H is accepted in
+the revised sense if the decision is "T/|W| better" for all three progenitors with
+family-grouped folds on the full data.** Both analyses are reported.
+
+**New checks** (`checks/test_splits.py`): the family map covers each of the 18 EOS of the
+contract exactly once, has 10 families, and each family contains exactly one of the 10
+distinguishable EOS; family-grouped folds on the real labels are a partition with no family
+(hence no EOS) on both sides; and EOS-grouped folds are shown to place members of one
+family on both sides (the leak that R1 removes).
+
 ## 10. Limitations known in advance
 
 - The contract checks internal consistency of the published files, not that the
