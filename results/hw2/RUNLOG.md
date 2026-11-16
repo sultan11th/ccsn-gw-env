@@ -21,3 +21,11 @@ All later rows are on `main` after the fix.
 | 2026-11-17 01:18:38 | full | data/data | full | PASSED | claim H accepted; s15: T/\|W\| better; s27: T/\|W\| better; s40: T/\|W\| better |
 | 2026-11-17 01:18:38 | full | checks/fixtures/data | fragment | PASSED | claim H accepted; s15: T/\|W\| better; s27: T/\|W\| better; s40: T/\|W\| better |
 | 2026-11-17 01:18:45 | dry | checks/fixtures/data | fragment | PASSED | contract OK; slow runs (n, EOS) per progenitor: s15: 122, 18, s27: 126, 18, s40: 126, 18 |
+| 2026-11-17 01:53:17 | dry | data/data | full | PASSED | contract OK; [groups: family] slow runs (n, family groups) per progenitor: s15: 808, 10, s27: 844, 10, s40: 846, 10 |
+| 2026-11-17 01:53:17 | smoke | data/data | full | PASSED | [groups: family] s15 seed 0: RMSE beta 37.349 cm, omega_0 94.719 cm; beta slopes 9070..9428 cm |
+| 2026-11-17 01:53:18 | sweep | data/data | full | PASSED | [groups: family] 30 RMSEs finite: True; folds are partitions with disjoint family groups: True |
+| 2026-11-17 01:53:18 | full | data/data | full | PASSED | [groups: family] claim H accepted; s15: T/\|W\| better; s27: T/\|W\| better; s40: T/\|W\| better |
+| 2026-11-17 01:53:18 | dry | checks/fixtures/data | fragment | PASSED | contract OK; [groups: family] slow runs (n, family groups) per progenitor: s15: 122, 10, s27: 126, 10, s40: 126, 10 |
+| 2026-11-17 01:53:18 | smoke | checks/fixtures/data | fragment | PASSED | [groups: family] s15 seed 0: RMSE beta 42.982 cm, omega_0 58.506 cm; beta slopes 8025..8495 cm |
+| 2026-11-17 01:53:18 | sweep | checks/fixtures/data | fragment | PASSED | [groups: family] 30 RMSEs finite: True; folds are partitions with disjoint family groups: True |
+| 2026-11-17 01:53:19 | full | checks/fixtures/data | fragment | PASSED | [groups: family] claim H accepted; s15: T/\|W\| better; s27: T/\|W\| better; s40: T/\|W\| better |

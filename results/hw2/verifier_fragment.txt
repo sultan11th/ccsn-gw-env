@@ -38,6 +38,10 @@ test_P4_lapse_between_0_and_1 (test_properties.Physics) ... ok
 test_P5_inner_core_is_part_of_the_grid (test_properties.Physics) ... ok
 test_P6_below_bar_mode_threshold (test_properties.Physics) ... ok
 test_P7_rotation_at_bounce_grows_with_omega0_in_slow_regime (test_properties.Physics) ... ok
+test_eos_folds_split_families_the_leak_r1_removes (test_splits.EOSFamilies) ... ok
+test_family_folds_on_real_labels_have_no_family_or_eos_on_both_sides (test_splits.EOSFamilies) ... ok
+test_family_map_covers_the_18_eos_once (test_splits.EOSFamilies) ... ok
+test_ten_families_each_with_one_distinguishable_eos (test_splits.EOSFamilies) ... ok
 test_partition_and_no_leakage_on_generated_inputs (test_splits.GroupKFold) ... ok
 test_real_eos_labels_three_eos_per_fold (test_splits.GroupKFold) ... ok
 test_rejects_impossible_k (test_splits.GroupKFold) ... ok
@@ -52,7 +56,7 @@ test_t_cdf_known_quantiles (test_stats.Stats) ... ok
 test_t_cdf_symmetry_and_inverse (test_stats.Stats) ... ok
 
 ----------------------------------------------------------------------
-Ran 51 tests in 1.584s
+Ran 55 tests in 1.578s
 
 OK
 exit code: 0
