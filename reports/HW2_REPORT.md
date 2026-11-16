@@ -300,7 +300,7 @@ https://claude.ai/code/session_01LUYjwu1kHox2WJLiYjbvTn.
 
 | Fragment or file | Mark | Tool or model | How it was checked |
 |---|---|---|---|
-| `METHOD.md` (§1–§8 before the first run, §9 after) | `[generated]` | Claude Code, Claude Opus 5.5 | commit order (`git log`); rules applied unchanged; author review: pending |
+| `METHOD.md` (§1–§8 before the first run, §9 after) | `[generated]` | Claude Code, Claude Opus 5.5 | commit order (`git log`); rules applied unchanged; author review: read and checked by the author on 2026-11-16 |
 | `src/ccsn_contract.py` (rules C1–C14) | `[generated]` | Claude Code, Claude Opus 5.5 | passes on the full data and the fragment; 14 mutation tests show each rule can fail |
 | `src/hw2lib.py` (`group_kfold`, OLS, Student t, Holm, decision) | `[generated]` | Claude Code, Claude Opus 5.5 | `test_splits.py`, `test_stats.py` against tabulated values; the injected leak is caught |
 | `checks/*.py` (55 checks) | `[generated]` | Claude Code, Claude Opus 5.5 | each fails on its injected fault (mutations, branch `hw2-injected-error`); locked by `make lock` |
@@ -310,5 +310,5 @@ https://claude.ai/code/session_01LUYjwu1kHox2WJLiYjbvTn.
 | choice of topic, data fragment, language | `[written]` | — | — |
 | revision R1: the comment that 8 of the 18 EOS are near-twins of the 10 distinguishable ones, and the family of SFHx, HSNL3, HSFSG and HSTMA | `[written]` | — (my earlier work) | `test_splits.EOSFamilies`; the other pairings from `abylkairov2025_distance` L185 |
 | `METHOD.md` §9 R1 text, `EOS_FAMILY` in `src/hw2lib.py`, `--group family` | `[generated]` | Claude Code, Claude Opus 5.5 | committed before the family runs (`8d76f0e`); 4 new checks |
-| this report | `[generated]` | Claude Code, Claude Opus 5.5 | numbers compared with `results/hw2/`; author review: pending |
+| this report | `[generated]` | Claude Code, Claude Opus 5.5 | numbers compared with `results/hw2/`; author review: read and checked by the author on 2026-11-16 |
 | Claim H, the regime 0.02 ≤ T/\|W\| ≤ 0.06 and property P7 | `[source]` | Richers et al. 2017, `literature/md/richers2017.md:L237-L247`, `L348-L356`, `L573-L575` | passages read in the library |
