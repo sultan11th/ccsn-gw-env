@@ -20,26 +20,6 @@
 
 papers:
   # ---------------------------------------------------------------- own papers (12)
-  - key: abylkairov2021_pcilc
-    arxiv: "2012.04032"
-    authors: Abylkairov, Darwish, Hill, Sherwin
-    year: 2021
-    venue: Phys. Rev. D 103, 103510
-    doi: 10.1103/PhysRevD.103.103510
-    own: true
-    active: true
-    verified: true
-    topic: CMB foreground mitigation with a partially constrained ILC (not CCSN)
-  - key: bag2022_rotation
-    arxiv: "2110.00486"
-    authors: Bag, Shafieloo, Smith, et al. (incl. Abylkairov)
-    year: 2022
-    venue: MNRAS
-    doi: 10.1093/mnras/stac1459
-    own: true
-    active: true
-    verified: partial
-    topic: galaxy rotation curves from spaxel cross-correlation (not CCSN); volume/pages to confirm
   - key: mitra2023_ironcore
     arxiv: "2209.14542"
     authors: Mitra, Shukirgaliyev, Abylkairov, Abdikamalov
@@ -50,16 +30,6 @@ papers:
     active: true
     verified: true
     topic: ML classification of iron-core mass from bounce + early ring-down signals
-  - key: takhanov2023_autoenc
-    arxiv: "2306.14194"
-    authors: Takhanov, Abylkairov, Tezekbayev
-    year: 2023
-    venue: preprint
-    doi: null
-    own: true
-    active: true
-    verified: partial
-    topic: autoencoders with a Jacobian rank constraint (not CCSN); no journal ref on arXiv
   - key: mitra2024_eos
     arxiv: "2310.15649"
     authors: Mitra, Orel, Abylkairov, Shukirgaliyev, Abdikamalov
@@ -442,18 +412,90 @@ papers:
     active: true
     verified: true
     topic: leave-one-EOS-out validation and SHAP analysis of EOS inference
-  - key: lundberg_lee2017
-    arxiv: "1705.07874"
-    authors: Lundberg, Lee
-    year: 2017
-    venue: NeurIPS 30
-    doi: null
+
+  # ---------------------------------------------------------------- added 2026-11-17 (verified against the arXiv API)
+  - key: dimmelmeier2007_prl
+    arxiv: "astro-ph/0702305"
+    authors: Dimmelmeier, Ott, Janka, Marek, Müller
+    year: 2007
+    venue: Phys. Rev. Lett. 98, 251101
+    doi: 10.1103/PhysRevLett.98.251101
     own: false
     active: true
-    verified: partial
-    topic: the SHAP method ("A Unified Approach to Interpreting Model Predictions")
+    verified: true
+    topic: generic (type-I) bounce signal of rotating core collapse, first presented
+  - key: ott2009_review
+    arxiv: "0809.0695"
+    authors: Ott
+    year: 2009
+    venue: Class. Quantum Grav. 26, 063001
+    doi: 10.1088/0264-9381/26/6/063001
+    own: false
+    active: true
+    verified: true
+    topic: review of GW emission mechanisms of core-collapse supernovae
+  - key: roever2009
+    arxiv: "0909.1093"
+    authors: Röver, Bizouard, Christensen, Dimmelmeier, Heng, Meyer
+    year: 2009
+    venue: Phys. Rev. D 80, 102004
+    doi: 10.1103/PhysRevD.80.102004
+    own: false
+    active: true
+    verified: true
+    topic: Bayesian PCA reconstruction of rotating-collapse bounce signals
+  - key: kotake2013_review
+    arxiv: "1110.5107"
+    authors: Kotake
+    year: 2013
+    venue: C. R. Physique 14, 318
+    doi: 10.1016/j.crhy.2013.01.008
+    own: false
+    active: true
+    verified: true
+    topic: review of the physics shaping CCSN GW signals (rotation, EOS, SASI, convection)
+  - key: engels2014
+    arxiv: "1406.1164"
+    authors: Engels, Frey, Ott
+    year: 2014
+    venue: Phys. Rev. D 90, 124026
+    doi: 10.1103/PhysRevD.90.124026
+    own: false
+    active: true
+    verified: true
+    topic: multivariate regression linking bounce waveforms to rotation and EOS parameters
+  - key: astone2018
+    arxiv: "1812.05363"
+    authors: Astone et al.
+    year: 2018
+    venue: Phys. Rev. D 98, 122002
+    doi: 10.1103/PhysRevD.98.122002
+    own: false
+    active: true
+    verified: true
+    topic: CNN detection of CCSN GWs in detector noise
+  - key: pajkos2021
+    arxiv: "2011.09000"
+    authors: Pajkos, Warren, Couch, O'Connor, Pan
+    year: 2021
+    venue: ApJ 914, 80
+    doi: 10.3847/1538-4357/abfb65
+    own: false
+    active: true
+    verified: true
+    topic: inferring the rotation and structure of stellar cores from GWs
+  - key: andresen2017
+    arxiv: "1607.05199"
+    authors: Andresen, Müller, Müller, Janka
+    year: 2017
+    venue: MNRAS 468, 2032
+    doi: 10.1093/mnras/stx618
+    own: false
+    active: true
+    verified: true
+    topic: GW signals from 3D neutrino-hydrodynamics models (SASI, convection, PNS modes)
 
-  # ---------------------------------------------------------------- optional (not fetched)
+  # ---------------------------------------------------------------- formerly optional, now active
   - key: murphy2024
     arxiv: "2406.01784"
     authors: Murphy et al.
@@ -461,16 +503,6 @@ papers:
     venue: Phys. Rev. D 110, 083006
     doi: null
     own: false
-    active: false
+    active: true
     verified: true
-    topic: optional; activate if needed
-  - key: casallaslagos2023
-    arxiv: "2304.11498"
-    authors: Casallas-Lagos, Antelis, Moreno, Zanolin, Mezzacappa, Szczepanczyk
-    year: 2023
-    venue: Phys. Rev. D 108, 084027
-    doi: null
-    own: false
-    active: false
-    verified: partial
-    topic: neural-network tracking of the g-mode frequency; preprint title differs from journal title, confirm the match
+    topic: dependence of the reconstructed high-frequency (g-mode) feature on detector network and source

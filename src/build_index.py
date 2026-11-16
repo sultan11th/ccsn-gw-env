@@ -7,6 +7,11 @@ section. Each chunk keeps its heading path ("IV. Results > A. Bounce signal")
 and its line range in the Markdown file, so a citation can be checked with
 `sed -n 'START,ENDp' literature/md/<key>.md`.
 
+Reference lists and acknowledgments are not indexed: sections named References,
+Bibliography or Acknowledg(e)ments are skipped, and so are chunks that look like a
+bibliography without such a heading (3 or more entries such as "**442**, 38 (2007)",
+"DOI 10.…" or "2013, Astrophys. J., 770"). They matched topic words while saying nothing about them.
+
 Output: index/index.json (chunks, tokens, paper list, ontology synonym groups).
 Requires PyYAML; tokenisation is shared with search.py (src/textnorm.py).
 """
@@ -31,6 +36,17 @@ TARGET_WORDS = 180      # close a chunk once it reaches this size
 MAX_WORDS = 350         # split a single paragraph longer than this
 HEADING = re.compile(r"^(#{1,6})\s+(.*?)\s*#*\s*$")
 SKIP_LINE = re.compile(r"^\s*(!\[|<img|<figure|</figure|<embed)")
+SKIP_SECTION = re.compile(r"^(?:[\dIVXA-Z]{1,4}[.)]?\s+|chapter\s+\d+\s+)?"
+                          r"(references|bibliography|cross-references|acknowledge?ments?)\.?$", re.I)
+BIB_ENTRY = re.compile(r"\*\*\d+\*\*(?:\(\d+\))?,\s*[A-Za-z]?\d+\w*\s*\((?:19|20)\d\d\)|\bdoi:?\s*\[?`?10\.\d|\bDOI 10\.\d|"
+                       r"\b(?:19|20)\d\d,\s+(?:Astrophys|Astron|Mon\.|Phys\.|Class\.|Nature|ApJ|MNRAS)", re.I)
+
+
+def is_back_matter(section, text):
+    """True for reference lists and acknowledgments (by heading or by content)."""
+    if any(SKIP_SECTION.match(part.strip()) for part in section.split(" > ")):
+        return True
+    return len(BIB_ENTRY.findall(text)) >= 3
 
 
 def front_matter(lines):
@@ -63,7 +79,7 @@ def chunk_file(path, key):
 
     def emit(text_lines, a, b):
         text = "\n".join(text_lines).strip()
-        if len(text.split()) < 12:
+        if len(text.split()) < 12 or is_back_matter(section(), text):
             return
         chunks.append({"key": key, "section": section(), "line_start": a, "line_end": b, "text": text})
 

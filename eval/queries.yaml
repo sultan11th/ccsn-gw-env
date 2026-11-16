@@ -39,8 +39,8 @@ queries:
     expect: none
     expected: >-
       Negative test. None of my papers in the library uses SHAP (an --own search returns nothing).
-      SHAP appears only in mitra2026_generalization (not mine) and in the method paper
-      lundberg_lee2017. The agent must say "not found in my papers" instead of inventing a hit.
+      SHAP appears only in mitra2026_generalization (not mine). The agent must say
+      "not found in my papers" instead of inventing a hit.
 
   - id: q4
     question: "Out to what distance can LIGO A+, Einstein Telescope and Cosmic Explorer classify the EOS?"
