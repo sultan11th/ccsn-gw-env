@@ -43,8 +43,7 @@ def finish(step, d, rev, ok, note):
     rel = d.relative_to(ROOT) if d.is_relative_to(ROOT) else d
     log(step, rel, rev, ok, note)
     print(f"{step}: {'PASSED' if ok else 'FAILED'} - {note}")
-    if not ok:
-        sys.exit(1)
+    sys.exit(0 if ok else 1)                         # a step ends here, passed or not
 
 
 def select(rows, prog):
